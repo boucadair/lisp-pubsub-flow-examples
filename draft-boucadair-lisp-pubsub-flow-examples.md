@@ -70,7 +70,7 @@ AT:
 
 # Initial Successful Subscription {#sec-iss}
 
-The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed.
+{{iss}} shows the example a successful subscription. The example assumes that a security association is in place between the xTR ad the Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all integrity-protection checks are successfully passed.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -100,7 +100,7 @@ The following example assumes that a security association is in place between xT
 
 # Successful Notification
 
-The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed.
+{{sn}} illustrates the example of a successful delivery of notification updates that match an existing subscription state. This example assumes that a security association is in place between the xTR and the Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks are successfully passed.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -125,7 +125,7 @@ The following example assumes that a security association is in place between xT
 
 # Successful Notification with Retransmission
 
-The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed. Due to network conditions, some Map-Notifies are lost.
+Unlike the example depicted in {{sn}}, {{sretrans}} illustrates the behavior that is experienced  when a subset of Map-Notift messages are lost during their transfer. This example assumes that at least one of these Map-Notify messages is received by the target xTR.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -162,7 +162,7 @@ The following example assumes that a security association is in place between xT
 
 # Failed Notification with Retransmission
 
-The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed. Due to network conditions, All Map-Notifies are lost.
+{{fretrans}} assumes that, due to network conditions, all Map-Notifies are lost.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -190,12 +190,12 @@ The following example assumes that a security association is in place between xT
 ~~~~
 {: #fretrans title="An Example of Failed Notification Delivery" artwork-align="center"}
 
-Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.
+Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, {{sec-sub-update}}).
 
 
-# Successful Subscription Update
+# Successful Subscription Update {#sec-sub-update}
 
-The following example illustrates the case of a successful update of a subscription.
+{{ssu}} illustrates the example of successful update of an existing subscription. The triggers for such a refresh are implmentation specfic.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -276,7 +276,7 @@ A Map-Notify will be sent back by the Map-Server even if no subscription is foun
 
 # Stale Subscriptions
 
-For various reasons, an xTR may lose its subscription (or at leastt the nonce of a subscription). Under such conditions, the xTR must use a new authentication key and a new nonce for the Map-Request.
+For various reasons, an xTR may lose its subscriptions (or at least the nonce of a subscription). Under such conditions, the xTR must use a new authentication key and a new nonce for the Map-Request.
 
 If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server.
 
@@ -298,7 +298,7 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
 
 # xTR-triggered Subscription Withdrawal
 
-{{xmd}} illustrates the observed exchange to delete a subscription.
+{{xmd}} illustrates the observed exchange to successfully delete a subscription.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -353,7 +353,7 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
 
 ### Replayed Subscription (Update)
 
-{{riss}} shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The received Map-Reply is silently ignored by the xTR.
+{{riss}} shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The triggered Map-Reply is silently ignored by the xTR because it does not match any pending request.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -398,7 +398,7 @@ The attacker may vary the source IP address of the Map-Request to trigger as man
 ~~~~
 {: #riss-m title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
-Note that if LISP messages supported timestamping, the replayed packet would be detected and thus be silently ignored by the Map-Server.
+Note that if LISP-SEC messages are timestamped, the replayed packets would be detected and, thus, be silently ignored by the Map-Server.
 
 ~~~~ aasvg
                      +---+                          +----+
