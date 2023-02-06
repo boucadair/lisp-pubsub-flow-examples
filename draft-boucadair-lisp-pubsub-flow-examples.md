@@ -9,8 +9,8 @@ number:
 date:
 consensus: true
 v: 3
-area: "routing"
-workgroup: "LISP"
+area: "Routing"
+workgroup: "Locator/ID Separation Protocol"
 keyword:
  - LISP
 
