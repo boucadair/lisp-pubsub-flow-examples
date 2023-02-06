@@ -74,19 +74,21 @@ The following example assumes that a security association is in place between xT
                      +-+-+                          +--+-+
 .--------------------. |                               |
 | Generate a new key | | Map-Request(init_nonce,       | .--------------------.
-| and an initial     | |            init_key_id,..)    | | Security/intergrity|
+| and an initial     | |            init_key_id,..)    | | Security/integrity |
 | nonce. Store them  +-+==============================>+-+ protection check.  |
 | locally for this   | |                               | | No State for this  |
 | subscription       | |                               | | XTR-ID/EID is found|
 '--------------------' |                               | | Create the sub and |
-.--------------------. | Map-Notify(init_nonce,...)    | | store init_nonce,  |
-| Security/intergrity+-+<==============================+-+ init_key_id, ...   |
+                       |                               | | store init_nonce,  |
+.--------------------. | Map-Notify(init_nonce,...)    | | init_key_id, ...   |
+| Security/integrity +-+<==============================+-+                    |
 | protection check.  | |                               | '--------------------'
-| Check that rcv     | | Map-Notify-Ack(init_nonce,...)| .--------------------.
-| nonce == init_nonce+-+==============================>+-+Security/intergrity |
-| Confirm the sub and| |                               | | protection checks. |
-| wait for notifs    | |                               | | This subscription  |
-'--------------------' |                               | | is now ACKed       |
+| Check that rcv     | |                               | 
+| nonce == init_nonce| | Map-Notify-Ack(init_nonce,...)| .--------------------.
+| Confirm the sub and+-+==============================>+-+ Security/integrity |
+| wait for notifs    | |                               | | protection checks. |
+'--------------------' |                               | | This subscription  |
+                       |                               | | is now ACKed       |
                        |                               | '--------------------'
 ~~~~
 {: #iss title="An Example of Successful Initial Subscription" artwork-align="center"}
@@ -105,13 +107,14 @@ The following example assumes that a security association is in place between xT
                      +-+-+                          +--+-+
                        |                               |
 .--------------------. |                               | .--------------------.
-| Security/intergrity| | Map-Notify(nonce++, ...)      | | Update is triggered|
+| Security/integrity | | Map-Notify(nonce++, ...)      | | Update is triggered|
 | protection check.  +-+<==============================+-+ Increment the nonce|
 | Check that rcv     | |                               | | Set trans_count and|
 | nonce == local     | |                               | | trans_timer        |
 | nonce + 1          | |                               | '--------------------'
+|                    | |                               |
 | Confirms the notif | |                               | .--------------------.
-| and update the     | | Map-Notify-Ack(nonce++,...)   | | Security/intergrity|
+| and update the     | | Map-Notify-Ack(nonce++,...)   | | Security/integrity |
 | entry              +-+==============================>+-+ protection checks. |
 |                    | |                               | | This notification  |
 '--------------------' |                               | | is now ACKed       |
@@ -129,23 +132,26 @@ The following example assumes that a security association is in place between xT
                      +-+-+                          +--+-+
                        |                               |
                        |                               | .--------------------.
-                       |      Map-Notify(nonce++, ...) | | Update is triggered|
+                       |        Map-Notify(nonce, ...) | | Update is triggered|
                        |            <==================+-+ Increment the nonce|
                        |                               | | Set trans_count and|
                        |                               | | trans_timer        |
                        |                               | '--------------------'
+                       |                               |
                        |                               | .--------------------.
-                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |        Map-Notify(nonce, ...) | | Increment          |
                        |            <==================+-+ trans_count and    |
                        |                               | | reset trans_timer  |
                        |                               | '--------------------'
+                       |                               |
 .--------------------. |                               | .--------------------.
-| Security/intergrity| | Map-Notify(nonce++, ...)      | | Increment          |
+| Security/integrity | |   Map-Notify(nonce, ...)      | | Increment          |
 | protection check.  +-+<==============================+-+ trans_count and    |
 | Check that rcv     | |                               | | reset trans_timer  |
 | nonce == local     | |                               | '--------------------'
-| nonce + 1          | |                               | .--------------------.
-| Confirms the notif | | Map-Notify-Ack(nonce++,...)   | | Security/intergrity|
+| nonce + 1          | |                               |
+|                    | |                               | .--------------------.
+| Confirms the notif | | Map-Notify-Ack(nonce,...)     | | Security/integrity |
 | and update the     +-+==============================>+-+ protection checks. |
 | entry              | |                               | | This notification  |
 '--------------------' |                               | | is now ACKed       |
@@ -163,19 +169,20 @@ The following example assumes that a security association is in place between xT
                      +-+-+                          +--+-+
                        |                               |
                        |                               | .--------------------.
-                       |      Map-Notify(nonce++, ...) | | Update is triggered|
+                       |        Map-Notify(nonce, ...) | | Update is triggered|
                        |            <==================+-+ Increment the nonce|
                        |                               | | Set trans_count and|
                        |                               | | trans_timer        |
                        |                               | '--------------------'
+                       |                               |
                        |                               | .--------------------.
-                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |        Map-Notify(nonce, ...) | | Increment          |
                        |            <==================+-+ trans_count and    |
                        |                               | | reset trans_timer  |
                        |                               | '--------------------'
                        |                               |
                        |                               | .--------------------.
-                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |        Map-Notify(nonce, ...) | | Increment          |
                        |            <==================+-+ trans_count and    |
                        |                               | | reset trans_timer  |
                        |                               | '--------------------'
@@ -194,16 +201,17 @@ The following example illustrates the case of a successful update of a subscript
                      |xTR|                          | MS |
                      +-+-+                          +--+-+
 .--------------------. |                               | .--------------------.
-| Increment the last | | Map-Request(nonce, ...)       | | Security/intergrity|
+| Increment the last | | Map-Request(nonce, ...)       | | Security/integrity |
 | seen nonce         +-+==============================>+-+ protection check.  |
 '--------------------' |                               | | Found an entry for |
-.--------------------. | Map-Notify(nonce,...)         | | this xTR-ID        |
-| Security/intergrity+-+<==============================+-+ Check that rcv     |
-| protection check.  | |                               | | nonce == local     |
-| Check that rcv     | |                               | | nonce + 1          |
-| nonce == snd nonce | |                               | '--------------------'
-| Confirm the sub and| | Map-Notify-Ack(init_nonce,...)| .--------------------.
-| wait for notifs    +-+==============================>+-+ Security/intergrity|
+                       |                               | | this xTR-ID        |
+.--------------------. | Map-Notify(nonce,...)         | | Check that rcv     |
+| Security/integrity +-+<==============================+-+ nonce == local     |
+| protection check.  | |                               | | nonce + 1          |
+| Check that rcv     | |                               | '--------------------'
+| nonce == snd nonce | |                               |
+| Confirm the sub and| | Map-Notify-Ack(nonce,...)     | .--------------------.
+| wait for notifs    +-+==============================>+-+ Security/integrity |
 '--------------------' |                               | | protection check.  |
                        |                               | | This subscription  |
                        |                               | | updated is ACKed   |
