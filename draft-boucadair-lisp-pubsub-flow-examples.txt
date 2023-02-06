@@ -118,10 +118,10 @@ Table of Contents
 
 3.  Initial Successful Subscription
 
-   The following example assumes that a security association is in place
-   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
-   that all subsequent integrity-protection checks were successfully
-   passed.
+   Figure 1 shows the example a successful subscription.  The example
+   assumes that a security association is in place between the xTR ad
+   the Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and that all
+   integrity-protection checks are successfully passed.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -150,9 +150,11 @@ Table of Contents
 
 4.  Successful Notification
 
-   The following example assumes that a security association is in place
-   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
-   that all subsequent integrity-protection checks were successfully
+   Figure 2 illustrates the example of a successful delivery of
+   notification updates that match an existing subscription state.  This
+   example assumes that a security association is in place between the
+   xTR and the Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
+   that all subsequent integrity-protection checks are successfully
    passed.
 
                      +---+                          +----+
@@ -177,10 +179,10 @@ Table of Contents
 
 5.  Successful Notification with Retransmission
 
-   The following example assumes that a security association is in place
-   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
-   that all subsequent integrity-protection checks were successfully
-   passed.  Due to network conditions, some Map-Notifies are lost.
+   Unlike the example depicted in Figure 2, Figure 3 illustrates the
+   behavior that is experienced when a subset of Map-Notift messages are
+   lost during their transfer.  This example assumes that at least one
+   of these Map-Notify messages is received by the target xTR.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -216,10 +218,8 @@ Table of Contents
 
 6.  Failed Notification with Retransmission
 
-   The following example assumes that a security association is in place
-   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
-   that all subsequent integrity-protection checks were successfully
-   passed.  Due to network conditions, All Map-Notifies are lost.
+   Figure 4 assumes that, due to network conditions, all Map-Notifies
+   are lost.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -249,12 +249,16 @@ Table of Contents
    Note that no specific action is currently specified in
    [I-D.ietf-lisp-pubsub] when such a failure occurs.  That is, the
    entry is kept active and future updates will trigger new Map-Notify
-   cycles.
+   cycles.  Also, the current specification does not recommend a
+   behavior (e.g., regular refreshes) so that the xTR avoids maintaining
+   stale mappings.  Such details are implementation specific (see, for
+   example, Section 7).
 
 7.  Successful Subscription Update
 
-   The following example illustrates the case of a successful update of
-   a subscription.
+   Figure 5 illustrates the example of successful update of an existing
+   subscription.  The triggers for such a refresh are implmentation
+   specfic.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -341,7 +345,7 @@ Table of Contents
 
 10.  Stale Subscriptions
 
-   For various reasons, an xTR may lose its subscription (or at leastt
+   For various reasons, an xTR may lose its subscriptions (or at least
    the nonce of a subscription).  Under such conditions, the xTR must
    use a new authentication key and a new nonce for the Map-Request.
 
@@ -366,7 +370,8 @@ Table of Contents
 
 11.  xTR-triggered Subscription Withdrawal
 
-   Figure 8 illustrates the observed exchange to delete a subscription.
+   Figure 8 illustrates the observed exchange to successfully delete a
+   subscription.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -424,7 +429,8 @@ Table of Contents
    Figure 10 shows the example of a replayed subscription request.  This
    example assumes that the attacker does not change the source IP
    address that was initially captured in the packet to be replayed.
-   The received Map-Reply is silently ignored by the xTR.
+   The triggered Map-Reply is silently ignored by the xTR because it
+   does not match any pending request.
 
                      +---+                          +----+
                      | AT|                          | MS |
@@ -468,9 +474,8 @@ Table of Contents
 
   Figure 11: An Example of Handling of Replayed Initial Subscription
 
-   Note that if LISP messages supported timestamping, the replayed
-   packet would be detected and thus be silently ignored by the Map-
-   Server.
+   Note that if LISP-SEC messages are timestamped, the replayed packets
+   would be detected and, thus, be silently ignored by the Map-Server.
 
                      +---+                          +----+
                      | AT|                          | MS |

@@ -1264,7 +1264,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-initial-successful-subscrip">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-initial-successful-subscrip" class="section-name selfRef">Initial Successful Subscription</a>
       </h2>
-<p id="section-3-1">The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all subsequent integrity-protection checks were successfully passed.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1"><a href="#iss" class="auto internal xref">Figure 1</a> shows the example a successful subscription. The example assumes that a security association is in place between the xTR ad the Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all integrity-protection checks are successfully passed.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-successful-in"></span><div id="iss">
 <figure id="figure-1">
         <div id="section-3-2.1">
@@ -1389,7 +1389,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-successful-notification">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-successful-notification" class="section-name selfRef">Successful Notification</a>
       </h2>
-<p id="section-4-1">The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all subsequent integrity-protection checks were successfully passed.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1"><a href="#sn" class="auto internal xref">Figure 2</a> illustrates the example of a successful delivery of notification updates that match an existing subscription state. This example assumes that a security association is in place between the xTR and the Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all subsequent integrity-protection checks are successfully passed.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-successful-no"></span><div id="sn">
 <figure id="figure-2">
         <div id="section-4-2.1">
@@ -1488,7 +1488,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-successful-notification-wit">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-successful-notification-wit" class="section-name selfRef">Successful Notification with Retransmission</a>
       </h2>
-<p id="section-5-1">The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all subsequent integrity-protection checks were successfully passed. Due to network conditions, some Map-Notifies are lost.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">Unlike the example depicted in <a href="#sn" class="auto internal xref">Figure 2</a>, <a href="#sretrans" class="auto internal xref">Figure 3</a> illustrates the behavior that is experienced  when a subset of Map-Notift messages are lost during their transfer. This example assumes that at least one of these Map-Notify messages is received by the target xTR.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-successful-not"></span><div id="sretrans">
 <figure id="figure-3">
         <div id="section-5-2.1">
@@ -1614,7 +1614,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-failed-notification-with-re">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-failed-notification-with-re" class="section-name selfRef">Failed Notification with Retransmission</a>
       </h2>
-<p id="section-6-1">The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all subsequent integrity-protection checks were successfully passed. Due to network conditions, All Map-Notifies are lost.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1"><a href="#fretrans" class="auto internal xref">Figure 4</a> assumes that, due to network conditions, all Map-Notifies are lost.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-failed-notifi"></span><div id="fretrans">
 <figure id="figure-4">
         <div id="section-6-2.1">
@@ -1691,15 +1691,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-an-example-of-failed-notifi" class="selfRef">An Example of Failed Notification Delivery</a>
         </figcaption></figure>
 </div>
-<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, <a href="#sec-sub-update" class="auto internal xref">Section 7</a>).<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="successful-subscription-update">
+<div id="sec-sub-update">
 <section id="section-7">
       <h2 id="name-successful-subscription-upd">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-successful-subscription-upd" class="section-name selfRef">Successful Subscription Update</a>
       </h2>
-<p id="section-7-1">The following example illustrates the case of a successful update of a subscription.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1"><a href="#ssu" class="auto internal xref">Figure 5</a> illustrates the example of successful update of an existing subscription. The triggers for such a refresh are implmentation specfic.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-successful-su"></span><div id="ssu">
 <figure id="figure-5">
         <div id="section-7-2.1">
@@ -1987,7 +1987,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-stale-subscriptions">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-stale-subscriptions" class="section-name selfRef">Stale Subscriptions</a>
       </h2>
-<p id="section-10-1">For various reasons, an xTR may lose its subscription (or at leastt the nonce of a subscription). Under such conditions, the xTR must use a new authentication key and a new nonce for the Map-Request.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-1">For various reasons, an xTR may lose its subscriptions (or at least the nonce of a subscription). Under such conditions, the xTR must use a new authentication key and a new nonce for the Map-Request.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <p id="section-10-2">If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server.<a href="#section-10-2" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-stale-subscri"></span><div id="stale">
 <figure id="figure-7">
@@ -2051,7 +2051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-xtr-triggered-subscription-">
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-xtr-triggered-subscription-" class="section-name selfRef">xTR-triggered Subscription Withdrawal</a>
       </h2>
-<p id="section-11-1"><a href="#xmd" class="auto internal xref">Figure 8</a> illustrates the observed exchange to delete a subscription.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-1"><a href="#xmd" class="auto internal xref">Figure 8</a> illustrates the observed exchange to successfully delete a subscription.<a href="#section-11-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-successful-sub"></span><div id="xmd">
 <figure id="figure-8">
         <div id="section-11-2.1">
@@ -2263,7 +2263,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-subscription-updat">
 <a href="#section-12.1.1" class="section-number selfRef">12.1.1. </a><a href="#name-replayed-subscription-updat" class="section-name selfRef">Replayed Subscription (Update)</a>
           </h4>
-<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 10</a> shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The received Map-Reply is silently ignored by the xTR.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 10</a> shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The triggered Map-Reply is silently ignored by the xTR because it does not match any pending request.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-handling-of-r"></span><div id="riss">
 <figure id="figure-10">
             <div id="section-12.1.1-2.1">
@@ -2406,7 +2406,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-an-example-of-handling-of-re" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
             </figcaption></figure>
 </div>
-<p id="section-12.1.1-5">Note that if LISP messages supported timestamping, the replayed packet would be detected and thus be silently ignored by the Map-Server.<a href="#section-12.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-12.1.1-5">Note that if LISP-SEC messages are timestamped, the replayed packets would be detected and, thus, be silently ignored by the Map-Server.<a href="#section-12.1.1-5" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-handling-of-rep"></span><div id="riss-ts">
 <figure id="figure-12">
             <div id="section-12.1.1-6.1">
