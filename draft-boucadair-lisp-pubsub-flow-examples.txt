@@ -285,8 +285,9 @@ Table of Contents
    not delivered to the Map-Server.  The Map-Server retransmits the Map-
    Notify 3 times, and then removes the subscription.  A Map-Notify to
    explicitly indicate the reason for such a removal is also generated
-   by the Map-Server.  If the xTR received this Map-Notify, the xTR has
-   to send the Map-Request to reinstall back the removed state.
+   by the Map-Server.  If the xTR receives this Map-Notify, the xTR may
+   decide to send the Map-Request to reinstall back the removed state.
+   The procedure to reinstall the state is similar to Figure 1.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -321,7 +322,7 @@ Table of Contents
                        |                               | '--------------------'
                        |                               |
                        |                               | .--------------------.
-                       |        Map-Notify(nonce, ...) | | Remove the subscri-|
+                       |Map-Notify(nonce, AFI, ACT,...)| | Remove the subscri-|
                        |     <=========================+-+ ption              |
                        |                               | '--------------------'
                       ...                              |
@@ -334,6 +335,9 @@ Table of Contents
    might be associated with its provisioned xTR-ID and security
    association.  To that aim, the xTR sends a Map-Request that has only
    one ITR-RLOC with AFI = 0.
+
+   A Map-Notify will be sent back by the Map-Server even if no
+   subscription is found.
 
 10.  Stale Subscriptions
 
@@ -358,7 +362,7 @@ Table of Contents
                        |                               | | fails              |
                        |                               | '--------------------'
 
-              Figure 7: An Example of Stale Subscription
+             Figure 7: An Example of Stale Subscriptions
 
 11.  xTR-triggered Subscription Withdrawal
 
@@ -488,9 +492,35 @@ Table of Contents
 
 12.1.2.  Replayed Withdrawal
 
+   Figure 13 depicts the example of the exchange that occurs when an
+   attacker sends a replayed withdrawal request.  A Map-Request with an
+   action code is sent to the original xTR.
+
+                     +---+                          +----+
+                     | AT|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       |                               | .--------------------.
+                       | Map-Request(nonce, AFI=0,...) | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |                               | | A state is found   |
+  +---+                                                | | xTR-ID/EID is found|
+  |xTR|                                                | | but the nonce check|
+  +-+-+               Map-Reply(ACT=5)                 | | fails              |
+    |<=================================================+-+                    |
+    |                                                  | '--------------------'
+    |                                                  |
+
+      Figure 13: An Example of Handling of Replayed Removal of a
+                             Subscription
+
+   Similar to Figure 12, the replayed Map-Request can be detected and
+   silently ignored by the Map-Server if LISP-SEC messages are
+   timestamped.
+
 12.1.3.  Replayed Notification Updates
 
-   Figure 13 illustrates the observed exchange when a replayed
+   Figure 14 illustrates the observed exchange when a replayed
    notification update is sent by a misbehaving node (AT) to an xTR.
 
                              +---+                          +----+
@@ -510,7 +540,7 @@ Table of Contents
         '--------------------' |                               |
                                |                               |
 
-       Figure 13: An Example of Replayed Notification of Subscription
+       Figure 14: An Example of Replayed Notification of Subscription
                                  Withdrawal
 
 13.  Security Considerations
