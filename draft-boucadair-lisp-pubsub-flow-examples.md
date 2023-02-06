@@ -125,7 +125,7 @@ AT:
 
 # Successful Notification with Retransmission
 
-Unlike the example depicted in {{sn}}, {{sretrans}} illustrates the behavior that is experienced  when a subset of Map-Notift messages are lost during their transfer. This example assumes that at least one of these Map-Notify messages is received by the target xTR.
+Unlike the example depicted in {{sn}}, {{sretrans}} illustrates the behavior that is experienced  when a subset of Map-Notify messages are lost during their transfer. This example assumes that at least one of these Map-Notify messages is received by the target xTR.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -195,7 +195,7 @@ Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}}
 
 # Successful Subscription Update {#sec-sub-update}
 
-{{ssu}} illustrates the example of successful update of an existing subscription. The triggers for such a refresh are implmentation specfic.
+{{ssu}} illustrates the example of successful update of an existing subscription. The triggers for such a refresh are implementation specific.
 
 ~~~~ aasvg
                      +---+                          +----+
