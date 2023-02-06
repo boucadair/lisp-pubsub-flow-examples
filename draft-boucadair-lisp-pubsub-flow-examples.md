@@ -59,7 +59,7 @@ init_key_id:
 : the key identifier that was used in the Map-Request with init_nonce.
 
 trans_count:
-: retranmission counter as per Section 5.7 of {{!RFC9301}}.
+: retransmission counter as per Section 5.7 of {{!RFC9301}}.
 
 trans_timer:
 : retransmission timer as per Section 5.7 of {{!RFC9301}}.
@@ -95,7 +95,7 @@ The following example assumes that a security association is in place between xT
 
 # Bootstrapping of an xTR
 
-When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisionned xTR-ID. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
+When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisioned xTR-ID. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
 
 # Successful Notification
 
@@ -283,7 +283,7 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
 | Security/integrity +-+<==============================+-+ nonce == local     |
 | protection check.  | |                               | | nonce + 1          |
 | Check that rcv     | |                               | '--------------------'
-| nonce == snd nonce | |                               | 
+| nonce == snd nonce | |                               |
 | Send Map-Notfiy-ACK| | Map-Notify-Ack(nonce,...)     | .--------------------.
 |                    +-+==============================>+-+ Security/integrity |
 '--------------------' |                               | | protection check.  |
@@ -291,7 +291,7 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
                        |                               | | confirmed          |
                        |                               | '--------------------'
 ~~~~
-{: #xmd title="An Example of Successful Subscription Widthrawal" artwork-align="center"}
+{: #xmd title="An Example of Successful Subscription Withdrawal" artwork-align="center"}
 
 # 'Map-Server'-triggered Subscription Withdrawal
 
@@ -320,9 +320,9 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
 
 ## Replay Attacks
 
-### Replayed Subscription (Update) 
+### Replayed Subscription (Update)
 
-{{riss}} shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initialy captured in the packet to be replayed. The received Map-Reply is silently ignored by the xTR.
+{{riss}} shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The received Map-Reply is silently ignored by the xTR.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -338,7 +338,7 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
   +-+-+                Map-Reply(init_nonce,...)       | | fails              |
     |<=================================================+-+                    |
     |                                                  | '--------------------'
-    |                                                  | 
+    |                                                  |
 ~~~~
 {: #riss title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
@@ -387,7 +387,7 @@ Note that if LISP messages supported timestamping, the replayed packet would be 
 ~~~~
 {: #riss-ts title="An Example of Handling of Replayed Initial Subscription with Timestamp" artwork-align="center"}
 
-### Replayed Widthrawal
+### Replayed Withdrawal
 
 
 
