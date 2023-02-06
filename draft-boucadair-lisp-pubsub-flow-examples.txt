@@ -63,17 +63,22 @@ Table of Contents
    1.  Introduction
    2.  Terminology
    3.  Initial Successful Subscription
-   4.  Bootstrapping of an xTR
-   5.  Successful Notification
-   6.  Successful Notification with Retransmission
-   7.  Failed Notification with Retransmission
-   8.  Successful Subscription Update
-   9.  Failed Subscription Update
-   10. xTR-triggered Subscription Withdrawal
-   11. 'Map-Server'-triggered Subscription Withdrawal
-   12. Security Considerations
-   13. IANA Considerations
-   14. Normative References
+   4.  Successful Notification
+   5.  Successful Notification with Retransmission
+   6.  Failed Notification with Retransmission
+   7.  Successful Subscription Update
+   8.  Failed Subscription with Lost Map-Notify-Ack
+   9.  Bootstrapping an xTR
+   10. Stale Subscriptions
+   11. xTR-triggered Subscription Withdrawal
+   12. 'Map-Server'-triggered Subscription Withdrawal
+     12.1.  Replay Attacks
+       12.1.1.  Replayed Subscription (Update)
+       12.1.2.  Replayed Withdrawal
+       12.1.3.  Replayed Notification Updates
+   13. Security Considerations
+   14. IANA Considerations
+   15. Normative References
    Acknowledgments
    Author's Address
 
@@ -105,7 +110,7 @@ Table of Contents
    init_key_id:  the key identifier that was used in the Map-Request
       with init_nonce.
 
-   trans_count:  retranmission counter as per Section 5.7 of [RFC9301].
+   trans_count:  retransmission counter as per Section 5.7 of [RFC9301].
 
    trans_timer:  retransmission timer as per Section 5.7 of [RFC9301].
 
@@ -140,13 +145,7 @@ Table of Contents
 
        Figure 1: An Example of Successful Initial Subscription
 
-4.  Bootstrapping of an xTR
-
-   When first bootrsapped, an xTR may delete any (stale) state that
-   might be associated with its provisionned xTR-ID.  To that aim, the
-   xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
-
-5.  Successful Notification
+4.  Successful Notification
 
    The following example assumes that a security association is in place
    between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
@@ -173,7 +172,7 @@ Table of Contents
 
            Figure 2: An Example of Successful Notification
 
-6.  Successful Notification with Retransmission
+5.  Successful Notification with Retransmission
 
    The following example assumes that a security association is in place
    between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
@@ -212,7 +211,7 @@ Table of Contents
 
  Figure 3: An Example of Successful Notification with Retransmission
 
-7.  Failed Notification with Retransmission
+6.  Failed Notification with Retransmission
 
    The following example assumes that a security association is in place
    between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
@@ -244,12 +243,11 @@ Table of Contents
 
          Figure 4: An Example of Failed Notification Delivery
 
-      Note that no specific action is currently specified in
-      [I-D.ietf-lisp-pubsub] when such failure occurs.  That is, the
-      entry is kept active and future updates will trigger new Map-
-      Notify cycles.
+   Note that no specific action is currently specified in
+   [I-D.ietf-lisp-pubsub] when such failure occurs.  That is, the entry
+   is kept active and future updates will trigger new Map-Notify cycles.
 
-8.  Successful Subscription Update
+7.  Successful Subscription Update
 
    The following example illustrates the case of a successful update of
    a subscription.
@@ -276,24 +274,248 @@ Table of Contents
 
         Figure 5: An Example of Successful Subscription Update
 
-9.  Failed Subscription Update
+8.  Failed Subscription with Lost Map-Notify-Ack
 
-   XXXXX
+   This example is similar to Section 3, except the Map-Notify-Ack is
+   not delivered to the Map-Server.  The Map-Server retransmits the Map-
+   Notify 3 times, and then removes the subscription.  A Map-Notify to
+   explicitly indicate the reason for such a removal is also generated
+   by the Map-Server.  If the xTR received this Map-Notify, the xTR has
+   to send the Map-Request to reinstall back the removed state.
 
-10.  xTR-triggered Subscription Withdrawal
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+.--------------------. |                               |
+| Generate a new key | | Map-Request(init_nonce,       | .--------------------.
+| and an initial     | |            init_key_id,..)    | | Security/integrity |
+| nonce. Store them  +-+==============================>+-+ protection check.  |
+| locally for this   | |                               | | No State for this  |
+| subscription       | |                               | | xTR-ID/EID is found|
+'--------------------' |                               | | Create the sub and |
+                       |                               | | store init_nonce,  |
+.--------------------. | Map-Notify(init_nonce,...)    | | init_key_id, ...   |
+| Security/integrity +-+<==============================+-+ Set trans_count and|
+| protection check.  | |                               | | trans_timer        |
+| Check that rcv     | |                               | '--------------------'
+| nonce == init_nonce| | Map-Notify-Ack(init_nonce,...)|
+| Confirm the sub and+-+===========>                   |
+| wait for notifs    | |                               |
+'--------------------' |                               |
+                       |                               | .--------------------.
+                       |        Map-Notify(nonce, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+                       |                               |
+                       |                               | .--------------------.
+                       |        Map-Notify(nonce, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+                       |                               |
+                       |                               | .--------------------.
+                       |        Map-Notify(nonce, ...) | | Remove the subscri-|
+                       |     <=========================+-+ ption              |
+                       |                               | '--------------------'
+                      ...                              |
 
-11.  'Map-Server'-triggered Subscription Withdrawal
+         Figure 6: An Example of Failed Initial Subscription
 
-12.  Security Considerations
+9.  Bootstrapping an xTR
+
+   When first bootrsapped, an xTR may delete any (stale) state that
+   might be associated with its provisioned xTR-ID and security
+   association.  To that aim, the xTR sends a Map-Request that has only
+   one ITR-RLOC with AFI = 0.
+
+10.  Stale Subscriptions
+
+   For various reasons, an xTR may lose its subscription (or at leastt
+   the nonce of a subscription).  Under such conditions, the xTR must
+   use a new authentication key and a new nonce for the Map-Request.
+
+   If the same key is used, the Map-Request is likely to be rejected by
+   the Map-Server and, thus, stale subscriptions will be maintained by
+   the Map-Server.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       | Map-Request(nonce,            | .--------------------.
+                       |            init_key_id,..)    | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |                               | | A state is found   |
+                       | Map-Reply(ACT=5)              | | xTR-ID/EID is found|
+                       |<==============================+-+ but the nonce check|
+                       |                               | | fails              |
+                       |                               | '--------------------'
+
+              Figure 7: An Example of Stale Subscription
+
+11.  xTR-triggered Subscription Withdrawal
+
+   Figure 8 illustrates the observed exchange to delete a subscription.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+.--------------------. |                               | .--------------------.
+| Increment the last | | Map-Request(nonce, AF=0...)   | | Security/integrity |
+| seen nonce         +-+==============================>+-+ protection check.  |
+'--------------------' |                               | | Found an entry for |
+                       |                               | | this xTR-ID        |
+.--------------------. | Map-Notify(nonce,...)         | | Check that rcv     |
+| Security/integrity +-+<==============================+-+ nonce == local     |
+| protection check.  | |                               | | nonce + 1          |
+| Check that rcv     | |                               | '--------------------'
+| nonce == snd nonce | |                               |
+| Send Map-Notfiy-ACK| | Map-Notify-Ack(nonce,...)     | .--------------------.
+|                    +-+==============================>+-+ Security/integrity |
+'--------------------' |                               | | protection check.  |
+                       |                               | | This widthrawal is |
+                       |                               | | confirmed          |
+                       |                               | '--------------------'
+
+      Figure 8: An Example of Successful Subscription Withdrawal
+
+12.  'Map-Server'-triggered Subscription Withdrawal
+
+   Figure 9 illustrates the observed exchange to notify the withdrawal
+   of a subscription at the initiative of the Map-Server.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+.--------------------. |                               | .--------------------.
+| Security/integrity | | Map-Notify(nonce, TTL=0, ...) | | Update is triggered|
+| protection check.  +-+<==============================+-+ Increment the nonce|
+| Check that rcv     | |                               | | Set trans_count and|
+| nonce == local     | |                               | | trans_timer        |
+| nonce + 1          | |                               | '--------------------'
+|                    | |                               |
+| Confirms the notif | |                               | .--------------------.
+| and remove the     | | Map-Notify-Ack(nonce, ...)    | | Security/integrity |
+| entry              +-+==============================>+-+ protection checks. |
+|                    | |                               | | This notification  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
+
+   Figure 9: An Example of Successful Notification of Subscription
+                              withdrawal
+
+12.1.  Replay Attacks
+
+12.1.1.  Replayed Subscription (Update)
+
+   Figure 10 shows the example of a replayed subscription request.  This
+   example assumes that the attacker does not change the source IP
+   address that was initially captured in the packet to be replayed.
+   The received Map-Reply is silently ignored by the xTR.
+
+                     +---+                          +----+
+                     | AT|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       | Map-Request(init_nonce,       | .--------------------.
+                       |            init_key_id,..)    | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |                               | | A state is found   |
+  +---+                                                | | xTR-ID/EID is found|
+  |xTR|                                                | | but the nonce check|
+  +-+-+                Map-Reply(init_nonce,...)       | | fails              |
+    |<=================================================+-+                    |
+    |                                                  | '--------------------'
+    |                                                  |
+
+  Figure 10: An Example of Handling of Replayed Initial Subscription
+
+   The attacker may vary the source IP address of the Map-Request to
+   trigger as many Map-Replies sent to other xTRs (see Figure 11.
+
+                     +---+                          +----+
+                     | AT|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       | Map-Request(init_nonce,       | .--------------------.
+                       |            init_key_id,..)    | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |              ...              | | A state is found   |
+  +-----+              +==============================>+-+ xTR-ID/EID is found|
+  |xTR1 |                                              | | but the nonce check|
+  +-+--+                Map-Reply(init_nonce,...)      | | fails              |
+    |<=================================================+-+                    |
+                                                       | '--------------------'
+                 +-----+                               |
+                 | xTRn|                               |
+                 +--+--+    Map-Reply(init_nonce,...)  |
+                    |<=================================+
+                    |                                  |
+               ...
+
+  Figure 11: An Example of Handling of Replayed Initial Subscription
+
+   Note that if LISP messages supported timestamping, the replayed
+   packet would be detected and thus be silently ignored by the Map-
+   Server.
+
+                     +---+                          +----+
+                     | AT|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       | Map-Request(init_nonce,       | .--------------------.
+                       |            init_key_id,..)    | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |                               | | A state is found   |
+                                                       | | xTR-ID/EID is found|
+  +---+                                                | | but the nonce check|
+  |xTR|                                                | | fails              |
+  +-+-+                                                | | init_key_id, ...   |
+    |                                                  | |                    |
+    |                                                  | '--------------------'
+
+        Figure 12: An Example of Handling of Replayed Initial
+                     Subscription with Timestamp
+
+12.1.2.  Replayed Withdrawal
+
+12.1.3.  Replayed Notification Updates
+
+   Figure 13 illustrates the observed exchange when a replayed
+   notification update is sent by a misbehaving node (AT) to an xTR.
+
+                             +---+                          +----+
+                             |xTR|                          | AT |
+                             +-+-+                          +--+-+
+                               |                               |
+        .--------------------. |                               |
+        | Security/integrity | | Map-Notify(nonce, TTL=0, ...) |
+        | protection check.  +-+<==============================+
+        | Check that rcv     | |                               |
+        | nonce == local     | |                               |
+        | nonce + 1          | |                               |
+        |                    | |                               |
+        | Discard the message| |                               |
+        | because the nonce  | |                               |
+        | cheks failed       | |                               |
+        '--------------------' |                               |
+                               |                               |
+
+       Figure 13: An Example of Replayed Notification of Subscription
+                                 Withdrawal
+
+13.  Security Considerations
 
    This document does not introduce any security considerations beyond
    those already discussed in [I-D.ietf-lisp-pubsub].
 
-13.  IANA Considerations
+14.  IANA Considerations
 
    This document does not make any request to IANA.
 
-14.  Normative References
+15.  Normative References
 
    [I-D.ietf-lisp-pubsub]
               Rodriguez-Natal, A., Ermagan, V., Cabellos-Aparicio, A.,
