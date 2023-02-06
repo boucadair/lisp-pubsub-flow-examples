@@ -180,7 +180,7 @@ Table of Contents
 5.  Successful Notification with Retransmission
 
    Unlike the example depicted in Figure 2, Figure 3 illustrates the
-   behavior that is experienced when a subset of Map-Notift messages are
+   behavior that is experienced when a subset of Map-Notify messages are
    lost during their transfer.  This example assumes that at least one
    of these Map-Notify messages is received by the target xTR.
 
@@ -257,8 +257,8 @@ Table of Contents
 7.  Successful Subscription Update
 
    Figure 5 illustrates the example of successful update of an existing
-   subscription.  The triggers for such a refresh are implmentation
-   specfic.
+   subscription.  The triggers for such a refresh are implementation
+   specific.
 
                      +---+                          +----+
                      |xTR|                          | MS |
