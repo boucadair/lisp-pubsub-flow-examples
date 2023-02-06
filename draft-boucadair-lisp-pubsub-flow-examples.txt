@@ -1,0 +1,314 @@
+
+
+
+
+Locator/ID Separation Protocol                              M. Boucadair
+Internet-Draft                                                    Orange
+Intended status: Informational                           6 February 2023
+Expires: 10 August 2023
+
+
+                       LISP PubSub Flow Examples
+            draft-boucadair-lisp-pubsub-flow-examples-latest
+
+Abstract
+
+   This document provides a set of flow examples to illustrate the use
+   of LISP PubSub specification.
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Discussion of this document takes place on the Locator/ID Separation
+   Protocol Working Group mailing list (lisp@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/lisp/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/boucadair/lisp-pubsub-flow-examples.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 10 August 2023.
+
+Copyright Notice
+
+   Copyright (c) 2023 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Terminology
+   3.  Initial Successful Subscription
+   4.  Bootstrapping of an xTR
+   5.  Successful Notification
+   6.  Successful Notification with Retransmission
+   7.  Failed Notification with Retransmission
+   8.  Successful Subscription Update
+   9.  Failed Subscription Update
+   10. xTR-triggered Subscription Withdrawal
+   11. 'Map-Server'-triggered Subscription Withdrawal
+   12. Security Considerations
+   13. IANA Considerations
+   14. Normative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   This document provides a set of flow examples as a companion to the
+   LISP PubSub specification [I-D.ietf-lisp-pubsub].  The document is
+   meant to illustrate and assess the behavior of LISP control nodes
+   under specific conditions.
+
+   The examples use a simplified/simple setup for the sake of
+   illustration.
+
+2.  Terminology
+
+   This document uses the terms defined in [I-D.ietf-lisp-pubsub].
+
+   The following terms and notations are used in this document:
+
+   init_nonce:  the nonce that is initially included in a Map-Request to
+      create a subscription.
+
+   initial subscription request:  the Map-Request that was used to
+      create the initial subscription.  This request has the nonce value
+      set to init_nonce.
+
+   nonce++:  incremented nonce by 1.
+
+   init_key_id:  the key identifier that was used in the Map-Request
+      with init_nonce.
+
+   trans_count:  retranmission counter as per Section 5.7 of [RFC9301].
+
+   trans_timer:  retransmission timer as per Section 5.7 of [RFC9301].
+
+3.  Initial Successful Subscription
+
+   The following example assumes that a security association is in place
+   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
+   that all subsequent integrity-protection checks were successfully
+   passed.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+.--------------------. |                               |
+| Generate a new key | | Map-Request(init_nonce,       | .--------------------.
+| and an initial     | |            init_key_id,..)    | | Security/intergrity|
+| nonce. Store them  +-+==============================>+-+ protection check.  |
+| locally for this   | |                               | | No State for this  |
+| subscription       | |                               | | XTR-ID/EID is found|
+'--------------------' |                               | | Create the sub and |
+.--------------------. | Map-Notify(init_nonce,...)    | | store init_nonce,  |
+| Security/intergrity+-+<==============================+-+ init_key_id, ...   |
+| protection check.  | |                               | '--------------------'
+| Check that rcv     | | Map-Notify-Ack(init_nonce,...)| .--------------------.
+| nonce == init_nonce+-+==============================>+-+Security/intergrity |
+| Confirm the sub and| |                               | | protection checks. |
+| wait for notifs    | |                               | | This subscription  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
+
+       Figure 1: An Example of Successful Initial Subscription
+
+4.  Bootstrapping of an xTR
+
+   When first bootrsapped, an xTR may delete any (stale) state that
+   might be associated with its provisionned xTR-ID.  To that aim, the
+   xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
+
+5.  Successful Notification
+
+   The following example assumes that a security association is in place
+   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
+   that all subsequent integrity-protection checks were successfully
+   passed.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+.--------------------. |                               | .--------------------.
+| Security/intergrity| | Map-Notify(nonce++, ...)      | | Update is triggered|
+| protection check.  +-+<==============================+-+ Increment the nonce|
+| Check that rcv     | |                               | | Set trans_count and|
+| nonce == local     | |                               | | trans_timer        |
+| nonce + 1          | |                               | '--------------------'
+| Confirms the notif | |                               | .--------------------.
+| and update the     | | Map-Notify-Ack(nonce++,...)   | | Security/intergrity|
+| entry              +-+==============================>+-+ protection checks. |
+|                    | |                               | | This notification  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
+
+           Figure 2: An Example of Successful Notification
+
+6.  Successful Notification with Retransmission
+
+   The following example assumes that a security association is in place
+   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
+   that all subsequent integrity-protection checks were successfully
+   passed.  Due to network conditions, some Map-Notifies are lost.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Update is triggered|
+                       |            <==================+-+ Increment the nonce|
+                       |                               | | Set trans_count and|
+                       |                               | | trans_timer        |
+                       |                               | '--------------------'
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+.--------------------. |                               | .--------------------.
+| Security/intergrity| | Map-Notify(nonce++, ...)      | | Increment          |
+| protection check.  +-+<==============================+-+ trans_count and    |
+| Check that rcv     | |                               | | reset trans_timer  |
+| nonce == local     | |                               | '--------------------'
+| nonce + 1          | |                               | .--------------------.
+| Confirms the notif | | Map-Notify-Ack(nonce++,...)   | | Security/intergrity|
+| and update the     +-+==============================>+-+ protection checks. |
+| entry              | |                               | | This notification  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
+
+ Figure 3: An Example of Successful Notification with Retransmission
+
+7.  Failed Notification with Retransmission
+
+   The following example assumes that a security association is in place
+   between xTR/Map-Server (Section 7.1 of [I-D.ietf-lisp-pubsub]) and
+   that all subsequent integrity-protection checks were successfully
+   passed.  Due to network conditions, All Map-Notifies are lost.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Update is triggered|
+                       |            <==================+-+ Increment the nonce|
+                       |                               | | Set trans_count and|
+                       |                               | | trans_timer        |
+                       |                               | '--------------------'
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+                       |                               |
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+
+         Figure 4: An Example of Failed Notification Delivery
+
+      Note that no specific action is currently specified in
+      [I-D.ietf-lisp-pubsub] when such failure occurs.  That is, the
+      entry is kept active and future updates will trigger new Map-
+      Notify cycles.
+
+8.  Successful Subscription Update
+
+   The following example illustrates the case of a successful update of
+   a subscription.
+
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+.--------------------. |                               | .--------------------.
+| Increment the last | | Map-Request(nonce, ...)       | | Security/intergrity|
+| seen nonce         +-+==============================>+-+ protection check.  |
+'--------------------' |                               | | Found an entry for |
+.--------------------. | Map-Notify(nonce,...)         | | this xTR-ID        |
+| Security/intergrity+-+<==============================+-+ Check that rcv     |
+| protection check.  | |                               | | nonce == local     |
+| Check that rcv     | |                               | | nonce + 1          |
+| nonce == snd nonce | |                               | '--------------------'
+| Confirm the sub and| | Map-Notify-Ack(init_nonce,...)| .--------------------.
+| wait for notifs    +-+==============================>+-+ Security/intergrity|
+'--------------------' |                               | | protection check.  |
+                       |                               | | This subscription  |
+                       |                               | | updated is ACKed   |
+                       |                               | '--------------------'
+
+        Figure 5: An Example of Successful Subscription Update
+
+9.  Failed Subscription Update
+
+   XXXXX
+
+10.  xTR-triggered Subscription Withdrawal
+
+11.  'Map-Server'-triggered Subscription Withdrawal
+
+12.  Security Considerations
+
+   This document does not introduce any security considerations beyond
+   those already discussed in [I-D.ietf-lisp-pubsub].
+
+13.  IANA Considerations
+
+   This document does not make any request to IANA.
+
+14.  Normative References
+
+   [I-D.ietf-lisp-pubsub]
+              Rodriguez-Natal, A., Ermagan, V., Cabellos-Aparicio, A.,
+              Barkai, S., and M. Boucadair, "Publish/Subscribe
+              Functionality for the Locator/ID Separation Protocol
+              (LISP)", Work in Progress, Internet-Draft, draft-ietf-
+              lisp-pubsub-10, 6 January 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-lisp-
+              pubsub-10>.
+
+   [RFC9301]  Farinacci, D., Maino, F., Fuller, V., and A. Cabellos,
+              Ed., "Locator/ID Separation Protocol (LISP) Control
+              Plane", RFC 9301, DOI 10.17487/RFC9301, October 2022,
+              <https://www.rfc-editor.org/rfc/rfc9301>.
+
+Acknowledgments
+
+   Thanks to TBC.
+
+Author's Address
+
+   Mohamed Boucadair
+   Orange
+   35000 Rennes
+   France
+   Email: mohamed.boucadair@orange.com
