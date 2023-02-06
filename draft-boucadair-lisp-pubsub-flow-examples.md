@@ -83,7 +83,7 @@ The following example assumes that a security association is in place between xT
 .--------------------. | Map-Notify(init_nonce,...)    | | init_key_id, ...   |
 | Security/integrity +-+<==============================+-+                    |
 | protection check.  | |                               | '--------------------'
-| Check that rcv     | |                               | 
+| Check that rcv     | |                               |
 | nonce == init_nonce| | Map-Notify-Ack(init_nonce,...)| .--------------------.
 | Confirm the sub and+-+==============================>+-+ Security/integrity |
 | wait for notifs    | |                               | | protection checks. |
