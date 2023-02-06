@@ -38,54 +38,179 @@ This document provides a set of flow examples to illustrate the use of LISP PubS
 
 This document provides a set of flow examples as a companion to the LISP PubSub specification {{!I-D.ietf-lisp-pubsub}}. The document is meant to illustrate and assess the behavior of LISP control nodes under specific conditions.
 
+The examples use a simplified/simple setup for the sake of illustration.
+
 # Terminology
 
 This document uses the terms defined in {{!I-D.ietf-lisp-pubsub}}.
 
 The following terms and notations are used in this document:
 
-initial_nonce:
+init_nonce:
 : the nonce that is initially included in a Map-Request to create a subscription.
 
 initial subscription request:
-: the Map-Request that was used to create the initial subscription. This request has the nonce value set to initial_nonce.
+: the Map-Request that was used to create the initial subscription. This request has the nonce value set to init_nonce.
 
 nonce++:
 : incremented nonce by 1.
 
-initial_key_id:
-: the key identifier that was used in the Map-Request with initial_nonce.
+init_key_id:
+: the key identifier that was used in the Map-Request with init_nonce.
 
+trans_count:
+: retranmission counter as per Section 5.7 of {{!RFC9301}}.
+
+trans_timer:
+: retransmission timer as per Section 5.7 of {{!RFC9301}}.
 
 # Initial Successful Subscription {#sec-iss}
 
-The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that integrity-protection checks were successfully passed.
+The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed.
 
 ~~~~ aasvg
-+---+                                            +----+
-|xTR|                                            | MS |
-+-+-+                                            +--+-+
-  | Map-Request(initial_nonce, initial_key_id,..)   |
-  |================================================>|
-  |                                                 |
-  |                                                 |
-  |                                                 |
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+.--------------------. |                               |
+| Generate a new key | | Map-Request(init_nonce,       | .--------------------.
+| and an initial     | |            init_key_id,..)    | | Security/intergrity|
+| nonce. Store them  +-+==============================>+-+ protection check.  |
+| locally for this   | |                               | | No State for this  |
+| subscription       | |                               | | XTR-ID/EID is found|
+'--------------------' |                               | | Create the sub and |
+.--------------------. | Map-Notify(init_nonce,...)    | | store init_nonce,  |
+| Security/intergrity+-+<==============================+-+ init_key_id, ...   |
+| protection check.  | |                               | '--------------------'
+| Check that rcv     | | Map-Notify-Ack(init_nonce,...)| .--------------------.
+| nonce == init_nonce+-+==============================>+-+Security/intergrity |
+| Confirm the sub and| |                               | | protection checks. |
+| wait for notifs    | |                               | | This subscription  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
 ~~~~
-{: #iss title="xxxx" artwork-align="center"}
+{: #iss title="An Example of Successful Initial Subscription" artwork-align="center"}
 
+# Bootstrapping of an xTR
+
+When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisionned xTR-ID. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
 
 # Successful Notification
 
-XXXXX
+The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed.
 
-# Successful Notification
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+.--------------------. |                               | .--------------------.
+| Security/intergrity| | Map-Notify(nonce++, ...)      | | Update is triggered|
+| protection check.  +-+<==============================+-+ Increment the nonce|
+| Check that rcv     | |                               | | Set trans_count and|
+| nonce == local     | |                               | | trans_timer        |
+| nonce + 1          | |                               | '--------------------'
+| Confirms the notif | |                               | .--------------------.
+| and update the     | | Map-Notify-Ack(nonce++,...)   | | Security/intergrity|
+| entry              +-+==============================>+-+ protection checks. |
+|                    | |                               | | This notification  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
+~~~~
+{: #sn title="An Example of Successful Notification" artwork-align="center"}
 
-XXXXX
+# Successful Notification with Retransmission
+
+The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed. Due to network conditions, some Map-Notifies are lost.
+
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Update is triggered|
+                       |            <==================+-+ Increment the nonce|
+                       |                               | | Set trans_count and|
+                       |                               | | trans_timer        |
+                       |                               | '--------------------'
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+.--------------------. |                               | .--------------------.
+| Security/intergrity| | Map-Notify(nonce++, ...)      | | Increment          |
+| protection check.  +-+<==============================+-+ trans_count and    |
+| Check that rcv     | |                               | | reset trans_timer  |
+| nonce == local     | |                               | '--------------------'
+| nonce + 1          | |                               | .--------------------.
+| Confirms the notif | | Map-Notify-Ack(nonce++,...)   | | Security/intergrity|
+| and update the     +-+==============================>+-+ protection checks. |
+| entry              | |                               | | This notification  |
+'--------------------' |                               | | is now ACKed       |
+                       |                               | '--------------------'
+~~~~
+{: #sretrans title="An Example of Successful Notification with Retransmission" artwork-align="center"}
+
+# Failed Notification with Retransmission
+
+The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed. Due to network conditions, All Map-Notifies are lost.
+
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Update is triggered|
+                       |            <==================+-+ Increment the nonce|
+                       |                               | | Set trans_count and|
+                       |                               | | trans_timer        |
+                       |                               | '--------------------'
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+                       |                               |
+                       |                               | .--------------------.
+                       |      Map-Notify(nonce++, ...) | | Increment          |
+                       |            <==================+-+ trans_count and    |
+                       |                               | | reset trans_timer  |
+                       |                               | '--------------------'
+~~~~
+{: #fretrans title="An Example of Failed Notification Delivery" artwork-align="center"}
+
+> Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.
 
 
 # Successful Subscription Update
 
-XXXXX
+The following example illustrates the case of a successful update of a subscription.
+
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+.--------------------. |                               | .--------------------.
+| Increment the last | | Map-Request(nonce, ...)       | | Security/intergrity|
+| seen nonce         +-+==============================>+-+ protection check.  |
+'--------------------' |                               | | Found an entry for |
+.--------------------. | Map-Notify(nonce,...)         | | this xTR-ID        |
+| Security/intergrity+-+<==============================+-+ Check that rcv     |
+| protection check.  | |                               | | nonce == local     |
+| Check that rcv     | |                               | | nonce + 1          |
+| nonce == snd nonce | |                               | '--------------------'
+| Confirm the sub and| | Map-Notify-Ack(init_nonce,...)| .--------------------.
+| wait for notifs    +-+==============================>+-+ Security/intergrity|
+'--------------------' |                               | | protection check.  |
+                       |                               | | This subscription  |
+                       |                               | | updated is ACKed   |
+                       |                               | '--------------------'
+~~~~
+{: #ssu title="An Example of Successful Subscription Update" artwork-align="center"}
+
 
 # Failed Subscription Update
 
