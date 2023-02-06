@@ -93,10 +93,6 @@ The following example assumes that a security association is in place between xT
 ~~~~
 {: #iss title="An Example of Successful Initial Subscription" artwork-align="center"}
 
-# Bootstrapping of an xTR
-
-When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisioned xTR-ID. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
-
 # Successful Notification
 
 The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed.
@@ -189,7 +185,7 @@ The following example assumes that a security association is in place between xT
 ~~~~
 {: #fretrans title="An Example of Failed Notification Delivery" artwork-align="center"}
 
-> Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.
+Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.
 
 
 # Successful Subscription Update
@@ -233,7 +229,7 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
 | and an initial     | |            init_key_id,..)    | | Security/integrity |
 | nonce. Store them  +-+==============================>+-+ protection check.  |
 | locally for this   | |                               | | No State for this  |
-| subscription       | |                               | | XTR-ID/EID is found|
+| subscription       | |                               | | xTR-ID/EID is found|
 '--------------------' |                               | | Create the sub and |
                        |                               | | store init_nonce,  |
 .--------------------. | Map-Notify(init_nonce,...)    | | init_key_id, ...   |
@@ -265,6 +261,31 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
 ~~~~
 {: #fiss title="An Example of Failed Initial Subscription" artwork-align="center"}
 
+# Bootstrapping an xTR
+
+When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisioned xTR-ID and security association. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
+
+# Stale Subscriptions
+
+For various reasons, an xTR may lose its subscription (or at leastt the nonce of a subscription). Under such conditions, the xTR must use a new authentication key and a new nonce for the Map-Request.
+
+If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server.
+
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       | Map-Request(nonce,            | .--------------------.
+                       |            init_key_id,..)    | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |                               | | A state is found   |
+                       | Map-Reply(ACT=5)              | | xTR-ID/EID is found|
+                       |<==============================+-+ but the nonce check|
+                       |                               | | fails              |
+                       |                               | '--------------------'
+~~~~
+{: #stale title="An Example of Stale Subscription" artwork-align="center"}
 
 # xTR-triggered Subscription Withdrawal
 
@@ -342,7 +363,7 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
 ~~~~
 {: #riss title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
-The attacker may vary the source IP address of the Map-Request to trigger as many Map-Replies sent to other xTRs.
+The attacker may vary the source IP address of the Map-Request to trigger as many Map-Replies sent to other xTRs (see {{riss-m}}.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -365,7 +386,7 @@ The attacker may vary the source IP address of the Map-Request to trigger as man
                     |                                  |
                ...
 ~~~~
-{: #riss title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
+{: #riss-m title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
 Note that if LISP messages supported timestamping, the replayed packet would be detected and thus be silently ignored by the Map-Server.
 
