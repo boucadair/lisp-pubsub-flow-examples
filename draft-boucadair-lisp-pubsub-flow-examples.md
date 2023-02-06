@@ -276,7 +276,7 @@ A Map-Notify will be sent back by the Map-Server even if no subscription is foun
 
 # Stale Subscriptions
 
-For various reasons, an xTR may lose its subscriptions (or at least the nonce of a subscription). Under such conditions, the xTR must use a new authentication key and a new nonce for the Map-Request.
+For various reasons, an xTR may lose its subscriptions (or at least the nonce of a subscription).
 
 If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server.
 
@@ -295,6 +295,28 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
                        |                               | '--------------------'
 ~~~~
 {: #stale title="An Example of Stale Subscriptions" artwork-align="center"}
+
+If the Map-Server stores all the key-ids that were used by an xTR, the Map-Server may accept overriding an existing state if a new key is used (see {{stale-new-key}}).
+
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+                       | Map-Request(nonce,            | .--------------------.
+                       |            new key_id, ...)   | | Security/integrity |
+                       +==============================>+-+ protection check.  |
+                       |                               | | A state for        |
+                       | Map-Notify (nonce, new key_id)| | xTR-ID/EID is found|
+                       |<==============================+-+ but the a new auth |
+                       |                               | | is used, the state |
+                       |                               | | is updated         |
+                       |                               | '--------------------'
+~~~~
+{: #stale-new-key title="An Example of Stale Subscriptions Avoidance with New KEys" artwork-align="center"}
+
+However, the approach in {{stale-new-key}} may have scalability issues as the Map-Server must store all the key identifiers that were ever used. Otherwise, an attacker can replay a message for which the key-id is not stored anymore by the Map-Server. This issue is not encountered if LISP-SEC messages are timestamped.
+
 
 # xTR-triggered Subscription Withdrawal
 
