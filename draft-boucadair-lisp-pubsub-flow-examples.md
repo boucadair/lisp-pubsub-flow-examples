@@ -64,6 +64,10 @@ trans_count:
 trans_timer:
 : retransmission timer as per Section 5.7 of {{!RFC9301}}.
 
+AT:
+: Attacker
+
+
 # Initial Successful Subscription {#sec-iss}
 
 The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that all subsequent integrity-protection checks were successfully passed.
@@ -72,6 +76,7 @@ The following example assumes that a security association is in place between xT
                      +---+                          +----+
                      |xTR|                          | MS |
                      +-+-+                          +--+-+
+                       |                               |
 .--------------------. |                               |
 | Generate a new key | | Map-Request(init_nonce,       | .--------------------.
 | and an initial     | |            init_key_id,..)    | | Security/integrity |
@@ -185,7 +190,7 @@ The following example assumes that a security association is in place between xT
 ~~~~
 {: #fretrans title="An Example of Failed Notification Delivery" artwork-align="center"}
 
-Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.
+Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles.
 
 
 # Successful Subscription Update
@@ -196,6 +201,7 @@ The following example illustrates the case of a successful update of a subscript
                      +---+                          +----+
                      |xTR|                          | MS |
                      +-+-+                          +--+-+
+                       |                               |
 .--------------------. |                               | .--------------------.
 | Increment the last | | Map-Request(nonce, ...)       | | Security/integrity |
 | seen nonce         +-+==============================>+-+ protection check.  |
@@ -224,6 +230,7 @@ This example is similar to {{sec-iss}}, except the Map-Notify-Ack is not deliver
                      +---+                          +----+
                      |xTR|                          | MS |
                      +-+-+                          +--+-+
+                       |                               |
 .--------------------. |                               |
 | Generate a new key | | Map-Request(init_nonce,       | .--------------------.
 | and an initial     | |            init_key_id,..)    | | Security/integrity |
@@ -279,7 +286,7 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
                        | Map-Request(nonce,            | .--------------------.
                        |            init_key_id,..)    | | Security/integrity |
                        +==============================>+-+ protection check.  |
-                       |                               | | A state is found   |
+                       |                               | | A state for        |
                        | Map-Reply(ACT=5)              | | xTR-ID/EID is found|
                        |<==============================+-+ but the nonce check|
                        |                               | | fails              |
@@ -295,6 +302,7 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
                      +---+                          +----+
                      |xTR|                          | MS |
                      +-+-+                          +--+-+
+                       |                               |
 .--------------------. |                               | .--------------------.
 | Increment the last | | Map-Request(nonce, AF=0...)   | | Security/integrity |
 | seen nonce         +-+==============================>+-+ protection check.  |
@@ -308,7 +316,7 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
 | Send Map-Notfiy-ACK| | Map-Notify-Ack(nonce,...)     | .--------------------.
 |                    +-+==============================>+-+ Security/integrity |
 '--------------------' |                               | | protection check.  |
-                       |                               | | This widthrawal is |
+                       |                               | | This withdrawal is |
                        |                               | | confirmed          |
                        |                               | '--------------------'
 ~~~~
