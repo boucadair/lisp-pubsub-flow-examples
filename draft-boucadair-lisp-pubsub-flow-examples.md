@@ -59,7 +59,7 @@ initial_key_id:
 
 # Initial Successful Subscription {#sec-iss}
 
-XXXXX
+The following example assumes that a security association is in place between xTR/Map-Server (Section 7.1 of {{!I-D.ietf-lisp-pubsub}}) and that integrity-protection checks were successfully passed.
 
 ~~~~ aasvg
 +---+                                            +----+
