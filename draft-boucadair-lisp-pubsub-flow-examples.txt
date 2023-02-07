@@ -254,8 +254,8 @@ Table of Contents
    behavior (e.g., regular refreshes) so that the xTR avoids maintaining
    stale mappings.  Such details are implementation specific (see, for
    example, Section 7).  In order to accommodate Map-Notify message
-   lost, the nonce checks on the xTR should not be on the exact match
-   with "nonce + 1"; messages with "nonce++ >= last seen nonce" should
+   lost, the nonce checks on the xTR should not be on the exact match vs
+   "nonce + 1"; messages with "received nonce >= local nonce + 1" should
    be accepted.
 
 7.  Successful Subscription Update
@@ -371,7 +371,8 @@ Table of Contents
                        |                               | | A state for        |
                        | Map-Reply(ACT=5)              | | xTR-ID/EID is found|
                        |<==============================+-+ but the nonce check|
-                       |                               | | fails              |
+                       |                               | | fails: rcv nonce < |
+                       |                               | | local nonce + 1    |
                        |                               | '--------------------'
 
              Figure 7: An Example of Stale Subscriptions
@@ -389,9 +390,9 @@ Table of Contents
                        +==============================>+-+ protection check.  |
                        |                               | | A state for        |
                        | Map-Notify (nonce, ...)       | | xTR-ID/EID is found|
-                       |<==============================+-+ but the a new auth |
-                       |                               | | is used, the state |
-                       |                               | | is updated         |
+                       |<==============================+-+ but the new auth   |
+                       |                               | | key is used, the   |
+                       |                               | | state is updated   |
                        |                               | '--------------------'
 
  Figure 8: An Example of Stale Subscriptions Avoidance with New KEys
@@ -475,11 +476,11 @@ Table of Contents
                        | Map-Request(init_nonce,       | .--------------------.
                        |            init_key_id,..)    | | Security/integrity |
                        +==============================>+-+ protection check.  |
-                       |                               | | A state is found   |
+                       |                               | | A state is for     |
   +---+                                                | | xTR-ID/EID is found|
   |xTR|                                                | | but the nonce check|
-  +-+-+                Map-Reply(init_nonce,...)       | | fails              |
-    |<=================================================+-+                    |
+  +-+-+                Map-Reply(init_nonce,...)       | | fails: rcv nonce < |
+    |<=================================================+-+ local nonce + 1    |
     |                                                  | '--------------------'
     |                                                  |
 
@@ -498,8 +499,8 @@ Table of Contents
                    |              ...           | | A state is found   |
   +-----+          +===========================>+-+ xTR-ID/EID is found|
   |xTR1 |                                       | | but the nonce check|
-  +-+--+           Map-Reply(init_nonce,...)    | | fails              |
-    |<==========================================+-+                    |
+  +-+--+           Map-Reply(init_nonce,...)    | | fails: rcv nonce < |
+    |<==========================================+-+ local nonce + 1    |
                                                 | '--------------------'
           +-----+                               |
           | xTRn|                               |
@@ -524,7 +525,8 @@ Table of Contents
                     |            ...            | | A state is found   |
                     +==========================>+-+ xTR-ID/EID is found|
                     |                           | | but the nonce check|
-                    |                           | | fails.             |
+                    |                           | | fails: rcv nonce < |
+                    |                           | | local nonce + 1    |
                     |                           | '--------------------'
                     |                           |
                     |    (more requests)        | .--------------------.
@@ -582,8 +584,8 @@ Table of Contents
                        |                               | | A state is found   |
   +---+                                                | | xTR-ID/EID is found|
   |xTR|                                                | | but the nonce check|
-  +-+-+               Map-Reply(ACT=5)                 | | fails              |
-    |<=================================================+-+                    |
+  +-+-+               Map-Reply(ACT=5)                 | | fails: rcv nonce < |
+    |<=================================================+-+ local nonce + 1    |
     |                                                  | '--------------------'
     |                                                  |
 

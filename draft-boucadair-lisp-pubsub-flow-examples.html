@@ -1697,7 +1697,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-an-example-of-failed-notifi" class="selfRef">An Example of Failed Notification Delivery</a>
         </figcaption></figure>
 </div>
-<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, <a href="#sec-sub-update" class="auto internal xref">Section 7</a>). In order to accommodate Map-Notify message lost, the nonce checks on the xTR should not be on the exact match with "nonce + 1"; messages with  "nonce++ &gt;= last seen nonce" should be accepted.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, <a href="#sec-sub-update" class="auto internal xref">Section 7</a>). In order to accommodate Map-Notify message lost, the nonce checks on the xTR should not be on the exact match vs "nonce + 1"; messages with  "received nonce &gt;= local nonce + 1" should be accepted.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-sub-update">
@@ -2007,15 +2007,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <figure id="figure-7">
         <div id="section-10-4.1">
           <div class="alignCenter art-svg artwork" id="section-10-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="240" width="472" viewBox="0 0 472 240" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="256" width="472" viewBox="0 0 472 256" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
               <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
-              <path d="M 24,64 L 24,208" fill="none" stroke="black"></path>
+              <path d="M 24,64 L 24,224" fill="none" stroke="black"></path>
               <path d="M 40,32 L 40,64" fill="none" stroke="black"></path>
               <path d="M 256,32 L 256,64" fill="none" stroke="black"></path>
-              <path d="M 280,64 L 280,208" fill="none" stroke="black"></path>
+              <path d="M 280,64 L 280,224" fill="none" stroke="black"></path>
               <path d="M 296,32 L 296,64" fill="none" stroke="black"></path>
-              <path d="M 296,96 L 296,208" fill="none" stroke="black"></path>
-              <path d="M 464,96 L 464,208" fill="none" stroke="black"></path>
+              <path d="M 296,96 L 296,224" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,224" fill="none" stroke="black"></path>
               <path d="M 8,32 L 40,32" fill="none" stroke="black"></path>
               <path d="M 256,32 L 296,32" fill="none" stroke="black"></path>
               <path d="M 8,64 L 40,64" fill="none" stroke="black"></path>
@@ -2027,7 +2027,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <path d="M 32,174 L 280,174" fill="none" stroke="black"></path>
               <path d="M 32,178 L 280,178" fill="none" stroke="black"></path>
               <path d="M 288,176 L 296,176" fill="none" stroke="black"></path>
-              <path d="M 296,208 L 464,208" fill="none" stroke="black"></path>
+              <path d="M 296,224 L 464,224" fill="none" stroke="black"></path>
               <polygon class="arrowhead" points="280,128 268,122.4 268,133.6" fill="black" transform="rotate(0,272,128)"></polygon>
               <polygon class="arrowhead" points="40,176 28,170.4 28,181.6" fill="black" transform="rotate(180,32,176)"></polygon>
               <g class="text">
@@ -2049,7 +2049,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <text x="352" y="180">the</text>
                 <text x="392" y="180">nonce</text>
                 <text x="440" y="180">check</text>
-                <text x="328" y="196">fails</text>
+                <text x="332" y="196">fails:</text>
+                <text x="376" y="196">rcv</text>
+                <text x="416" y="196">nonce</text>
+                <text x="448" y="196">&lt;</text>
+                <text x="328" y="212">local</text>
+                <text x="376" y="212">nonce</text>
+                <text x="408" y="212">+</text>
+                <text x="424" y="212">1</text>
               </g>
             </svg><a href="#section-10-4.1.1" class="pilcrow">¶</a>
 </div>
@@ -2107,15 +2114,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <text x="440" y="164">found</text>
                 <text x="320" y="180">but</text>
                 <text x="352" y="180">the</text>
-                <text x="376" y="180">a</text>
-                <text x="400" y="180">new</text>
-                <text x="436" y="180">auth</text>
-                <text x="316" y="196">is</text>
-                <text x="352" y="196">used,</text>
-                <text x="392" y="196">the</text>
-                <text x="432" y="196">state</text>
-                <text x="316" y="212">is</text>
-                <text x="360" y="212">updated</text>
+                <text x="384" y="180">new</text>
+                <text x="420" y="180">auth</text>
+                <text x="320" y="196">key</text>
+                <text x="348" y="196">is</text>
+                <text x="384" y="196">used,</text>
+                <text x="424" y="196">the</text>
+                <text x="328" y="212">state</text>
+                <text x="364" y="212">is</text>
+                <text x="408" y="212">updated</text>
               </g>
             </svg><a href="#section-10-6.1.1" class="pilcrow">¶</a>
 </div>
@@ -2393,7 +2400,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="464" y="148">A</text>
                     <text x="496" y="148">state</text>
                     <text x="532" y="148">is</text>
-                    <text x="568" y="148">found</text>
+                    <text x="560" y="148">for</text>
                     <text x="500" y="164">xTR-ID/EID</text>
                     <text x="556" y="164">is</text>
                     <text x="592" y="164">found</text>
@@ -2403,7 +2410,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="544" y="180">nonce</text>
                     <text x="592" y="180">check</text>
                     <text x="272" y="196">Map-Reply(init_nonce,...)</text>
-                    <text x="480" y="196">fails</text>
+                    <text x="484" y="196">fails:</text>
+                    <text x="528" y="196">rcv</text>
+                    <text x="568" y="196">nonce</text>
+                    <text x="600" y="196">&lt;</text>
+                    <text x="480" y="212">local</text>
+                    <text x="528" y="212">nonce</text>
+                    <text x="560" y="212">+</text>
+                    <text x="576" y="212">1</text>
                   </g>
                 </svg><a href="#section-12.1.1-2.1.1" class="pilcrow">¶</a>
 </div>
@@ -2480,7 +2494,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="488" y="180">nonce</text>
                     <text x="536" y="180">check</text>
                     <text x="240" y="196">Map-Reply(init_nonce,...)</text>
-                    <text x="424" y="196">fails</text>
+                    <text x="428" y="196">fails:</text>
+                    <text x="472" y="196">rcv</text>
+                    <text x="512" y="196">nonce</text>
+                    <text x="544" y="196">&lt;</text>
+                    <text x="424" y="212">local</text>
+                    <text x="472" y="212">nonce</text>
+                    <text x="504" y="212">+</text>
+                    <text x="520" y="212">1</text>
                     <text x="100" y="260">xTRn</text>
                     <text x="256" y="276">Map-Reply(init_nonce,...)</text>
                     <text x="200" y="324">...</text>
@@ -2497,22 +2518,22 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <figure id="figure-13">
             <div id="section-12.1.1-6.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.1-6.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="384" width="568" viewBox="0 0 568 384" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
-                  <path d="M 8,288 L 8,320" fill="none" stroke="black"></path>
-                  <path d="M 24,320 L 24,336" fill="none" stroke="black"></path>
-                  <path d="M 48,288 L 48,320" fill="none" stroke="black"></path>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="568" viewBox="0 0 568 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,304 L 8,336" fill="none" stroke="black"></path>
+                  <path d="M 24,336 L 24,352" fill="none" stroke="black"></path>
+                  <path d="M 48,304 L 48,336" fill="none" stroke="black"></path>
                   <path d="M 136,32 L 136,64" fill="none" stroke="black"></path>
-                  <path d="M 152,64 L 152,272" fill="none" stroke="black"></path>
+                  <path d="M 152,64 L 152,288" fill="none" stroke="black"></path>
                   <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
                   <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
-                  <path d="M 376,64 L 376,352" fill="none" stroke="black"></path>
+                  <path d="M 376,64 L 376,368" fill="none" stroke="black"></path>
                   <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
-                  <path d="M 392,96 L 392,208" fill="none" stroke="black"></path>
-                  <path d="M 392,240 L 392,288" fill="none" stroke="black"></path>
-                  <path d="M 392,320 L 392,352" fill="none" stroke="black"></path>
-                  <path d="M 560,96 L 560,208" fill="none" stroke="black"></path>
-                  <path d="M 560,240 L 560,288" fill="none" stroke="black"></path>
-                  <path d="M 560,320 L 560,352" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 392,224" fill="none" stroke="black"></path>
+                  <path d="M 392,256 L 392,304" fill="none" stroke="black"></path>
+                  <path d="M 392,336 L 392,368" fill="none" stroke="black"></path>
+                  <path d="M 560,96 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 560,256 L 560,304" fill="none" stroke="black"></path>
+                  <path d="M 560,336 L 560,368" fill="none" stroke="black"></path>
                   <path d="M 136,32 L 168,32" fill="none" stroke="black"></path>
                   <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
                   <path d="M 136,64 L 168,64" fill="none" stroke="black"></path>
@@ -2524,18 +2545,18 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <path d="M 152,158 L 368,158" fill="none" stroke="black"></path>
                   <path d="M 152,162 L 368,162" fill="none" stroke="black"></path>
                   <path d="M 376,160 L 392,160" fill="none" stroke="black"></path>
-                  <path d="M 392,208 L 560,208" fill="none" stroke="black"></path>
-                  <path d="M 392,240 L 560,240" fill="none" stroke="black"></path>
-                  <path d="M 376,256 L 392,256" fill="none" stroke="black"></path>
-                  <path d="M 8,288 L 48,288" fill="none" stroke="black"></path>
-                  <path d="M 392,288 L 560,288" fill="none" stroke="black"></path>
-                  <path d="M 8,320 L 48,320" fill="none" stroke="black"></path>
-                  <path d="M 392,320 L 560,320" fill="none" stroke="black"></path>
-                  <path d="M 32,334 L 368,334" fill="none" stroke="black"></path>
-                  <path d="M 32,338 L 368,338" fill="none" stroke="black"></path>
-                  <path d="M 376,336 L 392,336" fill="none" stroke="black"></path>
-                  <path d="M 392,352 L 560,352" fill="none" stroke="black"></path>
-                  <polygon class="arrowhead" points="376,336 364,330.4 364,341.6" fill="black" transform="rotate(0,368,336)"></polygon>
+                  <path d="M 392,224 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 392,256 L 560,256" fill="none" stroke="black"></path>
+                  <path d="M 376,272 L 392,272" fill="none" stroke="black"></path>
+                  <path d="M 8,304 L 48,304" fill="none" stroke="black"></path>
+                  <path d="M 392,304 L 560,304" fill="none" stroke="black"></path>
+                  <path d="M 8,336 L 48,336" fill="none" stroke="black"></path>
+                  <path d="M 392,336 L 560,336" fill="none" stroke="black"></path>
+                  <path d="M 32,350 L 368,350" fill="none" stroke="black"></path>
+                  <path d="M 32,354 L 368,354" fill="none" stroke="black"></path>
+                  <path d="M 376,352 L 392,352" fill="none" stroke="black"></path>
+                  <path d="M 392,368 L 560,368" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="376,352 364,346.4 364,357.6" fill="black" transform="rotate(0,368,352)"></polygon>
                   <polygon class="arrowhead" points="376,160 364,154.4 364,165.6" fill="black" transform="rotate(0,368,160)"></polygon>
                   <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
                   <g class="text">
@@ -2558,17 +2579,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="448" y="180">the</text>
                     <text x="488" y="180">nonce</text>
                     <text x="536" y="180">check</text>
-                    <text x="428" y="196">fails.</text>
-                    <text x="208" y="244">(more</text>
-                    <text x="272" y="244">requests)</text>
-                    <text x="444" y="260">Rate-limit</text>
-                    <text x="516" y="260">xTR-ID</text>
-                    <text x="436" y="276">requests</text>
-                    <text x="484" y="276">is</text>
-                    <text x="528" y="276">reached</text>
-                    <text x="24" y="308">xTR</text>
-                    <text x="188" y="324">Map-Request(...)</text>
-                    <text x="432" y="340">Discard</text>
+                    <text x="428" y="196">fails:</text>
+                    <text x="472" y="196">rcv</text>
+                    <text x="512" y="196">nonce</text>
+                    <text x="544" y="196">&lt;</text>
+                    <text x="424" y="212">local</text>
+                    <text x="472" y="212">nonce</text>
+                    <text x="504" y="212">+</text>
+                    <text x="520" y="212">1</text>
+                    <text x="208" y="260">(more</text>
+                    <text x="272" y="260">requests)</text>
+                    <text x="444" y="276">Rate-limit</text>
+                    <text x="516" y="276">xTR-ID</text>
+                    <text x="436" y="292">requests</text>
+                    <text x="484" y="292">is</text>
+                    <text x="528" y="292">reached</text>
+                    <text x="24" y="324">xTR</text>
+                    <text x="188" y="340">Map-Request(...)</text>
+                    <text x="432" y="356">Discard</text>
                   </g>
                 </svg><a href="#section-12.1.1-6.1.1" class="pilcrow">¶</a>
 </div>
@@ -2702,7 +2730,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="544" y="180">nonce</text>
                     <text x="592" y="180">check</text>
                     <text x="228" y="196">Map-Reply(ACT=5)</text>
-                    <text x="480" y="196">fails</text>
+                    <text x="484" y="196">fails:</text>
+                    <text x="528" y="196">rcv</text>
+                    <text x="568" y="196">nonce</text>
+                    <text x="600" y="196">&lt;</text>
+                    <text x="480" y="212">local</text>
+                    <text x="528" y="212">nonce</text>
+                    <text x="560" y="212">+</text>
+                    <text x="576" y="212">1</text>
                   </g>
                 </svg><a href="#section-12.1.2-2.1.1" class="pilcrow">¶</a>
 </div>
