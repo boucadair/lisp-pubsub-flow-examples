@@ -166,7 +166,7 @@ Table of Contents
 | Security/integrity | | Map-Notify(nonce++, ...) | | Update is triggered|
 | protection check.  +-+<=========================+-+ Increment the nonce|
 | Check that rcv     | |                          | | Set trans_count and|
-| nonce == local     | |                          | | trans_timer        |
+| nonce >= local     | |                          | | trans_timer        |
 | nonce + 1          | |                          | '--------------------'
 |                    | |                          |
 | Confirms the notif | |                          | .--------------------.
@@ -206,7 +206,7 @@ Table of Contents
 | Security/integrity | |Map-Notify(nonce, ...)  | | Increment          |
 | protection check.  +-+<=======================+-+ trans_count and    |
 | Check that rcv     | |                        | | reset trans_timer  |
-| nonce == local     | |                        | '--------------------'
+| nonce >= local     | |                        | '--------------------'
 | nonce + 1          | |                        |
 |                    | |                        | .--------------------.
 | Confirms the notif | |Map-Notify-Ack(nonce,...) | Security/integrity |
@@ -271,7 +271,7 @@ Table of Contents
 '--------------------' |                          | | Found an entry for |
                        |                          | | this xTR-ID        |
 .--------------------. | Map-Notify(nonce,...)    | | Check that rcv     |
-| Security/integrity +-+<=========================+-+ nonce == local     |
+| Security/integrity +-+<=========================+-+ nonce >= local     |
 | protection check.  | |                          | | nonce + 1          |
 | Check that rcv     | |                          | '--------------------'
 | nonce == snd nonce | |                          |
@@ -414,7 +414,7 @@ Table of Contents
 '--------------------' |                               | | Found an entry for |
                        |                               | | this xTR-ID        |
 .--------------------. | Map-Notify(nonce,...)         | | Check that rcv     |
-| Security/integrity +-+<==============================+-+ nonce == local     |
+| Security/integrity +-+<==============================+-+ nonce >= local     |
 | protection check.  | |                               | | nonce + 1          |
 | Check that rcv     | |                               | '--------------------'
 | nonce == snd nonce | |                               |
@@ -440,7 +440,7 @@ Table of Contents
 | Security/integrity | | Map-Notify(nonce, TTL=0, ...) | | Update is triggered|
 | protection check.  +-+<==============================+-+ Increment the nonce|
 | Check that rcv     | |                               | | Set trans_count and|
-| nonce == local     | |                               | | trans_timer        |
+| nonce >= local     | |                               | | trans_timer        |
 | nonce + 1          | |                               | '--------------------'
 |                    | |                               |
 | Confirms the notif | |                               | .--------------------.
@@ -618,7 +618,7 @@ Table of Contents
         | Security/integrity | | Map-Notify(nonce, TTL=0, ...) |
         | protection check.  +-+<==============================+
         | Check that rcv     | |                               |
-        | nonce == local     | |                               |
+        | nonce >= local     | |                               |
         | nonce + 1          | |                               |
         |                    | |                               |
         | Discard the message| |                               |
