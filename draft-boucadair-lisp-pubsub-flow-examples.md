@@ -111,7 +111,7 @@ AT:
 | Security/integrity | | Map-Notify(nonce++, ...) | | Update is triggered|
 | protection check.  +-+<=========================+-+ Increment the nonce|
 | Check that rcv     | |                          | | Set trans_count and|
-| nonce == local     | |                          | | trans_timer        |
+| nonce >= local     | |                          | | trans_timer        |
 | nonce + 1          | |                          | '--------------------'
 |                    | |                          |
 | Confirms the notif | |                          | .--------------------.
@@ -149,7 +149,7 @@ Unlike the example depicted in {{sn}}, {{sretrans}} illustrates the behavior tha
 | Security/integrity | |Map-Notify(nonce, ...)  | | Increment          |
 | protection check.  +-+<=======================+-+ trans_count and    |
 | Check that rcv     | |                        | | reset trans_timer  |
-| nonce == local     | |                        | '--------------------'
+| nonce >= local     | |                        | '--------------------'
 | nonce + 1          | |                        |
 |                    | |                        | .--------------------.
 | Confirms the notif | |Map-Notify-Ack(nonce,...) | Security/integrity |
@@ -208,7 +208,7 @@ Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}}
 '--------------------' |                          | | Found an entry for |
                        |                          | | this xTR-ID        |
 .--------------------. | Map-Notify(nonce,...)    | | Check that rcv     |
-| Security/integrity +-+<=========================+-+ nonce == local     |
+| Security/integrity +-+<=========================+-+ nonce >= local     |
 | protection check.  | |                          | | nonce + 1          |
 | Check that rcv     | |                          | '--------------------'
 | nonce == snd nonce | |                          |
@@ -264,7 +264,6 @@ This example is similar to {{sec-iss}}, except that the Map-Notify-Ack is not de
                        |     <=========================+-+ ption              |
                        |                               | '--------------------'
                       ...                              |
-
 ~~~~
 {: #fiss title="An Example of Failed Initial Subscription" artwork-align="center"}
 
@@ -334,7 +333,7 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
 '--------------------' |                               | | Found an entry for |
                        |                               | | this xTR-ID        |
 .--------------------. | Map-Notify(nonce,...)         | | Check that rcv     |
-| Security/integrity +-+<==============================+-+ nonce == local     |
+| Security/integrity +-+<==============================+-+ nonce >= local     |
 | protection check.  | |                               | | nonce + 1          |
 | Check that rcv     | |                               | '--------------------'
 | nonce == snd nonce | |                               |
@@ -360,7 +359,7 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
 | Security/integrity | | Map-Notify(nonce, TTL=0, ...) | | Update is triggered|
 | protection check.  +-+<==============================+-+ Increment the nonce|
 | Check that rcv     | |                               | | Set trans_count and|
-| nonce == local     | |                               | | trans_timer        |
+| nonce >= local     | |                               | | trans_timer        |
 | nonce + 1          | |                               | '--------------------'
 |                    | |                               |
 | Confirms the notif | |                               | .--------------------.
@@ -524,7 +523,7 @@ Similar to {{riss-ts}}, the replayed Map-Request can be detected and silently ig
 | Security/integrity | | Map-Notify(nonce, TTL=0, ...) |
 | protection check.  +-+<==============================+
 | Check that rcv     | |                               |
-| nonce == local     | |                               |
+| nonce >= local     | |                               |
 | nonce + 1          | |                               |
 |                    | |                               |
 | Discard the message| |                               |
