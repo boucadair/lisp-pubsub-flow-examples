@@ -4,8 +4,8 @@
 
 Locator/ID Separation Protocol                              M. Boucadair
 Internet-Draft                                                    Orange
-Intended status: Informational                           6 February 2023
-Expires: 10 August 2023
+Intended status: Informational                           7 February 2023
+Expires: 11 August 2023
 
 
                        LISP PubSub Flow Examples
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 August 2023.
+   This Internet-Draft will expire on 11 August 2023.
 
 Copyright Notice
 
@@ -76,9 +76,10 @@ Table of Contents
        12.1.1.  Replayed Subscription (Update)
        12.1.2.  Replayed Withdrawal
        12.1.3.  Replayed Notification Updates
-   13. Security Considerations
-   14. IANA Considerations
-   15. Normative References
+   13. Explicit Subscriptions
+   14. Security Considerations
+   15. IANA Considerations
+   16. Normative References
    Acknowledgments
    Author's Address
 
@@ -285,7 +286,7 @@ Table of Contents
 
 8.  Failed Subscription with Lost Map-Notify-Ack
 
-   This example is similar to Section 3, except tha the Map-Notify-Ack
+   This example is similar to Section 3, except that the Map-Notify-Ack
    is not delivered to the Map-Server.  The Map-Server retransmits the
    Map-Notify 3 times, and then removes the subscription.  A Map-Notify
    to explicitly indicate the reason for such a removal is also
@@ -347,7 +348,11 @@ Table of Contents
 10.  Stale Subscriptions
 
    For various reasons, an xTR may lose its subscriptions (or at least
-   the nonce of a subscription).
+   the nonce of a subscription).  Note that losing the nonce is not
+   compliant with the following from the PubSub specification:
+
+      The xTR MUST keep track of the last nonce seen in a Map-Notify
+      received as a publication from the Map-Server for the EID-Record.
 
    If the same key is used, the Map-Request is likely to be rejected by
    the Map-Server and, thus, stale subscriptions will be maintained by
@@ -511,11 +516,15 @@ Table of Contents
                     | Map-Request(init_nonce,   | .--------------------.
                     |          init_key_id,..)  | | Security/integrity |
                     +==========================>+-+ protection check.  |
-                    |              ...          | | A state is found   |
+                    |            ...            | | A state is found   |
                     +==========================>+-+ xTR-ID/EID is found|
                     |                           | | but the nonce check|
-                    |                           | | fails. Rate-limit  |
-                    |                           | | request xTR-ID     |
+                    |                           | | fails.             |
+                    |                           | '--------------------'
+                    |                           |
+                    |    (more requests)        | .--------------------.
+                    |                           +-+ Rate-limit xTR-ID  |
+                    |                           | | requests is reached|
   +----+                                        | '--------------------'
   |xTR |                                        |
   +-+--+         Map-Request(...)               | .--------------------.
@@ -527,7 +536,10 @@ Table of Contents
    Note that if LISP-SEC messages are timestamped, the replayed packets
    would be detected and, thus, be silently ignored by the Map-Server.
    Such invalid messages won't then interfere with legitimate Map-
-   Requests.  An example is depicted in Figure 14.
+   Requests if the Map-Server has sufficient resources to process the
+   timestamp of all received requests.  An example of processing
+   timestamped Map-Requests (rate-limit not reached) is depicted in
+   Figure 14.
 
                   +---+                      +----+
                   | AT|                      | MS |
@@ -582,11 +594,11 @@ Table of Contents
                 +-+-+                        +--+-+
                   |                             | .--------------------.
                   |Map-Request(nonce, AFI=0,...)| | Security/integrity |
-                  +============================>+-+ protection check.  |
-                  |                             | | The message is     |
-                                                | | discarded because  |
-  +---+                                         | | timestamp checks   |
-  |xTR|                                         | | fail               |
+                  +============================>+-+ protection check   |
+                  |                             | | passed.            |
+                                                | | Discard the message|
+  +---+                                         | | because timestamp  |
+  |xTR|                                         | | check fails        |
   +-+-+                                         | '--------------------'
     |                                           |
 
@@ -611,23 +623,27 @@ Table of Contents
         |                    | |                               |
         | Discard the message| |                               |
         | because the nonce  | |                               |
-        | cheks failed       | |                               |
+        | checks failed      | |                               |
         '--------------------' |                               |
                                |                               |
 
        Figure 17: An Example of Replayed Notification of Subscription
                                  Withdrawal
 
-13.  Security Considerations
+13.  Explicit Subscriptions
+
+   TBC.
+
+14.  Security Considerations
 
    This document does not introduce any security considerations beyond
    those already discussed in [I-D.ietf-lisp-pubsub].
 
-14.  IANA Considerations
+15.  IANA Considerations
 
    This document does not make any request to IANA.
 
-15.  Normative References
+16.  Normative References
 
    [I-D.ietf-lisp-pubsub]
               Rodriguez-Natal, A., Ermagan, V., Cabellos-Aparicio, A.,
