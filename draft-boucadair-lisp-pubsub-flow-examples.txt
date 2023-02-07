@@ -253,7 +253,10 @@ Table of Contents
    cycles.  Also, the current specification does not recommend a
    behavior (e.g., regular refreshes) so that the xTR avoids maintaining
    stale mappings.  Such details are implementation specific (see, for
-   example, Section 7).
+   example, Section 7).  In order to accommodate Map-Notify message
+   lost, the nonce checks on the xTR should not be on the exact match
+   with "nonce + 1"; messages with "nonce++ >= last seen nonce" should
+   be accepted.
 
 7.  Successful Subscription Update
 

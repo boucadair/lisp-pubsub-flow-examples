@@ -1697,7 +1697,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-an-example-of-failed-notifi" class="selfRef">An Example of Failed Notification Delivery</a>
         </figcaption></figure>
 </div>
-<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, <a href="#sec-sub-update" class="auto internal xref">Section 7</a>).<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, <a href="#sec-sub-update" class="auto internal xref">Section 7</a>). In order to accommodate Map-Notify message lost, the nonce checks on the xTR should not be on the exact match with "nonce + 1"; messages with  "nonce++ &gt;= last seen nonce" should be accepted.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-sub-update">
