@@ -2007,15 +2007,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <figure id="figure-7">
         <div id="section-10-4.1">
           <div class="alignCenter art-svg artwork" id="section-10-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="256" width="472" viewBox="0 0 472 256" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="472" viewBox="0 0 472 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
               <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
-              <path d="M 24,64 L 24,224" fill="none" stroke="black"></path>
+              <path d="M 24,64 L 24,240" fill="none" stroke="black"></path>
               <path d="M 40,32 L 40,64" fill="none" stroke="black"></path>
               <path d="M 256,32 L 256,64" fill="none" stroke="black"></path>
-              <path d="M 280,64 L 280,224" fill="none" stroke="black"></path>
+              <path d="M 280,64 L 280,240" fill="none" stroke="black"></path>
               <path d="M 296,32 L 296,64" fill="none" stroke="black"></path>
-              <path d="M 296,96 L 296,224" fill="none" stroke="black"></path>
-              <path d="M 464,96 L 464,224" fill="none" stroke="black"></path>
+              <path d="M 296,96 L 296,240" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,240" fill="none" stroke="black"></path>
               <path d="M 8,32 L 40,32" fill="none" stroke="black"></path>
               <path d="M 256,32 L 296,32" fill="none" stroke="black"></path>
               <path d="M 8,64 L 40,64" fill="none" stroke="black"></path>
@@ -2024,12 +2024,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <path d="M 24,126 L 272,126" fill="none" stroke="black"></path>
               <path d="M 24,130 L 272,130" fill="none" stroke="black"></path>
               <path d="M 280,128 L 296,128" fill="none" stroke="black"></path>
-              <path d="M 32,174 L 280,174" fill="none" stroke="black"></path>
-              <path d="M 32,178 L 280,178" fill="none" stroke="black"></path>
-              <path d="M 288,176 L 296,176" fill="none" stroke="black"></path>
-              <path d="M 296,224 L 464,224" fill="none" stroke="black"></path>
+              <path d="M 296,240 L 464,240" fill="none" stroke="black"></path>
               <polygon class="arrowhead" points="280,128 268,122.4 268,133.6" fill="black" transform="rotate(0,272,128)"></polygon>
-              <polygon class="arrowhead" points="40,176 28,170.4 28,181.6" fill="black" transform="rotate(180,32,176)"></polygon>
               <g class="text">
                 <text x="24" y="52">xTR</text>
                 <text x="276" y="52">MS</text>
@@ -2041,7 +2037,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <text x="312" y="148">A</text>
                 <text x="344" y="148">state</text>
                 <text x="384" y="148">for</text>
-                <text x="100" y="164">Map-Reply(ACT=5)</text>
                 <text x="348" y="164">xTR-ID/EID</text>
                 <text x="404" y="164">is</text>
                 <text x="440" y="164">found</text>
@@ -2056,7 +2051,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <text x="328" y="212">local</text>
                 <text x="376" y="212">nonce</text>
                 <text x="408" y="212">+</text>
-                <text x="424" y="212">1</text>
+                <text x="428" y="212">1.</text>
+                <text x="336" y="228">Discard</text>
+                <text x="384" y="228">the</text>
+                <text x="428" y="228">packet</text>
               </g>
             </svg><a href="#section-10-4.1.1" class="pilcrow">¶</a>
 </div>
@@ -2356,23 +2354,23 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-subscription-updat">
 <a href="#section-12.1.1" class="section-number selfRef">12.1.1. </a><a href="#name-replayed-subscription-updat" class="section-name selfRef">Replayed Subscription (Update)</a>
           </h4>
-<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 11</a> shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The triggered Map-Reply is silently ignored by the xTR because it does not match any pending request.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 11</a> shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-handling-of-r"></span><div id="riss">
 <figure id="figure-11">
             <div id="section-12.1.1-2.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.1-2.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="624" viewBox="0 0 624 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="624" viewBox="0 0 624 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
                   <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
-                  <path d="M 24,192 L 24,240" fill="none" stroke="black"></path>
+                  <path d="M 24,192 L 24,256" fill="none" stroke="black"></path>
                   <path d="M 40,160 L 40,192" fill="none" stroke="black"></path>
                   <path d="M 160,32 L 160,64" fill="none" stroke="black"></path>
                   <path d="M 176,64 L 176,144" fill="none" stroke="black"></path>
                   <path d="M 192,32 L 192,64" fill="none" stroke="black"></path>
                   <path d="M 408,32 L 408,64" fill="none" stroke="black"></path>
-                  <path d="M 432,64 L 432,240" fill="none" stroke="black"></path>
+                  <path d="M 432,64 L 432,256" fill="none" stroke="black"></path>
                   <path d="M 448,32 L 448,64" fill="none" stroke="black"></path>
-                  <path d="M 448,96 L 448,224" fill="none" stroke="black"></path>
-                  <path d="M 616,96 L 616,224" fill="none" stroke="black"></path>
+                  <path d="M 448,96 L 448,240" fill="none" stroke="black"></path>
+                  <path d="M 616,96 L 616,240" fill="none" stroke="black"></path>
                   <path d="M 160,32 L 192,32" fill="none" stroke="black"></path>
                   <path d="M 408,32 L 448,32" fill="none" stroke="black"></path>
                   <path d="M 160,64 L 192,64" fill="none" stroke="black"></path>
@@ -2383,12 +2381,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <path d="M 432,128 L 448,128" fill="none" stroke="black"></path>
                   <path d="M 8,160 L 40,160" fill="none" stroke="black"></path>
                   <path d="M 8,192 L 40,192" fill="none" stroke="black"></path>
-                  <path d="M 32,206 L 432,206" fill="none" stroke="black"></path>
-                  <path d="M 32,210 L 432,210" fill="none" stroke="black"></path>
-                  <path d="M 440,208 L 448,208" fill="none" stroke="black"></path>
-                  <path d="M 448,224 L 616,224" fill="none" stroke="black"></path>
+                  <path d="M 448,240 L 616,240" fill="none" stroke="black"></path>
                   <polygon class="arrowhead" points="432,128 420,122.4 420,133.6" fill="black" transform="rotate(0,424,128)"></polygon>
-                  <polygon class="arrowhead" points="40,208 28,202.4 28,213.6" fill="black" transform="rotate(180,32,208)"></polygon>
                   <g class="text">
                     <text x="180" y="52">AT</text>
                     <text x="428" y="52">MS</text>
@@ -2409,7 +2403,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="504" y="180">the</text>
                     <text x="544" y="180">nonce</text>
                     <text x="592" y="180">check</text>
-                    <text x="272" y="196">Map-Reply(init_nonce,...)</text>
                     <text x="484" y="196">fails:</text>
                     <text x="528" y="196">rcv</text>
                     <text x="568" y="196">nonce</text>
@@ -2417,7 +2410,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="480" y="212">local</text>
                     <text x="528" y="212">nonce</text>
                     <text x="560" y="212">+</text>
-                    <text x="576" y="212">1</text>
+                    <text x="580" y="212">1.</text>
+                    <text x="488" y="228">Discard</text>
+                    <text x="536" y="228">the</text>
+                    <text x="580" y="228">packet</text>
                   </g>
                 </svg><a href="#section-12.1.1-2.1.1" class="pilcrow">¶</a>
 </div>
@@ -2426,98 +2422,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-an-example-of-handling-of-r" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
             </figcaption></figure>
 </div>
-<p id="section-12.1.1-3">The attacker may vary the source IP address of the Map-Request to trigger as many Map-Replies sent to other xTRs (see <a href="#riss-m" class="auto internal xref">Figure 12</a>).<a href="#section-12.1.1-3" class="pilcrow">¶</a></p>
-<span id="name-an-example-of-handling-of-re"></span><div id="riss-m">
+<p id="section-12.1.1-3">Note that legitimate Map-Requests issued from the authentic xTR may be blocked as a side effect of enforcing a rate-lmit of the replayed messages. An example is shown in <a href="#riss-rate" class="auto internal xref">Figure 12</a>.<a href="#section-12.1.1-3" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-re"></span><div id="riss-rate">
 <figure id="figure-12">
             <div id="section-12.1.1-4.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.1-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="352" width="568" viewBox="0 0 568 352" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
-                  <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
-                  <path d="M 24,192 L 24,208" fill="none" stroke="black"></path>
-                  <path d="M 56,160 L 56,176" fill="none" stroke="black"></path>
-                  <path d="M 72,240 L 72,272" fill="none" stroke="black"></path>
-                  <path d="M 96,272 L 96,304" fill="none" stroke="black"></path>
-                  <path d="M 120,240 L 120,272" fill="none" stroke="black"></path>
-                  <path d="M 128,32 L 128,64" fill="none" stroke="black"></path>
-                  <path d="M 144,64 L 144,160" fill="none" stroke="black"></path>
-                  <path d="M 160,32 L 160,64" fill="none" stroke="black"></path>
-                  <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
-                  <path d="M 376,64 L 376,304" fill="none" stroke="black"></path>
-                  <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
-                  <path d="M 392,96 L 392,224" fill="none" stroke="black"></path>
-                  <path d="M 560,96 L 560,224" fill="none" stroke="black"></path>
-                  <path d="M 128,32 L 160,32" fill="none" stroke="black"></path>
-                  <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
-                  <path d="M 128,64 L 160,64" fill="none" stroke="black"></path>
-                  <path d="M 352,64 L 392,64" fill="none" stroke="black"></path>
-                  <path d="M 392,96 L 560,96" fill="none" stroke="black"></path>
-                  <path d="M 144,126 L 368,126" fill="none" stroke="black"></path>
-                  <path d="M 144,130 L 368,130" fill="none" stroke="black"></path>
-                  <path d="M 376,128 L 392,128" fill="none" stroke="black"></path>
-                  <path d="M 8,160 L 56,160" fill="none" stroke="black"></path>
-                  <path d="M 144,158 L 368,158" fill="none" stroke="black"></path>
-                  <path d="M 144,162 L 368,162" fill="none" stroke="black"></path>
-                  <path d="M 376,160 L 392,160" fill="none" stroke="black"></path>
-                  <path d="M 8,192 L 40,192" fill="none" stroke="black"></path>
-                  <path d="M 32,206 L 376,206" fill="none" stroke="black"></path>
-                  <path d="M 32,210 L 376,210" fill="none" stroke="black"></path>
-                  <path d="M 384,208 L 392,208" fill="none" stroke="black"></path>
-                  <path d="M 392,224 L 560,224" fill="none" stroke="black"></path>
-                  <path d="M 72,240 L 120,240" fill="none" stroke="black"></path>
-                  <path d="M 72,272 L 120,272" fill="none" stroke="black"></path>
-                  <path d="M 104,286 L 376,286" fill="none" stroke="black"></path>
-                  <path d="M 104,290 L 376,290" fill="none" stroke="black"></path>
-                  <path d="M 40,192 C 48.83064,192 56,184.83064 56,176" fill="none" stroke="black"></path>
-                  <polygon class="arrowhead" points="376,160 364,154.4 364,165.6" fill="black" transform="rotate(0,368,160)"></polygon>
-                  <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
-                  <polygon class="arrowhead" points="112,288 100,282.4 100,293.6" fill="black" transform="rotate(180,104,288)"></polygon>
-                  <polygon class="arrowhead" points="40,208 28,202.4 28,213.6" fill="black" transform="rotate(180,32,208)"></polygon>
-                  <g class="text">
-                    <text x="148" y="52">AT</text>
-                    <text x="372" y="52">MS</text>
-                    <text x="248" y="100">Map-Request(init_nonce,</text>
-                    <text x="304" y="116">init_key_id,..)</text>
-                    <text x="476" y="116">Security/integrity</text>
-                    <text x="444" y="132">protection</text>
-                    <text x="516" y="132">check.</text>
-                    <text x="272" y="148">...</text>
-                    <text x="408" y="148">A</text>
-                    <text x="440" y="148">state</text>
-                    <text x="476" y="148">is</text>
-                    <text x="512" y="148">found</text>
-                    <text x="444" y="164">xTR-ID/EID</text>
-                    <text x="500" y="164">is</text>
-                    <text x="536" y="164">found</text>
-                    <text x="28" y="180">xTR1</text>
-                    <text x="416" y="180">but</text>
-                    <text x="448" y="180">the</text>
-                    <text x="488" y="180">nonce</text>
-                    <text x="536" y="180">check</text>
-                    <text x="240" y="196">Map-Reply(init_nonce,...)</text>
-                    <text x="428" y="196">fails:</text>
-                    <text x="472" y="196">rcv</text>
-                    <text x="512" y="196">nonce</text>
-                    <text x="544" y="196">&lt;</text>
-                    <text x="424" y="212">local</text>
-                    <text x="472" y="212">nonce</text>
-                    <text x="504" y="212">+</text>
-                    <text x="520" y="212">1</text>
-                    <text x="100" y="260">xTRn</text>
-                    <text x="256" y="276">Map-Reply(init_nonce,...)</text>
-                    <text x="200" y="324">...</text>
-                  </g>
-                </svg><a href="#section-12.1.1-4.1.1" class="pilcrow">¶</a>
-</div>
-</div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
-<a href="#name-an-example-of-handling-of-re" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
-            </figcaption></figure>
-</div>
-<p id="section-12.1.1-5">Note that legitimate Map-Requests issued from the authentic xTR may be blocked as a side effect of enforcing a rate-lmit of the replayed messages. An example is shown in <a href="#riss-rate" class="auto internal xref">Figure 13</a>.<a href="#section-12.1.1-5" class="pilcrow">¶</a></p>
-<span id="name-an-example-of-handling-of-rep"></span><div id="riss-rate">
-<figure id="figure-13">
-            <div id="section-12.1.1-6.1">
-              <div class="alignCenter art-svg artwork" id="section-12.1.1-6.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="568" viewBox="0 0 568 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
                   <path d="M 8,304 L 8,336" fill="none" stroke="black"></path>
                   <path d="M 24,336 L 24,352" fill="none" stroke="black"></path>
@@ -2598,32 +2507,32 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="188" y="340">Map-Request(...)</text>
                     <text x="432" y="356">Discard</text>
                   </g>
-                </svg><a href="#section-12.1.1-6.1.1" class="pilcrow">¶</a>
+                </svg><a href="#section-12.1.1-4.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
-<a href="#name-an-example-of-handling-of-rep" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<a href="#name-an-example-of-handling-of-re" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
             </figcaption></figure>
 </div>
-<p id="section-12.1.1-7">Note that if LISP-SEC messages are timestamped, the replayed packets would be detected and, thus, be silently ignored by the Map-Server. Such invalid messages won't then interfere with legitimate Map-Requests if the Map-Server has sufficient resources to process the timestamp of all received requests. An example of processing timestamped Map-Requests (rate-limit not reached) is depicted in <a href="#riss-ts" class="auto internal xref">Figure 14</a>.<a href="#section-12.1.1-7" class="pilcrow">¶</a></p>
-<span id="name-an-example-of-handling-of-repl"></span><div id="riss-ts">
-<figure id="figure-14">
-            <div id="section-12.1.1-8.1">
-              <div class="alignCenter art-svg artwork" id="section-12.1.1-8.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="304" width="568" viewBox="0 0 568 304" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
-                  <path d="M 8,176 L 8,208" fill="none" stroke="black"></path>
-                  <path d="M 24,208 L 24,256" fill="none" stroke="black"></path>
-                  <path d="M 40,176 L 40,208" fill="none" stroke="black"></path>
+<p id="section-12.1.1-5">If replayed attacks are not counted as part of the rate-limit policy, legitimate Map-Requests will be procecced as illustrate in <a href="#riss-rate2" class="auto internal xref">Figure 13</a>.<a href="#section-12.1.1-5" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-rep"></span><div id="riss-rate2">
+<figure id="figure-13">
+            <div id="section-12.1.1-6.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-6.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="336" width="568" viewBox="0 0 568 336" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
+                  <path d="M 24,272 L 24,288" fill="none" stroke="black"></path>
+                  <path d="M 48,240 L 48,272" fill="none" stroke="black"></path>
                   <path d="M 136,32 L 136,64" fill="none" stroke="black"></path>
-                  <path d="M 152,64 L 152,144" fill="none" stroke="black"></path>
+                  <path d="M 152,64 L 152,224" fill="none" stroke="black"></path>
                   <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
                   <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
-                  <path d="M 376,64 L 376,272" fill="none" stroke="black"></path>
+                  <path d="M 376,64 L 376,304" fill="none" stroke="black"></path>
                   <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
-                  <path d="M 392,96 L 392,208" fill="none" stroke="black"></path>
-                  <path d="M 392,240 L 392,272" fill="none" stroke="black"></path>
-                  <path d="M 560,96 L 560,208" fill="none" stroke="black"></path>
-                  <path d="M 560,240 L 560,272" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 392,224" fill="none" stroke="black"></path>
+                  <path d="M 392,272 L 392,304" fill="none" stroke="black"></path>
+                  <path d="M 560,96 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 560,272 L 560,304" fill="none" stroke="black"></path>
                   <path d="M 136,32 L 168,32" fill="none" stroke="black"></path>
                   <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
                   <path d="M 136,64 L 168,64" fill="none" stroke="black"></path>
@@ -2632,15 +2541,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <path d="M 152,126 L 368,126" fill="none" stroke="black"></path>
                   <path d="M 152,130 L 368,130" fill="none" stroke="black"></path>
                   <path d="M 376,128 L 392,128" fill="none" stroke="black"></path>
-                  <path d="M 8,176 L 40,176" fill="none" stroke="black"></path>
-                  <path d="M 8,208 L 40,208" fill="none" stroke="black"></path>
-                  <path d="M 392,208 L 560,208" fill="none" stroke="black"></path>
-                  <path d="M 392,240 L 560,240" fill="none" stroke="black"></path>
-                  <path d="M 32,254 L 368,254" fill="none" stroke="black"></path>
-                  <path d="M 32,258 L 368,258" fill="none" stroke="black"></path>
-                  <path d="M 376,256 L 392,256" fill="none" stroke="black"></path>
+                  <path d="M 152,158 L 368,158" fill="none" stroke="black"></path>
+                  <path d="M 152,162 L 368,162" fill="none" stroke="black"></path>
+                  <path d="M 376,160 L 392,160" fill="none" stroke="black"></path>
+                  <path d="M 392,224 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 8,240 L 48,240" fill="none" stroke="black"></path>
+                  <path d="M 8,272 L 48,272" fill="none" stroke="black"></path>
                   <path d="M 392,272 L 560,272" fill="none" stroke="black"></path>
-                  <polygon class="arrowhead" points="376,256 364,250.4 364,261.6" fill="black" transform="rotate(0,368,256)"></polygon>
+                  <path d="M 32,286 L 368,286" fill="none" stroke="black"></path>
+                  <path d="M 32,290 L 368,290" fill="none" stroke="black"></path>
+                  <path d="M 376,288 L 392,288" fill="none" stroke="black"></path>
+                  <path d="M 392,304 L 560,304" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="376,288 364,282.4 364,293.6" fill="black" transform="rotate(0,368,288)"></polygon>
+                  <polygon class="arrowhead" points="376,160 364,154.4 364,165.6" fill="black" transform="rotate(0,368,160)"></polygon>
                   <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
                   <g class="text">
                     <text x="156" y="52">AT</text>
@@ -2650,23 +2563,35 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="476" y="116">Security/integrity</text>
                     <text x="444" y="132">protection</text>
                     <text x="516" y="132">check.</text>
-                    <text x="416" y="148">The</text>
-                    <text x="464" y="148">message</text>
-                    <text x="508" y="148">is</text>
-                    <text x="440" y="164">discarded</text>
-                    <text x="512" y="164">because</text>
-                    <text x="440" y="180">timestamp</text>
-                    <text x="508" y="180">checks</text>
-                    <text x="24" y="196">xTR</text>
-                    <text x="420" y="196">fail</text>
-                    <text x="148" y="244">Map-Request(...)</text>
-                    <text x="448" y="260">Processed</text>
+                    <text x="264" y="148">...</text>
+                    <text x="408" y="148">A</text>
+                    <text x="440" y="148">state</text>
+                    <text x="476" y="148">is</text>
+                    <text x="512" y="148">found</text>
+                    <text x="444" y="164">xTR-ID/EID</text>
+                    <text x="500" y="164">is</text>
+                    <text x="536" y="164">found</text>
+                    <text x="416" y="180">but</text>
+                    <text x="448" y="180">the</text>
+                    <text x="488" y="180">nonce</text>
+                    <text x="536" y="180">check</text>
+                    <text x="428" y="196">fails:</text>
+                    <text x="472" y="196">rcv</text>
+                    <text x="512" y="196">nonce</text>
+                    <text x="544" y="196">&lt;</text>
+                    <text x="424" y="212">local</text>
+                    <text x="472" y="212">nonce</text>
+                    <text x="504" y="212">+</text>
+                    <text x="520" y="212">1</text>
+                    <text x="24" y="260">xTR</text>
+                    <text x="188" y="276">Map-Request(...)</text>
+                    <text x="432" y="292">Process</text>
                   </g>
-                </svg><a href="#section-12.1.1-8.1.1" class="pilcrow">¶</a>
+                </svg><a href="#section-12.1.1-6.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
-<a href="#name-an-example-of-handling-of-repl" class="selfRef">An Example of Handling of Replayed Initial Subscription with Timestamp</a>
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<a href="#name-an-example-of-handling-of-rep" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
             </figcaption></figure>
 </div>
 </section>
@@ -2676,23 +2601,23 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-withdrawal">
 <a href="#section-12.1.2" class="section-number selfRef">12.1.2. </a><a href="#name-replayed-withdrawal" class="section-name selfRef">Replayed Withdrawal</a>
           </h4>
-<p id="section-12.1.2-1"><a href="#rew" class="auto internal xref">Figure 15</a> depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. A Map-Request with an action code is sent to the original xTR.<a href="#section-12.1.2-1" class="pilcrow">¶</a></p>
-<span id="name-an-example-of-handling-of-repla"></span><div id="rew">
-<figure id="figure-15">
+<p id="section-12.1.2-1"><a href="#rew" class="auto internal xref">Figure 14</a> depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server.<a href="#section-12.1.2-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-repl"></span><div id="rew">
+<figure id="figure-14">
             <div id="section-12.1.2-2.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.2-2.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="624" viewBox="0 0 624 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="624" viewBox="0 0 624 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
                   <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
-                  <path d="M 24,192 L 24,240" fill="none" stroke="black"></path>
+                  <path d="M 24,192 L 24,256" fill="none" stroke="black"></path>
                   <path d="M 40,160 L 40,192" fill="none" stroke="black"></path>
                   <path d="M 160,32 L 160,64" fill="none" stroke="black"></path>
                   <path d="M 176,64 L 176,144" fill="none" stroke="black"></path>
                   <path d="M 192,32 L 192,64" fill="none" stroke="black"></path>
                   <path d="M 408,32 L 408,64" fill="none" stroke="black"></path>
-                  <path d="M 432,64 L 432,240" fill="none" stroke="black"></path>
+                  <path d="M 432,64 L 432,256" fill="none" stroke="black"></path>
                   <path d="M 448,32 L 448,64" fill="none" stroke="black"></path>
-                  <path d="M 448,96 L 448,224" fill="none" stroke="black"></path>
-                  <path d="M 616,96 L 616,224" fill="none" stroke="black"></path>
+                  <path d="M 448,96 L 448,240" fill="none" stroke="black"></path>
+                  <path d="M 616,96 L 616,240" fill="none" stroke="black"></path>
                   <path d="M 160,32 L 192,32" fill="none" stroke="black"></path>
                   <path d="M 408,32 L 448,32" fill="none" stroke="black"></path>
                   <path d="M 160,64 L 192,64" fill="none" stroke="black"></path>
@@ -2703,12 +2628,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <path d="M 432,128 L 448,128" fill="none" stroke="black"></path>
                   <path d="M 8,160 L 40,160" fill="none" stroke="black"></path>
                   <path d="M 8,192 L 40,192" fill="none" stroke="black"></path>
-                  <path d="M 32,206 L 432,206" fill="none" stroke="black"></path>
-                  <path d="M 32,210 L 432,210" fill="none" stroke="black"></path>
-                  <path d="M 440,208 L 448,208" fill="none" stroke="black"></path>
-                  <path d="M 448,224 L 616,224" fill="none" stroke="black"></path>
+                  <path d="M 448,240 L 616,240" fill="none" stroke="black"></path>
                   <polygon class="arrowhead" points="432,128 420,122.4 420,133.6" fill="black" transform="rotate(0,424,128)"></polygon>
-                  <polygon class="arrowhead" points="40,208 28,202.4 28,213.6" fill="black" transform="rotate(180,32,208)"></polygon>
                   <g class="text">
                     <text x="180" y="52">AT</text>
                     <text x="428" y="52">MS</text>
@@ -2729,7 +2650,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="504" y="180">the</text>
                     <text x="544" y="180">nonce</text>
                     <text x="592" y="180">check</text>
-                    <text x="228" y="196">Map-Reply(ACT=5)</text>
                     <text x="484" y="196">fails:</text>
                     <text x="528" y="196">rcv</text>
                     <text x="568" y="196">nonce</text>
@@ -2738,65 +2658,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <text x="528" y="212">nonce</text>
                     <text x="560" y="212">+</text>
                     <text x="576" y="212">1</text>
+                    <text x="488" y="228">Discard</text>
+                    <text x="536" y="228">the</text>
+                    <text x="580" y="228">packet</text>
                   </g>
                 </svg><a href="#section-12.1.2-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
-<a href="#name-an-example-of-handling-of-repla" class="selfRef">An Example of Handling of Replayed Removal of a Subscription</a>
-            </figcaption></figure>
-</div>
-<p id="section-12.1.2-3">Similar to <a href="#riss-ts" class="auto internal xref">Figure 14</a>, the replayed Map-Request can be detected and silently ignored by the Map-Server if LISP-SEC messages are timestamped.<a href="#section-12.1.2-3" class="pilcrow">¶</a></p>
-<span id="name-an-example-of-handling-of-replay"></span><div id="rew-ts">
-<figure id="figure-16">
-            <div id="section-12.1.2-4.1">
-              <div class="alignCenter art-svg artwork" id="section-12.1.2-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="240" width="568" viewBox="0 0 568 240" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
-                  <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
-                  <path d="M 24,192 L 24,208" fill="none" stroke="black"></path>
-                  <path d="M 40,160 L 40,192" fill="none" stroke="black"></path>
-                  <path d="M 120,32 L 120,64" fill="none" stroke="black"></path>
-                  <path d="M 136,64 L 136,128" fill="none" stroke="black"></path>
-                  <path d="M 152,32 L 152,64" fill="none" stroke="black"></path>
-                  <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
-                  <path d="M 376,64 L 376,208" fill="none" stroke="black"></path>
-                  <path d="M 392,32 L 392,192" fill="none" stroke="black"></path>
-                  <path d="M 560,80 L 560,192" fill="none" stroke="black"></path>
-                  <path d="M 120,32 L 152,32" fill="none" stroke="black"></path>
-                  <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
-                  <path d="M 120,64 L 152,64" fill="none" stroke="black"></path>
-                  <path d="M 352,64 L 392,64" fill="none" stroke="black"></path>
-                  <path d="M 392,80 L 560,80" fill="none" stroke="black"></path>
-                  <path d="M 136,110 L 368,110" fill="none" stroke="black"></path>
-                  <path d="M 136,114 L 368,114" fill="none" stroke="black"></path>
-                  <path d="M 384,112 L 392,112" fill="none" stroke="black"></path>
-                  <path d="M 8,160 L 40,160" fill="none" stroke="black"></path>
-                  <path d="M 8,192 L 40,192" fill="none" stroke="black"></path>
-                  <path d="M 392,192 L 560,192" fill="none" stroke="black"></path>
-                  <polygon class="arrowhead" points="376,112 364,106.4 364,117.6" fill="black" transform="rotate(0,368,112)"></polygon>
-                  <g class="text">
-                    <text x="140" y="52">AT</text>
-                    <text x="372" y="52">MS</text>
-                    <text x="212" y="100">Map-Request(nonce,</text>
-                    <text x="332" y="100">AFI=0,...)</text>
-                    <text x="476" y="100">Security/integrity</text>
-                    <text x="444" y="116">protection</text>
-                    <text x="512" y="116">check</text>
-                    <text x="432" y="132">passed.</text>
-                    <text x="432" y="148">Discard</text>
-                    <text x="480" y="148">the</text>
-                    <text x="528" y="148">message</text>
-                    <text x="432" y="164">because</text>
-                    <text x="504" y="164">timestamp</text>
-                    <text x="24" y="180">xTR</text>
-                    <text x="424" y="180">check</text>
-                    <text x="472" y="180">fails</text>
-                  </g>
-                </svg><a href="#section-12.1.2-4.1.1" class="pilcrow">¶</a>
-</div>
-</div>
-<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
-<a href="#name-an-example-of-handling-of-replay" class="selfRef">An Example of Handling of Replayed Removal of a Subscription with Timestamp</a>
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<a href="#name-an-example-of-handling-of-repl" class="selfRef">An Example of Handling of Replayed Removal of a Subscription</a>
             </figcaption></figure>
 </div>
 </section>
@@ -2806,9 +2676,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-notification-updat">
 <a href="#section-12.1.3" class="section-number selfRef">12.1.3. </a><a href="#name-replayed-notification-updat" class="section-name selfRef">Replayed Notification Updates</a>
           </h4>
-<p id="section-12.1.3-1"><a href="#rmsw" class="auto internal xref">Figure 17</a> illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR.<a href="#section-12.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-1"><a href="#rmsw" class="auto internal xref">Figure 15</a> illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR.<a href="#section-12.1.3-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-replayed-noti"></span><div id="rmsw">
-<figure id="figure-17">
+<figure id="figure-15">
             <div id="section-12.1.3-2.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.3-2.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="472" viewBox="0 0 472 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
@@ -2860,7 +2730,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </svg><a href="#section-12.1.3-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
 <a href="#name-an-example-of-replayed-noti" class="selfRef">An Example of Replayed Notification of Subscription Withdrawal</a>
             </figcaption></figure>
 </div>
