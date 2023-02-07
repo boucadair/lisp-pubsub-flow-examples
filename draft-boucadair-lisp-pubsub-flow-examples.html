@@ -2002,11 +2002,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <p id="section-10-2.1.1">The xTR MUST keep track of the last nonce seen in a Map-Notify received as a publication from the Map-Server for the EID-Record.<a href="#section-10-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-10-3">If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server.<a href="#section-10-3" class="pilcrow">¶</a></p>
+<p id="section-10-3">If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server. The request is silently discarded by the Map-Server. This behavior is similar to thsi behavior in <span>[<a href="#RFC9301" class="cite xref">RFC9301</a>]</span>:<a href="#section-10-3" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-10-4.1">
+          <p id="section-10-4.1.1">If a Map-Register is received with a nonce value that is not greater than the saved nonce, it MUST drop the Map-Register message and SHOULD log the fact that a replay attack could have occurred.<a href="#section-10-4.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 <span id="name-an-example-of-stale-subscri"></span><div id="stale">
 <figure id="figure-7">
-        <div id="section-10-4.1">
-          <div class="alignCenter art-svg artwork" id="section-10-4.1.1">
+        <div id="section-10-5.1">
+          <div class="alignCenter art-svg artwork" id="section-10-5.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="472" viewBox="0 0 472 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
               <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
               <path d="M 24,64 L 24,240" fill="none" stroke="black"></path>
@@ -2056,18 +2061,18 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <text x="384" y="228">the</text>
                 <text x="428" y="228">packet</text>
               </g>
-            </svg><a href="#section-10-4.1.1" class="pilcrow">¶</a>
+            </svg><a href="#section-10-5.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-an-example-of-stale-subscri" class="selfRef">An Example of Stale Subscriptions</a>
         </figcaption></figure>
 </div>
-<p id="section-10-5">If the Map-Server stores all the key-ids that were used by an xTR for its subscriptions, the Map-Server may accept overriding an existing state only if a new key is used (see <a href="#stale-new-key" class="auto internal xref">Figure 8</a>).<a href="#section-10-5" class="pilcrow">¶</a></p>
+<p id="section-10-6">If the Map-Server stores all the key-ids that were used by an xTR for its subscriptions, the Map-Server may accept overriding an existing state without enforcing the nonce check but if and only if a new key is used (see <a href="#stale-new-key" class="auto internal xref">Figure 8</a>).<a href="#section-10-6" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-stale-subscrip"></span><div id="stale-new-key">
 <figure id="figure-8">
-        <div id="section-10-6.1">
-          <div class="alignCenter art-svg artwork" id="section-10-6.1.1">
+        <div id="section-10-7.1">
+          <div class="alignCenter art-svg artwork" id="section-10-7.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="256" width="472" viewBox="0 0 472 256" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
               <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
               <path d="M 24,64 L 24,224" fill="none" stroke="black"></path>
@@ -2122,17 +2127,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <text x="364" y="212">is</text>
                 <text x="408" y="212">updated</text>
               </g>
-            </svg><a href="#section-10-6.1.1" class="pilcrow">¶</a>
+            </svg><a href="#section-10-7.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-an-example-of-stale-subscrip" class="selfRef">An Example of Stale Subscriptions Avoidance with New KEys</a>
         </figcaption></figure>
 </div>
-<p id="section-10-7">However, the approach in <a href="#stale-new-key" class="auto internal xref">Figure 8</a> may have scalability issues as the Map-Server must store all the key identifiers that were ever used. Otherwise, an attacker can replay a message for which the key-id is not stored anymore by the Map-Server. This issue is not encountered if LISP-SEC messages are timestamped.<a href="#section-10-7" class="pilcrow">¶</a></p>
+<p id="section-10-8">However, the approach in <a href="#stale-new-key" class="auto internal xref">Figure 8</a> may have scalability issues as the Map-Server must store all the key identifiers that were ever used. Otherwise, an attacker can replay a message for which the key-id is not stored anymore by the Map-Server. This issue is not encountered if LISP-SEC messages are timestamped.<a href="#section-10-8" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-10-8.1">
-          <p id="section-10-8.1.1">Note that currently none of LISP specifications use timestamps.<a href="#section-10-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-10-9.1">
+          <p id="section-10-9.1.1">Note that currently none of LISP specifications use timestamps.<a href="#section-10-9.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

@@ -359,7 +359,13 @@ Table of Contents
 
    If the same key is used, the Map-Request is likely to be rejected by
    the Map-Server and, thus, stale subscriptions will be maintained by
-   the Map-Server.
+   the Map-Server.  The request is silently discarded by the Map-Server.
+   This behavior is similar to thsi behavior in [RFC9301]:
+
+      If a Map-Register is received with a nonce value that is not
+      greater than the saved nonce, it MUST drop the Map-Register
+      message and SHOULD log the fact that a replay attack could have
+      occurred.
 
                      +---+                          +----+
                      |xTR|                          | MS |
@@ -380,7 +386,8 @@ Table of Contents
 
    If the Map-Server stores all the key-ids that were used by an xTR for
    its subscriptions, the Map-Server may accept overriding an existing
-   state only if a new key is used (see Figure 8).
+   state without enforcing the nonce check but if and only if a new key
+   is used (see Figure 8).
 
                      +---+                          +----+
                      |xTR|                          | MS |
