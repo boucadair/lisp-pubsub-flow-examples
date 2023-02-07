@@ -190,8 +190,7 @@ Unlike the example depicted in {{sn}}, {{sretrans}} illustrates the behavior tha
 ~~~~
 {: #fretrans title="An Example of Failed Notification Delivery" artwork-align="center"}
 
-Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, {{sec-sub-update}}).
-
+Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, {{sec-sub-update}}). In order to accommodate Map-Notify message lost, the nonce checks on the xTR should not be on the exact match with "nonce + 1"; messages with  "nonce++ >= last seen nonce" should be accepted.
 
 # Successful Subscription Update {#sec-sub-update}
 
