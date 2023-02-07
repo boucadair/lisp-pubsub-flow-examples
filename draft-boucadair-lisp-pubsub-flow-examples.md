@@ -82,7 +82,7 @@ AT:
 | and an initial     | |        init_key_id,..)  | | Security/integrity |
 | nonce. Store them  +-+=========================+-+ protection check.  |
 | locally for this   | |                         | | No State for this  |
-| subscription       | |                         | | XTR-ID/EID is found|
+| subscription       | |                         | | xTR-ID/EID is found|
 '--------------------' |                         | | Create the sub and |
                        | Map-Notify(init_nonce,  | | store init_nonce,  |
 .--------------------. |                   ,...) | | init_key_id, ...   |
@@ -216,7 +216,7 @@ Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}}
 | wait for notifs    +-+=========================>+-+ Security/integrity |
 '--------------------' |                          | | protection check.  |
                        |                          | | This subscription  |
-                       |                          | | updated is ACKed   |
+                       |                          | | update is ACKed    |
                        |                          | '--------------------'
 ~~~~
 {: #ssu title="An Example of Successful Subscription Update" artwork-align="center"}
@@ -317,6 +317,8 @@ If the Map-Server stores all the key-ids that were used by an xTR for its subscr
 {: #stale-new-key title="An Example of Stale Subscriptions Avoidance with New KEys" artwork-align="center"}
 
 However, the approach in {{stale-new-key}} may have scalability issues as the Map-Server must store all the key identifiers that were ever used. Otherwise, an attacker can replay a message for which the key-id is not stored anymore by the Map-Server. This issue is not encountered if LISP-SEC messages are timestamped.
+
+> Note that currently none of LISP specifications use timestamps.
 
 # xTR-triggered Subscription Withdrawal
 
