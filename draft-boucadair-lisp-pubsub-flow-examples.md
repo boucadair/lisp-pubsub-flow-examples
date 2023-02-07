@@ -190,7 +190,7 @@ Unlike the example depicted in {{sn}}, {{sretrans}} illustrates the behavior tha
 ~~~~
 {: #fretrans title="An Example of Failed Notification Delivery" artwork-align="center"}
 
-Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, {{sec-sub-update}}). In order to accommodate Map-Notify message lost, the nonce checks on the xTR should not be on the exact match with "nonce + 1"; messages with  "nonce++ >= last seen nonce" should be accepted.
+Note that no specific action is currently specified in {{!I-D.ietf-lisp-pubsub}} when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that the xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, {{sec-sub-update}}). In order to accommodate Map-Notify message lost, the nonce checks on the xTR should not be on the exact match vs "nonce + 1"; messages with  "received nonce >= local nonce + 1" should be accepted.
 
 # Successful Subscription Update {#sec-sub-update}
 
@@ -291,7 +291,8 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
                        |                               | | A state for        |
                        | Map-Reply(ACT=5)              | | xTR-ID/EID is found|
                        |<==============================+-+ but the nonce check|
-                       |                               | | fails              |
+                       |                               | | fails: rcv nonce < |
+                       |                               | | local nonce + 1    |
                        |                               | '--------------------'
 ~~~~
 {: #stale title="An Example of Stale Subscriptions" artwork-align="center"}
@@ -308,9 +309,9 @@ If the Map-Server stores all the key-ids that were used by an xTR for its subscr
                        +==============================>+-+ protection check.  |
                        |                               | | A state for        |
                        | Map-Notify (nonce, ...)       | | xTR-ID/EID is found|
-                       |<==============================+-+ but the a new auth |
-                       |                               | | is used, the state |
-                       |                               | | is updated         |
+                       |<==============================+-+ but the new auth   |
+                       |                               | | key is used, the   |
+                       |                               | | state is updated   |
                        |                               | '--------------------'
 ~~~~
 {: #stale-new-key title="An Example of Stale Subscriptions Avoidance with New KEys" artwork-align="center"}
@@ -386,11 +387,11 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
                        | Map-Request(init_nonce,       | .--------------------.
                        |            init_key_id,..)    | | Security/integrity |
                        +==============================>+-+ protection check.  |
-                       |                               | | A state is found   |
+                       |                               | | A state is for     |
   +---+                                                | | xTR-ID/EID is found|
   |xTR|                                                | | but the nonce check|
-  +-+-+                Map-Reply(init_nonce,...)       | | fails              |
-    |<=================================================+-+                    |
+  +-+-+                Map-Reply(init_nonce,...)       | | fails: rcv nonce < |
+    |<=================================================+-+ local nonce + 1    |
     |                                                  | '--------------------'
     |                                                  |
 ~~~~
@@ -409,8 +410,8 @@ The attacker may vary the source IP address of the Map-Request to trigger as man
                    |              ...           | | A state is found   |
   +-----+          +===========================>+-+ xTR-ID/EID is found|
   |xTR1 |                                       | | but the nonce check|
-  +-+--+           Map-Reply(init_nonce,...)    | | fails              |
-    |<==========================================+-+                    |
+  +-+--+           Map-Reply(init_nonce,...)    | | fails: rcv nonce < |
+    |<==========================================+-+ local nonce + 1    |
                                                 | '--------------------'
           +-----+                               |
           | xTRn|                               |
@@ -434,7 +435,8 @@ Note that legitimate Map-Requests issued from the authentic xTR may be blocked a
                     |            ...            | | A state is found   |
                     +==========================>+-+ xTR-ID/EID is found|
                     |                           | | but the nonce check|
-                    |                           | | fails.             |
+                    |                           | | fails: rcv nonce < |
+                    |                           | | local nonce + 1    |
                     |                           | '--------------------'
                     |                           |
                     |    (more requests)        | .--------------------.
@@ -485,8 +487,8 @@ Note that if LISP-SEC messages are timestamped, the replayed packets would be de
                        |                               | | A state is found   |
   +---+                                                | | xTR-ID/EID is found|
   |xTR|                                                | | but the nonce check|
-  +-+-+               Map-Reply(ACT=5)                 | | fails              |
-    |<=================================================+-+                    |
+  +-+-+               Map-Reply(ACT=5)                 | | fails: rcv nonce < |
+    |<=================================================+-+ local nonce + 1    |
     |                                                  | '--------------------'
     |                                                  |
 ~~~~
