@@ -133,7 +133,7 @@ Table of Contents
 | and an initial     | |        init_key_id,..)  | | Security/integrity |
 | nonce. Store them  +-+=========================+-+ protection check.  |
 | locally for this   | |                         | | No State for this  |
-| subscription       | |                         | | XTR-ID/EID is found|
+| subscription       | |                         | | xTR-ID/EID is found|
 '--------------------' |                         | | Create the sub and |
                        | Map-Notify(init_nonce,  | | store init_nonce,  |
 .--------------------. |                   ,...) | | init_key_id, ...   |
@@ -279,7 +279,7 @@ Table of Contents
 | wait for notifs    +-+=========================>+-+ Security/integrity |
 '--------------------' |                          | | protection check.  |
                        |                          | | This subscription  |
-                       |                          | | updated is ACKed   |
+                       |                          | | update is ACKed    |
                        |                          | '--------------------'
 
         Figure 5: An Example of Successful Subscription Update
@@ -398,6 +398,8 @@ Table of Contents
    Otherwise, an attacker can replay a message for which the key-id is
    not stored anymore by the Map-Server.  This issue is not encountered
    if LISP-SEC messages are timestamped.
+
+      Note that currently none of LISP specifications use timestamps.
 
 11.  xTR-triggered Subscription Withdrawal
 
