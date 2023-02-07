@@ -289,10 +289,11 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
                        |            init_key_id,..)    | | Security/integrity |
                        +==============================>+-+ protection check.  |
                        |                               | | A state for        |
-                       | Map-Reply(ACT=5)              | | xTR-ID/EID is found|
-                       |<==============================+-+ but the nonce check|
+                       |                               | | xTR-ID/EID is found|
+                       |                               | | but the nonce check|
                        |                               | | fails: rcv nonce < |
-                       |                               | | local nonce + 1    |
+                       |                               | | local nonce + 1.   |
+                       |                               | | Discard the packet |
                        |                               | '--------------------'
 ~~~~
 {: #stale title="An Example of Stale Subscriptions" artwork-align="center"}
@@ -377,7 +378,7 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
 
 ### Replayed Subscription (Update)
 
-{{riss}} shows the example of a replayed subscription request. This example assumes that the attacker does not change the source IP address that was initially captured in the packet to be replayed. The triggered Map-Reply is silently ignored by the xTR because it does not match any pending request.
+{{riss}} shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -390,37 +391,13 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
                        |                               | | A state is for     |
   +---+                                                | | xTR-ID/EID is found|
   |xTR|                                                | | but the nonce check|
-  +-+-+                Map-Reply(init_nonce,...)       | | fails: rcv nonce < |
-    |<=================================================+-+ local nonce + 1    |
+  +-+-+                                                | | fails: rcv nonce < |
+    |                                                  | | local nonce + 1.   |
+    |                                                  | | Discard the packet |
     |                                                  | '--------------------'
     |                                                  |
 ~~~~
 {: #riss title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
-
-The attacker may vary the source IP address of the Map-Request to trigger as many Map-Replies sent to other xTRs (see {{riss-m}}).
-
-~~~~ aasvg
-                 +---+                       +----+
-                 | AT|                       | MS |
-                 +-+-+                       +--+-+
-                   |                            |
-                   | Map-Request(init_nonce,    | .--------------------.
-                   |            init_key_id,..) | | Security/integrity |
-                   +===========================>+-+ protection check.  |
-                   |              ...           | | A state is found   |
-  +-----+          +===========================>+-+ xTR-ID/EID is found|
-  |xTR1 |                                       | | but the nonce check|
-  +-+--+           Map-Reply(init_nonce,...)    | | fails: rcv nonce < |
-    |<==========================================+-+ local nonce + 1    |
-                                                | '--------------------'
-          +-----+                               |
-          | xTRn|                               |
-          +--+--+    Map-Reply(init_nonce,...)  |
-             |<=================================+
-             |                                  |
-                         ...
-~~~~
-{: #riss-m title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
 Note that legitimate Map-Requests issued from the authentic xTR may be blocked as a side effect of enforcing a rate-lmit of the replayed messages. An example is shown in {{riss-rate}}.
 
@@ -450,7 +427,7 @@ Note that legitimate Map-Requests issued from the authentic xTR may be blocked a
 ~~~~
 {: #riss-rate title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
-Note that if LISP-SEC messages are timestamped, the replayed packets would be detected and, thus, be silently ignored by the Map-Server. Such invalid messages won't then interfere with legitimate Map-Requests if the Map-Server has sufficient resources to process the timestamp of all received requests. An example of processing timestamped Map-Requests (rate-limit not reached) is depicted in {{riss-ts}}.
+If replayed attacks are not counted as part of the rate-limit policy, legitimate Map-Requests will be procecced as illustrate in {{riss-rate2}}.
 
 ~~~~ aasvg
                   +---+                      +----+
@@ -460,21 +437,23 @@ Note that if LISP-SEC messages are timestamped, the replayed packets would be de
                     | Map-Request(init_nonce,   | .--------------------.
                     |          init_key_id,..)  | | Security/integrity |
                     +==========================>+-+ protection check.  |
-                    |                           | | The message is     |
-                                                | | discarded because  |
-  +---+                                         | | timestamp checks   |
-  |xTR|                                         | | fail               |
-  +-+-+                                         | '--------------------'
-    |                                           |
-    |       Map-Request(...)                    | .--------------------.
-    |==========================================>+-+  Processed         |
+                    |            ...            | | A state is found   |
+                    +==========================>+-+ xTR-ID/EID is found|
+                    |                           | | but the nonce check|
+                    |                           | | fails: rcv nonce < |
+                    |                           | | local nonce + 1    |
+                    |                           | '--------------------'
+  +----+                                        |
+  |xTR |                                        |
+  +-+--+         Map-Request(...)               | .--------------------.
+    |==========================================>+-+ Process            |
                                                 | '--------------------'
 ~~~~
-{: #riss-ts title="An Example of Handling of Replayed Initial Subscription with Timestamp" artwork-align="center"}
+{: #riss-rate2 title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
 ### Replayed Withdrawal
 
-{{rew}} depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. A Map-Request with an action code is sent to the original xTR.
+{{rew}} depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -487,31 +466,13 @@ Note that if LISP-SEC messages are timestamped, the replayed packets would be de
                        |                               | | A state is found   |
   +---+                                                | | xTR-ID/EID is found|
   |xTR|                                                | | but the nonce check|
-  +-+-+               Map-Reply(ACT=5)                 | | fails: rcv nonce < |
-    |<=================================================+-+ local nonce + 1    |
+  +-+-+                                                | | fails: rcv nonce < |
+    |                                                  | | local nonce + 1    |
+    |                                                  | | Discard the packet |
     |                                                  | '--------------------'
     |                                                  |
 ~~~~
 {: #rew title="An Example of Handling of Replayed Removal of a Subscription" artwork-align="center"}
-
-Similar to {{riss-ts}}, the replayed Map-Request can be detected and silently ignored by the Map-Server if LISP-SEC messages are timestamped.
-
-~~~~ aasvg
-                +---+                        +----+
-                | AT|                        | MS |
-                +-+-+                        +--+-+
-                  |                             | .--------------------.
-                  |Map-Request(nonce, AFI=0,...)| | Security/integrity |
-                  +============================>+-+ protection check   |
-                  |                             | | passed.            |
-                                                | | Discard the message|
-  +---+                                         | | because timestamp  |
-  |xTR|                                         | | check fails        |
-  +-+-+                                         | '--------------------'
-    |                                           |
-~~~~
-{: #rew-ts title="An Example of Handling of Replayed Removal of a Subscription with Timestamp" artwork-align="center"}
-
 
 ### Replayed Notification Updates
 
