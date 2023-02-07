@@ -278,7 +278,9 @@ For various reasons, an xTR may lose its subscriptions (or at least the nonce of
 
    > The xTR MUST keep track of the last nonce seen in a Map-Notify received as a publication from the Map-Server for the EID-Record.
 
-If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server.
+If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server. The request is silently discarded by the Map-Server. This behavior is similar to thsi behavior in {{!RFC9301}}:
+
+> If a Map-Register is received with a nonce value that is not greater than the saved nonce, it MUST drop the Map-Register message and SHOULD log the fact that a replay attack could have occurred.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -298,7 +300,7 @@ If the same key is used, the Map-Request is likely to be rejected by the Map-Ser
 ~~~~
 {: #stale title="An Example of Stale Subscriptions" artwork-align="center"}
 
-If the Map-Server stores all the key-ids that were used by an xTR for its subscriptions, the Map-Server may accept overriding an existing state only if a new key is used (see {{stale-new-key}}).
+If the Map-Server stores all the key-ids that were used by an xTR for its subscriptions, the Map-Server may accept overriding an existing state without enforcing the nonce check but if and only if a new key is used (see {{stale-new-key}}).
 
 ~~~~ aasvg
                      +---+                          +----+
