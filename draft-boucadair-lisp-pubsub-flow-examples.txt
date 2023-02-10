@@ -552,7 +552,8 @@ Table of Contents
   Figure 13: An Example of Handling of Replayed Initial Subscription
 
    If replayed attacks are not counted as part of the rate-limit policy,
-   legitimate Map-Requests will be procecced as illustrate in Figure 14.
+   legitimate Map-Requests will be procecced as illustrated in
+   Figure 14.
 
                   +---+                      +----+
                   | AT|                      | MS |
@@ -576,12 +577,12 @@ Table of Contents
   Figure 14: An Example of Handling of Replayed Initial Subscription
 
    Suppose now that the xTR deletes it subscription.  An attacker may
-   replay valida Map-Request messages that were used for subscription or
+   replay valid Map-Request messages that were used for subscription or
    updates.  These messages can't be detected by the Map-Server as being
    replay messages.  The attacker may vary the source IP address of the
-   Map-Request to trigger as many Map-Notifies sent to other xTRs.These
-   Map-Notify messages will be ignored by the xTR as they don't have any
-   matching state.
+   Map-Request to trigger as many Map-Notifies sent to other xTRs.
+   These Map-Notify messages will be ignored by the xTR as they don't
+   have any matching state.
 
 +---+                                              +----+
 |xTR|                                              | MS |
