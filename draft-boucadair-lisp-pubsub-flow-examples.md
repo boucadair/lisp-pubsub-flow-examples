@@ -409,7 +409,7 @@ A Map-Notify will be sent back by the Map-Server even if no subscription is foun
 
 ### Replayed Subscription (Update)
 
-{{riss}} shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure.
+{{riss}} shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure. This example assumes that a state is maintained by the Map-Server for this xTR.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -482,9 +482,66 @@ If replayed attacks are not counted as part of the rate-limit policy, legitimate
 ~~~~
 {: #riss-rate2 title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
+Suppose now that the xTR deletes it subscription. An attacker may replay valida Map-Request messages that were used for subscription or updates. These messages can't be detected by the Map-Server as being replay messages. The attacker may vary the source IP address of the Map-Request to trigger as many Map-Notifies sent to other xTRs.These Map-Notify messages will be ignored by the xTR as they don't have any matching state.
+
+~~~~ aasvg
++---+                                              +----+
+|xTR|                                              | MS |
++---+                                              +--+-+
+  |    Map-Request(nonce, AFI=0...)                   |
+  +==================================================>+
+  |       Map-Notify(nonce, AFI=0...)                 |
+  |<==================================================+
+  |    Map-Notify-Ack                                 |
+  +==================================================>+
+  |                 +---+                             |
+                    | AT|                             |
+                    +-+-+                             |
+                      | Map-Request(nonce,            | .--------------------.
+                      |              key_id, ..)      | | Security/integrity |
+                      +==============================>+-+ protection check.  |
+                      |                               | | No state is found  |
+  +---+                                               | | for xTR-ID/EID.    |
+  |xTR|                                               | | Add a subscription |
+  +-+-+        Map-Notify(nonce, ...)                 | | entry for this xTR |
+    |<================================================+-+                    |
+    |                 ...                             | |                    |
+    |                                                 | '--------------------'
+    |                                                 |
+~~~~
+{: #replay-no-state title="An Example of Handling of Replayed Map-Requests when no State" artwork-align="center"}
+
+   Note that if LISP-SEC messages are timestamped, the replayed packets
+   would be detected and, thus, be silently ignored by the Map-Server.
+   Such invalid messages won't then interfere with legitimate Map-
+   Requests if the Map-Server has sufficient resources to process the
+   timestamp of all received requests.  An example of processing
+   timestamped Map-Requests (rate-limit not reached) is depicted in
+   {{replay-no-state-ts}}.
+
+~~~~ aasvg
+                  +---+                      +----+
+                  | AT|                      | MS |
+                  +-+-+                      +--+-+
+                    |                           |
+                    | Map-Request(init_nonce,   | .--------------------.
+                    |          init_key_id,..)  | | Security/integrity |
+                    +==========================>+-+ protection check.  |
+                    |                           | | The message is     |
+                                                | | discarded because  |
+  +---+                                         | | timestamp checks   |
+  |xTR|                                         | | fail               |
+  +-+-+                                         | '--------------------'
+    |                                           |
+    |       Map-Request(...)                    | .--------------------.
+    |==========================================>+-+  Processed         |
+                                                | '--------------------'
+~~~~ aasvg
+{: #replay-no-state-ts title="An Example of Handling of Replayed Subscription with Timestamp" artwork-align="center"}
+
 ### Replayed Withdrawal
 
-{{rew}} depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server.
+{{rew}} depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server if state is already present.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -507,7 +564,7 @@ If replayed attacks are not counted as part of the rate-limit policy, legitimate
 
 ### Replayed Notification Updates
 
-{{rmsw}} illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR. This example assumes that the replayed message is a replay of Map-Server triggered withdrawal.
+{{rmsw}} illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR. This example assumes that the replayed message is a replay of Map-Server triggered withdrawal and that a state matching this notification is maintained by the xTR.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -528,6 +585,8 @@ If replayed attacks are not counted as part of the rate-limit policy, legitimate
                        |                               |
 ~~~~
 {: #rmsw title="An Example of Replayed Notification of Subscription Withdrawal" artwork-align="center"}
+
+Note that if no state is maintained by the xTR, the Map-Notify will be silently discarded.
 
 # Explicit Subscriptions
 
