@@ -536,7 +536,7 @@ Suppose now that the xTR deletes it subscription. An attacker may replay valida 
     |       Map-Request(...)                    | .--------------------.
     |==========================================>+-+  Processed         |
                                                 | '--------------------'
-~~~~ aasvg
+~~~~
 {: #replay-no-state-ts title="An Example of Handling of Replayed Subscription with Timestamp" artwork-align="center"}
 
 ### Replayed Withdrawal
