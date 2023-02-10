@@ -501,7 +501,8 @@ Table of Contents
 
    Figure 12 shows the example of a replayed subscription request.  The
    request will be silently dropped the Map-Server because of nonce
-   check failure.
+   check failure.  This example assumes that a state is maintained by
+   the Map-Server for this xTR.
 
                      +---+                          +----+
                      | AT|                          | MS |
@@ -574,11 +575,74 @@ Table of Contents
 
   Figure 14: An Example of Handling of Replayed Initial Subscription
 
+   Suppose now that the xTR deletes it subscription.  An attacker may
+   replay valida Map-Request messages that were used for subscription or
+   updates.  These messages can't be detected by the Map-Server as being
+   replay messages.  The attacker may vary the source IP address of the
+   Map-Request to trigger as many Map-Notifies sent to other xTRs.These
+   Map-Notify messages will be ignored by the xTR as they don't have any
+   matching state.
+
++---+                                              +----+
+|xTR|                                              | MS |
++---+                                              +--+-+
+  |    Map-Request(nonce, AFI=0...)                   |
+  +==================================================>+
+  |       Map-Notify(nonce, AFI=0...)                 |
+  |<==================================================+
+  |    Map-Notify-Ack                                 |
+  +==================================================>+
+  |                 +---+                             |
+                    | AT|                             |
+                    +-+-+                             |
+                      | Map-Request(nonce,            | .--------------------.
+                      |              key_id, ..)      | | Security/integrity |
+                      +==============================>+-+ protection check.  |
+                      |                               | | No state is found  |
+  +---+                                               | | for xTR-ID/EID.    |
+  |xTR|                                               | | Add a subscription |
+  +-+-+        Map-Notify(nonce, ...)                 | | entry for this xTR |
+    |<================================================+-+                    |
+    |                 ...                             | |                    |
+    |                                                 | '--------------------'
+    |                                                 |
+
+   Figure 15: An Example of Handling of Replayed Map-Requests when
+                               no State
+
+   Note that if LISP-SEC messages are timestamped, the replayed packets
+   would be detected and, thus, be silently ignored by the Map-Server.
+   Such invalid messages won't then interfere with legitimate Map-
+   Requests if the Map-Server has sufficient resources to process the
+   timestamp of all received requests.  An example of processing
+   timestamped Map-Requests (rate-limit not reached) is depicted in
+   Figure 16.
+
+                  +---+                      +----+
+                  | AT|                      | MS |
+                  +-+-+                      +--+-+
+                    |                           |
+                    | Map-Request(init_nonce,   | .--------------------.
+                    |          init_key_id,..)  | | Security/integrity |
+                    +==========================>+-+ protection check.  |
+                    |                           | | The message is     |
+                                                | | discarded because  |
+  +---+                                         | | timestamp checks   |
+  |xTR|                                         | | fail               |
+  +-+-+                                         | '--------------------'
+    |                                           |
+    |       Map-Request(...)                    | .--------------------.
+    |==========================================>+-+  Processed         |
+                                                | '--------------------'
+
+   Figure 16: An Example of Handling of Replayed Subscription with
+                              Timestamp
+
 12.1.2.  Replayed Withdrawal
 
-   Figure 15 depicts the example of the exchange that occurs when an
+   Figure 17 depicts the example of the exchange that occurs when an
    attacker sends a replayed withdrawal request.  The request will be
-   silently discared by the Map-Server.
+   silently discared by the Map-Server if state is already present.
 
                      +---+                          +----+
                      | AT|                          | MS |
@@ -596,15 +660,16 @@ Table of Contents
     |                                                  | '--------------------'
     |                                                  |
 
-      Figure 15: An Example of Handling of Replayed Removal of a
+      Figure 17: An Example of Handling of Replayed Removal of a
                              Subscription
 
 12.1.3.  Replayed Notification Updates
 
-   Figure 16 illustrates the observed exchange when a replayed
+   Figure 18 illustrates the observed exchange when a replayed
    notification update is sent by a misbehaving node (AT) to an xTR.
    This example assumes that the replayed message is a replay of Map-
-   Server triggered withdrawal.
+   Server triggered withdrawal and that a state matching this
+   notification is maintained by the xTR.
 
                              +---+                          +----+
                              |xTR|                          | AT |
@@ -623,8 +688,11 @@ Table of Contents
         '--------------------' |                               |
                                |                               |
 
-       Figure 16: An Example of Replayed Notification of Subscription
+       Figure 18: An Example of Replayed Notification of Subscription
                                  Withdrawal
+
+   Note that if no state is maintained by the xTR, the Map-Notify will
+   be silently discarded.
 
 13.  Explicit Subscriptions
 
@@ -646,9 +714,9 @@ Table of Contents
               Barkai, S., and M. Boucadair, "Publish/Subscribe
               Functionality for the Locator/ID Separation Protocol
               (LISP)", Work in Progress, Internet-Draft, draft-ietf-
-              lisp-pubsub-10, 6 January 2023,
+              lisp-pubsub-11, 10 February 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lisp-
-              pubsub-10>.
+              pubsub-11>.
 
    [RFC9301]  Farinacci, D., Maino, F., Fuller, V., and A. Cabellos,
               Ed., "Locator/ID Separation Protocol (LISP) Control

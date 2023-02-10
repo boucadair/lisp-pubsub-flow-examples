@@ -2488,7 +2488,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-subscription-updat">
 <a href="#section-12.1.1" class="section-number selfRef">12.1.1. </a><a href="#name-replayed-subscription-updat" class="section-name selfRef">Replayed Subscription (Update)</a>
           </h4>
-<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 12</a> shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 12</a> shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure. This example assumes that a state is maintained by the Map-Server for this xTR.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-handling-of-r"></span><div id="riss">
 <figure id="figure-12">
             <div id="section-12.1.1-2.1">
@@ -2728,6 +2728,163 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-an-example-of-handling-of-rep" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
             </figcaption></figure>
 </div>
+<p id="section-12.1.1-7">Suppose now that the xTR deletes it subscription. An attacker may replay valida Map-Request messages that were used for subscription or updates. These messages can't be detected by the Map-Server as being replay messages. The attacker may vary the source IP address of the Map-Request to trigger as many Map-Notifies sent to other xTRs.These Map-Notify messages will be ignored by the xTR as they don't have any matching state.<a href="#section-12.1.1-7" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-repl"></span><div id="replay-no-state">
+<figure id="figure-15">
+            <div id="section-12.1.1-8.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="632" viewBox="0 0 632 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
+                  <path d="M 24,72 L 24,176" fill="none" stroke="black"></path>
+                  <path d="M 24,288 L 24,320" fill="none" stroke="black"></path>
+                  <path d="M 40,32 L 40,64" fill="none" stroke="black"></path>
+                  <path d="M 40,320 L 40,384" fill="none" stroke="black"></path>
+                  <path d="M 56,288 L 56,320" fill="none" stroke="black"></path>
+                  <path d="M 168,176 L 168,208" fill="none" stroke="black"></path>
+                  <path d="M 184,208 L 184,272" fill="none" stroke="black"></path>
+                  <path d="M 200,176 L 200,208" fill="none" stroke="black"></path>
+                  <path d="M 416,32 L 416,64" fill="none" stroke="black"></path>
+                  <path d="M 440,64 L 440,384" fill="none" stroke="black"></path>
+                  <path d="M 456,32 L 456,64" fill="none" stroke="black"></path>
+                  <path d="M 456,224 L 456,368" fill="none" stroke="black"></path>
+                  <path d="M 624,224 L 624,368" fill="none" stroke="black"></path>
+                  <path d="M 8,32 L 40,32" fill="none" stroke="black"></path>
+                  <path d="M 416,32 L 456,32" fill="none" stroke="black"></path>
+                  <path d="M 8,64 L 40,64" fill="none" stroke="black"></path>
+                  <path d="M 416,64 L 456,64" fill="none" stroke="black"></path>
+                  <path d="M 24,94 L 432,94" fill="none" stroke="black"></path>
+                  <path d="M 24,98 L 432,98" fill="none" stroke="black"></path>
+                  <path d="M 32,126 L 440,126" fill="none" stroke="black"></path>
+                  <path d="M 32,130 L 440,130" fill="none" stroke="black"></path>
+                  <path d="M 24,158 L 432,158" fill="none" stroke="black"></path>
+                  <path d="M 24,162 L 432,162" fill="none" stroke="black"></path>
+                  <path d="M 168,176 L 200,176" fill="none" stroke="black"></path>
+                  <path d="M 168,208 L 200,208" fill="none" stroke="black"></path>
+                  <path d="M 456,224 L 624,224" fill="none" stroke="black"></path>
+                  <path d="M 184,254 L 432,254" fill="none" stroke="black"></path>
+                  <path d="M 184,258 L 432,258" fill="none" stroke="black"></path>
+                  <path d="M 440,256 L 456,256" fill="none" stroke="black"></path>
+                  <path d="M 24,288 L 56,288" fill="none" stroke="black"></path>
+                  <path d="M 24,320 L 56,320" fill="none" stroke="black"></path>
+                  <path d="M 48,334 L 440,334" fill="none" stroke="black"></path>
+                  <path d="M 48,338 L 440,338" fill="none" stroke="black"></path>
+                  <path d="M 448,336 L 456,336" fill="none" stroke="black"></path>
+                  <path d="M 456,368 L 624,368" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="440,256 428,250.4 428,261.6" fill="black" transform="rotate(0,432,256)"></polygon>
+                  <polygon class="arrowhead" points="440,160 428,154.4 428,165.6" fill="black" transform="rotate(0,432,160)"></polygon>
+                  <polygon class="arrowhead" points="440,96 428,90.4 428,101.6" fill="black" transform="rotate(0,432,96)"></polygon>
+                  <polygon class="arrowhead" points="56,336 44,330.4 44,341.6" fill="black" transform="rotate(180,48,336)"></polygon>
+                  <polygon class="arrowhead" points="40,128 28,122.4 28,133.6" fill="black" transform="rotate(180,32,128)"></polygon>
+                  <g class="text">
+                    <text x="24" y="52">xTR</text>
+                    <text x="436" y="52">MS</text>
+                    <text x="132" y="84">Map-Request(nonce,</text>
+                    <text x="248" y="84">AFI=0...)</text>
+                    <text x="152" y="116">Map-Notify(nonce,</text>
+                    <text x="264" y="116">AFI=0...)</text>
+                    <text x="116" y="148">Map-Notify-Ack</text>
+                    <text x="188" y="196">AT</text>
+                    <text x="268" y="228">Map-Request(nonce,</text>
+                    <text x="328" y="244">key_id,</text>
+                    <text x="376" y="244">..)</text>
+                    <text x="540" y="244">Security/integrity</text>
+                    <text x="508" y="260">protection</text>
+                    <text x="580" y="260">check.</text>
+                    <text x="476" y="276">No</text>
+                    <text x="512" y="276">state</text>
+                    <text x="548" y="276">is</text>
+                    <text x="584" y="276">found</text>
+                    <text x="480" y="292">for</text>
+                    <text x="544" y="292">xTR-ID/EID.</text>
+                    <text x="40" y="308">xTR</text>
+                    <text x="480" y="308">Add</text>
+                    <text x="504" y="308">a</text>
+                    <text x="564" y="308">subscription</text>
+                    <text x="192" y="324">Map-Notify(nonce,</text>
+                    <text x="284" y="324">...)</text>
+                    <text x="488" y="324">entry</text>
+                    <text x="528" y="324">for</text>
+                    <text x="564" y="324">this</text>
+                    <text x="600" y="324">xTR</text>
+                    <text x="192" y="356">...</text>
+                  </g>
+                </svg><a href="#section-12.1.1-8.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
+<a href="#name-an-example-of-handling-of-repl" class="selfRef">An Example of Handling of Replayed Map-Requests when no State</a>
+            </figcaption></figure>
+</div>
+<p id="section-12.1.1-9">Note that if LISP-SEC messages are timestamped, the replayed packets
+   would be detected and, thus, be silently ignored by the Map-Server.
+   Such invalid messages won't then interfere with legitimate Map-
+   Requests if the Map-Server has sufficient resources to process the
+   timestamp of all received requests.  An example of processing
+   timestamped Map-Requests (rate-limit not reached) is depicted in
+   <a href="#replay-no-state-ts" class="auto internal xref">Figure 16</a>.<a href="#section-12.1.1-9" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-repla"></span><div id="replay-no-state-ts">
+<figure id="figure-16">
+            <div id="section-12.1.1-10.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-10.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="304" width="568" viewBox="0 0 568 304" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,176 L 8,208" fill="none" stroke="black"></path>
+                  <path d="M 24,208 L 24,256" fill="none" stroke="black"></path>
+                  <path d="M 40,176 L 40,208" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 136,64" fill="none" stroke="black"></path>
+                  <path d="M 152,64 L 152,144" fill="none" stroke="black"></path>
+                  <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
+                  <path d="M 376,64 L 376,272" fill="none" stroke="black"></path>
+                  <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 392,208" fill="none" stroke="black"></path>
+                  <path d="M 392,240 L 392,272" fill="none" stroke="black"></path>
+                  <path d="M 560,96 L 560,208" fill="none" stroke="black"></path>
+                  <path d="M 560,240 L 560,272" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 168,32" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
+                  <path d="M 136,64 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,64 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 560,96" fill="none" stroke="black"></path>
+                  <path d="M 152,126 L 368,126" fill="none" stroke="black"></path>
+                  <path d="M 152,130 L 368,130" fill="none" stroke="black"></path>
+                  <path d="M 376,128 L 392,128" fill="none" stroke="black"></path>
+                  <path d="M 8,176 L 40,176" fill="none" stroke="black"></path>
+                  <path d="M 8,208 L 40,208" fill="none" stroke="black"></path>
+                  <path d="M 392,208 L 560,208" fill="none" stroke="black"></path>
+                  <path d="M 392,240 L 560,240" fill="none" stroke="black"></path>
+                  <path d="M 32,254 L 368,254" fill="none" stroke="black"></path>
+                  <path d="M 32,258 L 368,258" fill="none" stroke="black"></path>
+                  <path d="M 376,256 L 392,256" fill="none" stroke="black"></path>
+                  <path d="M 392,272 L 560,272" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="376,256 364,250.4 364,261.6" fill="black" transform="rotate(0,368,256)"></polygon>
+                  <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
+                  <g class="text">
+                    <text x="156" y="52">AT</text>
+                    <text x="372" y="52">MS</text>
+                    <text x="256" y="100">Map-Request(init_nonce,</text>
+                    <text x="296" y="116">init_key_id,..)</text>
+                    <text x="476" y="116">Security/integrity</text>
+                    <text x="444" y="132">protection</text>
+                    <text x="516" y="132">check.</text>
+                    <text x="416" y="148">The</text>
+                    <text x="464" y="148">message</text>
+                    <text x="508" y="148">is</text>
+                    <text x="440" y="164">discarded</text>
+                    <text x="512" y="164">because</text>
+                    <text x="440" y="180">timestamp</text>
+                    <text x="508" y="180">checks</text>
+                    <text x="24" y="196">xTR</text>
+                    <text x="420" y="196">fail</text>
+                    <text x="148" y="244">Map-Request(...)</text>
+                    <text x="448" y="260">Processed</text>
+                  </g>
+                </svg><a href="#section-12.1.1-10.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
+<a href="#name-an-example-of-handling-of-repla" class="selfRef">An Example of Handling of Replayed Subscription with Timestamp</a>
+            </figcaption></figure>
+</div>
 </section>
 </div>
 <div id="replayed-withdrawal">
@@ -2735,9 +2892,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-withdrawal">
 <a href="#section-12.1.2" class="section-number selfRef">12.1.2. </a><a href="#name-replayed-withdrawal" class="section-name selfRef">Replayed Withdrawal</a>
           </h4>
-<p id="section-12.1.2-1"><a href="#rew" class="auto internal xref">Figure 15</a> depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server.<a href="#section-12.1.2-1" class="pilcrow">¶</a></p>
-<span id="name-an-example-of-handling-of-repl"></span><div id="rew">
-<figure id="figure-15">
+<p id="section-12.1.2-1"><a href="#rew" class="auto internal xref">Figure 17</a> depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server if state is already present.<a href="#section-12.1.2-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-replay"></span><div id="rew">
+<figure id="figure-17">
             <div id="section-12.1.2-2.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.2-2.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="624" viewBox="0 0 624 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
@@ -2799,8 +2956,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </svg><a href="#section-12.1.2-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
-<a href="#name-an-example-of-handling-of-repl" class="selfRef">An Example of Handling of Replayed Removal of a Subscription</a>
+<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
+<a href="#name-an-example-of-handling-of-replay" class="selfRef">An Example of Handling of Replayed Removal of a Subscription</a>
             </figcaption></figure>
 </div>
 </section>
@@ -2810,9 +2967,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <h4 id="name-replayed-notification-updat">
 <a href="#section-12.1.3" class="section-number selfRef">12.1.3. </a><a href="#name-replayed-notification-updat" class="section-name selfRef">Replayed Notification Updates</a>
           </h4>
-<p id="section-12.1.3-1"><a href="#rmsw" class="auto internal xref">Figure 16</a> illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR. This example assumes that the replayed message is a replay of Map-Server triggered withdrawal.<a href="#section-12.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-12.1.3-1"><a href="#rmsw" class="auto internal xref">Figure 18</a> illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR. This example assumes that the replayed message is a replay of Map-Server triggered withdrawal and that a state matching this notification is maintained by the xTR.<a href="#section-12.1.3-1" class="pilcrow">¶</a></p>
 <span id="name-an-example-of-replayed-noti"></span><div id="rmsw">
-<figure id="figure-16">
+<figure id="figure-18">
             <div id="section-12.1.3-2.1">
               <div class="alignCenter art-svg artwork" id="section-12.1.3-2.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="472" viewBox="0 0 472 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
@@ -2864,10 +3021,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </svg><a href="#section-12.1.3-2.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
+<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
 <a href="#name-an-example-of-replayed-noti" class="selfRef">An Example of Replayed Notification of Subscription Withdrawal</a>
             </figcaption></figure>
 </div>
+<p id="section-12.1.3-3">Note that if no state is maintained by the xTR, the Map-Notify will be silently discarded.<a href="#section-12.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2905,7 +3063,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dl class="references">
 <dt id="I-D.ietf-lisp-pubsub">[I-D.ietf-lisp-pubsub]</dt>
       <dd>
-<span class="refAuthor">Rodriguez-Natal, A.</span>, <span class="refAuthor">Ermagan, V.</span>, <span class="refAuthor">Cabellos-Aparicio, A.</span>, <span class="refAuthor">Barkai, S.</span>, and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"Publish/Subscribe Functionality for the Locator/ID Separation Protocol (LISP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lisp-pubsub-10</span>, <time datetime="2023-01-06" class="refDate">6 January 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-10">https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-10</a>&gt;</span>. </dd>
+<span class="refAuthor">Rodriguez-Natal, A.</span>, <span class="refAuthor">Ermagan, V.</span>, <span class="refAuthor">Cabellos-Aparicio, A.</span>, <span class="refAuthor">Barkai, S.</span>, and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"Publish/Subscribe Functionality for the Locator/ID Separation Protocol (LISP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lisp-pubsub-11</span>, <time datetime="2023-02-10" class="refDate">10 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-11">https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-11</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9301">[RFC9301]</dt>
     <dd>
