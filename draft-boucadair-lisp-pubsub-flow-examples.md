@@ -458,7 +458,7 @@ Note that legitimate Map-Requests issued from the authentic xTR may be blocked a
 ~~~~
 {: #riss-rate title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
-If replayed attacks are not counted as part of the rate-limit policy, legitimate Map-Requests will be procecced as illustrate in {{riss-rate2}}.
+If replayed attacks are not counted as part of the rate-limit policy, legitimate Map-Requests will be procecced as illustrated in {{riss-rate2}}.
 
 ~~~~ aasvg
                   +---+                      +----+
@@ -482,7 +482,7 @@ If replayed attacks are not counted as part of the rate-limit policy, legitimate
 ~~~~
 {: #riss-rate2 title="An Example of Handling of Replayed Initial Subscription" artwork-align="center"}
 
-Suppose now that the xTR deletes it subscription. An attacker may replay valida Map-Request messages that were used for subscription or updates. These messages can't be detected by the Map-Server as being replay messages. The attacker may vary the source IP address of the Map-Request to trigger as many Map-Notifies sent to other xTRs.These Map-Notify messages will be ignored by the xTR as they don't have any matching state.
+Suppose now that the xTR deletes it subscription. An attacker may replay valid Map-Request messages that were used for subscription or updates. These messages can't be detected by the Map-Server as being replay messages. The attacker may vary the source IP address of the Map-Request to trigger as many Map-Notifies sent to other xTRs. These Map-Notify messages will be ignored by the xTR as they don't have any matching state.
 
 ~~~~ aasvg
 +---+                                              +----+
