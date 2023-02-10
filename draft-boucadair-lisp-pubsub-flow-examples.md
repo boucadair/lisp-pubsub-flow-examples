@@ -266,12 +266,6 @@ This example is similar to {{sec-iss}}, except that the Map-Notify-Ack is not de
 ~~~~
 {: #fiss title="An Example of Failed Initial Subscription" artwork-align="center"}
 
-# Bootstrapping an xTR
-
-When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisioned xTR-ID and security association. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
-
-A Map-Notify will be sent back by the Map-Server even if no subscription is found.
-
 # Stale Subscriptions
 
 For various reasons, an xTR may lose its subscriptions (or at least the nonce of a subscription). Note that losing the nonce is not compliant with the following from the PubSub specification:
@@ -339,7 +333,7 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
                      +-+-+                          +--+-+
                        |                               |
 .--------------------. |                               | .--------------------.
-| Increment the last | | Map-Request(nonce, AF=0...)   | | Security/integrity |
+| Increment the last | | Map-Request(nonce, AFI=0...)  | | Security/integrity |
 | seen nonce         +-+==============================>+-+ protection check.  |
 '--------------------' |                               | | Found an entry for |
                        |                               | | this xTR-ID        |
@@ -381,6 +375,35 @@ However, the approach in {{stale-new-key}} may have scalability issues as the Ma
                        |                               | '--------------------'
 ~~~~
 {: #msw title="An Example of Successful Notification of Subscription withdrawal" artwork-align="center"}
+
+# Bootstrapping an xTR
+
+When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisioned xTR-ID and security association. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.
+
+A Map-Notify will be sent back by the Map-Server even if no subscription is found as illustrated in {{boot}}.
+
+~~~~ aasvg
+                     +---+                          +----+
+                     |xTR|                          | MS |
+                     +-+-+                          +--+-+
+                       |                               |
+.--------------------. |                               | .--------------------.
+| Generate a random  | | Map-Request(nonce, AFI=0...)  | | Security/integrity |
+| nonce and new key  +-+==============================>+-+ protection check.  |
+'--------------------' |                               | | No entry is found  |
+                       |                               | | for this xTR-ID    |
+.--------------------. | Map-Notify(nonce, ...)        | |                    |
+| Security/integrity +-+<==============================+-+                    |
+| protection check.  | |                               | |                    |
+| Check that rcv     | |                               | '--------------------'
+| nonce == snd nonce | |                               |
+| Send Map-Notfiy-ACK| | Map-Notify-Ack(nonce,...)     |
+|                    +-+==============================>+
+'--------------------' |                               |
+                       |                               |
+~~~~
+{: #boot title="An Example of Clearing State when Bootstrapping" artwork-align="center"}
+
 
 ## Replay Attacks
 
@@ -484,7 +507,7 @@ If replayed attacks are not counted as part of the rate-limit policy, legitimate
 
 ### Replayed Notification Updates
 
-{{rmsw}} illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR.
+{{rmsw}} illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR. This example assumes that the replayed message is a replay of Map-Server triggered withdrawal.
 
 ~~~~ aasvg
                      +---+                          +----+
@@ -500,7 +523,7 @@ If replayed attacks are not counted as part of the rate-limit policy, legitimate
 |                    | |                               |
 | Discard the message| |                               |
 | because the nonce  | |                               |
-| checks failed      | |                               |
+| checks fails       | |                               |
 '--------------------' |                               |
                        |                               |
 ~~~~
