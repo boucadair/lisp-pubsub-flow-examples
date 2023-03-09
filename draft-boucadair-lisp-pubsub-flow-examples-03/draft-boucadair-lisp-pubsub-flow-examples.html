@@ -1,0 +1,3110 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>LISP PubSub Flow Examples</title>
+<meta content="Mohamed Boucadair" name="author">
+<meta content="
+       This document provides a set of flow examples to illustrate the use of LISP PubSub specification. 
+    " name="description">
+<meta content="xml2rfc 3.16.0" name="generator">
+<meta content="LISP" name="keyword">
+<meta content="draft-boucadair-lisp-pubsub-flow-examples-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.16.0
+    Python 3.10.9
+    appdirs 1.4.4
+    ConfigArgParse 1.5.3
+    google-i18n-address 2.5.2
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.2
+    lxml 4.9.2
+    MarkupSafe 2.1.1
+    pycountry 22.3.5
+    PyYAML 6.0
+    requests 2.28.1
+    setuptools 65.6.0
+    six 1.16.0
+    wcwidth 0.2.6
+-->
+<link href="draft-boucadair-lisp-pubsub-flow-examples.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  min-width: var(--identifier-width);
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
+.references dd {
+  margin-left: 8em !important;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">LISP PubSub Examples</td>
+<td class="right">February 2023</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Boucadair</td>
+<td class="center">Expires 14 August 2023</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Locator/ID Separation Protocol</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-boucadair-lisp-pubsub-flow-examples-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2023-02-10" class="published">10 February 2023</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2023-08-14">14 August 2023</time></dd>
+<dt class="label-authors">Author:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Boucadair</div>
+<div class="org">Orange</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">LISP PubSub Flow Examples</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document provides a set of flow examples to illustrate the use of LISP PubSub specification.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Discussion of this document takes place on the
+    Locator/ID Separation Protocol Working Group mailing list (lisp@ietf.org),
+    which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/lisp/">https://mailarchive.ietf.org/arch/browse/lisp/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+    <span><a href="https://github.com/boucadair/lisp-pubsub-flow-examples">https://github.com/boucadair/lisp-pubsub-flow-examples</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 14 August 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2023 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-initial-successful-subscrip" class="internal xref">Initial Successful Subscription</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-successful-notification" class="internal xref">Successful Notification</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-successful-notification-wit" class="internal xref">Successful Notification with Retransmission</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-failed-notification-with-re" class="internal xref">Failed Notification with Retransmission</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-successful-subscription-upd" class="internal xref">Successful Subscription Update</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-failed-subscription-with-lo" class="internal xref">Failed Subscription with Lost Map-Notify-Ack</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-stale-subscriptions" class="internal xref">Stale Subscriptions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-xtr-triggered-subscription-" class="internal xref">xTR-triggered Subscription Withdrawal</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-map-server-triggered-subscr" class="internal xref">'Map-Server'-triggered Subscription Withdrawal</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-bootstrapping-an-xtr" class="internal xref">Bootstrapping an xTR</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-replay-attacks" class="internal xref">Replay Attacks</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.1">
+                    <p id="section-toc.1-1.12.2.1.2.1.1"><a href="#section-12.1.1" class="auto internal xref">12.1.1</a>.  <a href="#name-replayed-subscription-updat" class="internal xref">Replayed Subscription (Update)</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.2">
+                    <p id="section-toc.1-1.12.2.1.2.2.1"><a href="#section-12.1.2" class="auto internal xref">12.1.2</a>.  <a href="#name-replayed-withdrawal" class="internal xref">Replayed Withdrawal</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1.2.3">
+                    <p id="section-toc.1-1.12.2.1.2.3.1"><a href="#section-12.1.3" class="auto internal xref">12.1.3</a>.  <a href="#name-replayed-notification-updat" class="internal xref">Replayed Notification Updates</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-explicit-subscriptions" class="internal xref">Explicit Subscriptions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#section-14" class="auto internal xref">14</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#section-16" class="auto internal xref">16</a>. <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
+            <p id="section-toc.1-1.17.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18">
+            <p id="section-toc.1-1.18.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">This document provides a set of flow examples as a companion to the LISP PubSub specification <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>. The document is meant to illustrate and assess the behavior of LISP control nodes under specific conditions.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The examples use a simplified/simple setup for the sake of illustration.<a href="#section-1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="terminology">
+<section id="section-2">
+      <h2 id="name-terminology">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+      </h2>
+<p id="section-2-1">This document uses the terms defined in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The following terms and notations are used in this document:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-3">
+        <dt id="section-2-3.1">init_nonce:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.2">
+          <p id="section-2-3.2.1">the nonce that is initially included in a Map-Request to create a subscription.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.3">initial subscription request:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.4">
+          <p id="section-2-3.4.1">the Map-Request that was used to create the initial subscription. This request has the nonce value set to init_nonce.<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.5">nonce++:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.6">
+          <p id="section-2-3.6.1">incremented nonce by 1.<a href="#section-2-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.7">init_key_id:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.8">
+          <p id="section-2-3.8.1">the key identifier that was used in the Map-Request with init_nonce.<a href="#section-2-3.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.9">trans_count:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.10">
+          <p id="section-2-3.10.1">retransmission counter as per Section 5.7 of <span>[<a href="#RFC9301" class="cite xref">RFC9301</a>]</span>.<a href="#section-2-3.10.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.11">trans_timer:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.12">
+          <p id="section-2-3.12.1">retransmission timer as per Section 5.7 of <span>[<a href="#RFC9301" class="cite xref">RFC9301</a>]</span>.<a href="#section-2-3.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-3.13">AT:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-3.14">
+          <p id="section-2-3.14.1">Attacker<a href="#section-2-3.14.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-iss">
+<section id="section-3">
+      <h2 id="name-initial-successful-subscrip">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-initial-successful-subscrip" class="section-name selfRef">Initial Successful Subscription</a>
+      </h2>
+<p id="section-3-1"><a href="#iss" class="auto internal xref">Figure 1</a> shows the example of a successful subscription. The example assumes that a security association is in place between the xTR ad the Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all integrity-protection checks are successfully passed.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-successful-in"></span><div id="iss">
+<figure id="figure-1">
+        <div id="section-3-2.1">
+          <div class="alignCenter art-svg artwork" id="section-3-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="384" width="592" viewBox="0 0 592 384" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,192" fill="none" stroke="black"></path>
+              <path d="M 8,224 L 8,336" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,192" fill="none" stroke="black"></path>
+              <path d="M 176,224 L 176,336" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,368" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 376,32 L 376,64" fill="none" stroke="black"></path>
+              <path d="M 400,64 L 400,368" fill="none" stroke="black"></path>
+              <path d="M 416,32 L 416,64" fill="none" stroke="black"></path>
+              <path d="M 416,112 L 416,256" fill="none" stroke="black"></path>
+              <path d="M 416,288 L 416,368" fill="none" stroke="black"></path>
+              <path d="M 584,112 L 584,256" fill="none" stroke="black"></path>
+              <path d="M 584,288 L 584,368" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 376,32 L 416,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 376,64 L 416,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 416,112 L 584,112" fill="none" stroke="black"></path>
+              <path d="M 176,144 L 192,144" fill="none" stroke="black"></path>
+              <path d="M 200,142 L 400,142" fill="none" stroke="black"></path>
+              <path d="M 200,146 L 400,146" fill="none" stroke="black"></path>
+              <path d="M 408,144 L 416,144" fill="none" stroke="black"></path>
+              <path d="M 8,192 L 176,192" fill="none" stroke="black"></path>
+              <path d="M 8,224 L 176,224" fill="none" stroke="black"></path>
+              <path d="M 176,240 L 192,240" fill="none" stroke="black"></path>
+              <path d="M 200,238 L 400,238" fill="none" stroke="black"></path>
+              <path d="M 200,242 L 400,242" fill="none" stroke="black"></path>
+              <path d="M 408,240 L 416,240" fill="none" stroke="black"></path>
+              <path d="M 416,256 L 584,256" fill="none" stroke="black"></path>
+              <path d="M 416,288 L 584,288" fill="none" stroke="black"></path>
+              <path d="M 176,304 L 192,304" fill="none" stroke="black"></path>
+              <path d="M 200,302 L 392,302" fill="none" stroke="black"></path>
+              <path d="M 200,306 L 392,306" fill="none" stroke="black"></path>
+              <path d="M 408,304 L 416,304" fill="none" stroke="black"></path>
+              <path d="M 8,336 L 176,336" fill="none" stroke="black"></path>
+              <path d="M 416,368 L 584,368" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="400,304 388,298.4 388,309.6" fill="black" transform="rotate(0,392,304)"></polygon>
+              <polygon class="arrowhead" points="208,240 196,234.4 196,245.6" fill="black" transform="rotate(180,200,240)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="396" y="52">MS</text>
+                <text x="52" y="116">Generate</text>
+                <text x="96" y="116">a</text>
+                <text x="120" y="116">new</text>
+                <text x="152" y="116">key</text>
+                <text x="296" y="116">Map-Request(init_nonce,</text>
+                <text x="32" y="132">and</text>
+                <text x="60" y="132">an</text>
+                <text x="104" y="132">initial</text>
+                <text x="320" y="132">init_key_id,..)</text>
+                <text x="500" y="132">Security/integrity</text>
+                <text x="44" y="148">nonce.</text>
+                <text x="96" y="148">Store</text>
+                <text x="140" y="148">them</text>
+                <text x="468" y="148">protection</text>
+                <text x="540" y="148">check.</text>
+                <text x="48" y="164">locally</text>
+                <text x="96" y="164">for</text>
+                <text x="132" y="164">this</text>
+                <text x="436" y="164">No</text>
+                <text x="472" y="164">State</text>
+                <text x="512" y="164">for</text>
+                <text x="548" y="164">this</text>
+                <text x="68" y="180">subscription</text>
+                <text x="468" y="180">xTR-ID/EID</text>
+                <text x="524" y="180">is</text>
+                <text x="560" y="180">found</text>
+                <text x="452" y="196">Create</text>
+                <text x="496" y="196">the</text>
+                <text x="528" y="196">sub</text>
+                <text x="560" y="196">and</text>
+                <text x="292" y="212">Map-Notify(init_nonce,</text>
+                <text x="448" y="212">store</text>
+                <text x="520" y="212">init_nonce,</text>
+                <text x="368" y="228">,...)</text>
+                <text x="476" y="228">init_key_id,</text>
+                <text x="544" y="228">...</text>
+                <text x="92" y="244">Security/integrity</text>
+                <text x="60" y="260">protection</text>
+                <text x="132" y="260">check.</text>
+                <text x="40" y="276">Check</text>
+                <text x="84" y="276">that</text>
+                <text x="120" y="276">rcv</text>
+                <text x="296" y="276">Map-Notify-Ack(init_nonce</text>
+                <text x="40" y="292">nonce</text>
+                <text x="76" y="292">==</text>
+                <text x="132" y="292">init_nonce</text>
+                <text x="376" y="292">,...)</text>
+                <text x="48" y="308">Confirm</text>
+                <text x="96" y="308">the</text>
+                <text x="128" y="308">sub</text>
+                <text x="160" y="308">and</text>
+                <text x="500" y="308">Security/integrity</text>
+                <text x="36" y="324">wait</text>
+                <text x="72" y="324">for</text>
+                <text x="116" y="324">notifs</text>
+                <text x="468" y="324">protection</text>
+                <text x="544" y="324">checks.</text>
+                <text x="444" y="340">This</text>
+                <text x="516" y="340">subscription</text>
+                <text x="436" y="356">is</text>
+                <text x="464" y="356">now</text>
+                <text x="504" y="356">ACKed</text>
+              </g>
+            </svg><a href="#section-3-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-an-example-of-successful-in" class="selfRef">An Example of Successful Initial Subscription</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="successful-notification">
+<section id="section-4">
+      <h2 id="name-successful-notification">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-successful-notification" class="section-name selfRef">Successful Notification</a>
+      </h2>
+<p id="section-4-1"><a href="#sn" class="auto internal xref">Figure 2</a> illustrates the example of a successful delivery of notification updates that match an existing subscription state. This example assumes that a security association is in place between the xTR and the Map-Server (Section 7.1 of <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>) and that all subsequent integrity-protection checks are successfully passed.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-successful-no"></span><div id="sn">
+<figure id="figure-2">
+        <div id="section-4-2.1">
+          <div class="alignCenter art-svg artwork" id="section-4-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="304" width="600" viewBox="0 0 600 304" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,272" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,272" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,288" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 384,32 L 384,64" fill="none" stroke="black"></path>
+              <path d="M 408,64 L 408,288" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 424,96 L 424,176" fill="none" stroke="black"></path>
+              <path d="M 424,208 L 424,288" fill="none" stroke="black"></path>
+              <path d="M 592,96 L 592,176" fill="none" stroke="black"></path>
+              <path d="M 592,208 L 592,288" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 384,32 L 424,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 384,64 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 424,96 L 592,96" fill="none" stroke="black"></path>
+              <path d="M 336,112 L 352,112" fill="none" stroke="black"></path>
+              <path d="M 176,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 200,126 L 408,126" fill="none" stroke="black"></path>
+              <path d="M 200,130 L 408,130" fill="none" stroke="black"></path>
+              <path d="M 416,128 L 424,128" fill="none" stroke="black"></path>
+              <path d="M 424,176 L 592,176" fill="none" stroke="black"></path>
+              <path d="M 424,208 L 592,208" fill="none" stroke="black"></path>
+              <path d="M 360,224 L 376,224" fill="none" stroke="black"></path>
+              <path d="M 176,240 L 192,240" fill="none" stroke="black"></path>
+              <path d="M 200,238 L 400,238" fill="none" stroke="black"></path>
+              <path d="M 200,242 L 400,242" fill="none" stroke="black"></path>
+              <path d="M 416,240 L 424,240" fill="none" stroke="black"></path>
+              <path d="M 8,272 L 176,272" fill="none" stroke="black"></path>
+              <path d="M 424,288 L 592,288" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="408,240 396,234.4 396,245.6" fill="black" transform="rotate(0,400,240)"></polygon>
+              <polygon class="arrowhead" points="208,128 196,122.4 196,133.6" fill="black" transform="rotate(180,200,128)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="404" y="52">MS</text>
+                <text x="92" y="116">Security/integrity</text>
+                <text x="268" y="116">Map-Notify(nonce</text>
+                <text x="380" y="116">...)</text>
+                <text x="460" y="116">Update</text>
+                <text x="500" y="116">is</text>
+                <text x="552" y="116">triggered</text>
+                <text x="60" y="132">protection</text>
+                <text x="132" y="132">check.</text>
+                <text x="472" y="132">Increment</text>
+                <text x="528" y="132">the</text>
+                <text x="568" y="132">nonce</text>
+                <text x="40" y="148">Check</text>
+                <text x="84" y="148">that</text>
+                <text x="120" y="148">rcv</text>
+                <text x="448" y="148">Set</text>
+                <text x="512" y="148">trans_count</text>
+                <text x="576" y="148">and</text>
+                <text x="40" y="164">nonce</text>
+                <text x="76" y="164">&gt;=</text>
+                <text x="112" y="164">local</text>
+                <text x="480" y="164">trans_timer</text>
+                <text x="40" y="180">nonce</text>
+                <text x="72" y="180">+</text>
+                <text x="88" y="180">1</text>
+                <text x="52" y="212">Confirms</text>
+                <text x="104" y="212">the</text>
+                <text x="144" y="212">notif</text>
+                <text x="32" y="228">and</text>
+                <text x="76" y="228">update</text>
+                <text x="120" y="228">the</text>
+                <text x="276" y="228">Map-Notify-Ack(nonce</text>
+                <text x="392" y="228">..)</text>
+                <text x="508" y="228">Security/integrity</text>
+                <text x="40" y="244">entry</text>
+                <text x="476" y="244">protection</text>
+                <text x="552" y="244">checks.</text>
+                <text x="452" y="260">This</text>
+                <text x="524" y="260">notification</text>
+                <text x="444" y="276">is</text>
+                <text x="472" y="276">now</text>
+                <text x="512" y="276">ACKed</text>
+              </g>
+            </svg><a href="#section-4-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-an-example-of-successful-no" class="selfRef">An Example of Successful Notification</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="successful-notification-with-retransmission">
+<section id="section-5">
+      <h2 id="name-successful-notification-wit">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-successful-notification-wit" class="section-name selfRef">Successful Notification with Retransmission</a>
+      </h2>
+<p id="section-5-1">Unlike the example depicted in <a href="#sn" class="auto internal xref">Figure 2</a>, <a href="#sretrans" class="auto internal xref">Figure 3</a> illustrates the behavior that is experienced  when a subset of Map-Notify messages are lost during their transfer. This example assumes that at least one of these Map-Notify messages is received by the target xTR.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-successful-not"></span><div id="sretrans">
+<figure id="figure-3">
+        <div id="section-5-2.1">
+          <div class="alignCenter art-svg artwork" id="section-5-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="496" width="584" viewBox="0 0 584 496" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,304 L 8,464" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,304 L 176,464" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,480" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 368,32 L 368,64" fill="none" stroke="black"></path>
+              <path d="M 392,64 L 392,408" fill="none" stroke="black"></path>
+              <path d="M 392,424 L 392,480" fill="none" stroke="black"></path>
+              <path d="M 408,32 L 408,64" fill="none" stroke="black"></path>
+              <path d="M 408,96 L 408,176" fill="none" stroke="black"></path>
+              <path d="M 408,208 L 408,272" fill="none" stroke="black"></path>
+              <path d="M 408,304 L 408,368" fill="none" stroke="black"></path>
+              <path d="M 408,400 L 408,480" fill="none" stroke="black"></path>
+              <path d="M 576,96 L 576,176" fill="none" stroke="black"></path>
+              <path d="M 576,208 L 576,272" fill="none" stroke="black"></path>
+              <path d="M 576,304 L 576,368" fill="none" stroke="black"></path>
+              <path d="M 576,400 L 576,480" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 368,32 L 408,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 368,64 L 408,64" fill="none" stroke="black"></path>
+              <path d="M 408,96 L 576,96" fill="none" stroke="black"></path>
+              <path d="M 240,126 L 392,126" fill="none" stroke="black"></path>
+              <path d="M 240,130 L 392,130" fill="none" stroke="black"></path>
+              <path d="M 400,128 L 408,128" fill="none" stroke="black"></path>
+              <path d="M 408,176 L 576,176" fill="none" stroke="black"></path>
+              <path d="M 408,208 L 576,208" fill="none" stroke="black"></path>
+              <path d="M 240,238 L 392,238" fill="none" stroke="black"></path>
+              <path d="M 240,242 L 392,242" fill="none" stroke="black"></path>
+              <path d="M 400,240 L 408,240" fill="none" stroke="black"></path>
+              <path d="M 408,272 L 576,272" fill="none" stroke="black"></path>
+              <path d="M 8,304 L 176,304" fill="none" stroke="black"></path>
+              <path d="M 408,304 L 576,304" fill="none" stroke="black"></path>
+              <path d="M 176,336 L 192,336" fill="none" stroke="black"></path>
+              <path d="M 200,334 L 392,334" fill="none" stroke="black"></path>
+              <path d="M 200,338 L 392,338" fill="none" stroke="black"></path>
+              <path d="M 400,336 L 408,336" fill="none" stroke="black"></path>
+              <path d="M 408,368 L 576,368" fill="none" stroke="black"></path>
+              <path d="M 408,400 L 576,400" fill="none" stroke="black"></path>
+              <path d="M 176,432 L 192,432" fill="none" stroke="black"></path>
+              <path d="M 200,430 L 384,430" fill="none" stroke="black"></path>
+              <path d="M 200,434 L 384,434" fill="none" stroke="black"></path>
+              <path d="M 392,432 L 408,432" fill="none" stroke="black"></path>
+              <path d="M 8,464 L 176,464" fill="none" stroke="black"></path>
+              <path d="M 408,480 L 576,480" fill="none" stroke="black"></path>
+              <path class="jump" d="M 392,424 C 398,424 398,408 392,408" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="392,432 380,426.4 380,437.6" fill="black" transform="rotate(0,384,432)"></polygon>
+              <polygon class="arrowhead" points="248,240 236,234.4 236,245.6" fill="black" transform="rotate(180,240,240)"></polygon>
+              <polygon class="arrowhead" points="248,128 236,122.4 236,133.6" fill="black" transform="rotate(180,240,128)"></polygon>
+              <polygon class="arrowhead" points="208,336 196,330.4 196,341.6" fill="black" transform="rotate(180,200,336)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="388" y="52">MS</text>
+                <text x="272" y="116">Map-Notify(nonce,</text>
+                <text x="364" y="116">...)</text>
+                <text x="444" y="116">Update</text>
+                <text x="484" y="116">is</text>
+                <text x="536" y="116">triggered</text>
+                <text x="456" y="132">Increment</text>
+                <text x="512" y="132">the</text>
+                <text x="552" y="132">nonce</text>
+                <text x="432" y="148">Set</text>
+                <text x="496" y="148">trans_count</text>
+                <text x="560" y="148">and</text>
+                <text x="464" y="164">trans_timer</text>
+                <text x="272" y="228">Map-Notify(nonce,</text>
+                <text x="364" y="228">...)</text>
+                <text x="456" y="228">Increment</text>
+                <text x="464" y="244">trans_count</text>
+                <text x="528" y="244">and</text>
+                <text x="440" y="260">reset</text>
+                <text x="512" y="260">trans_timer</text>
+                <text x="92" y="324">Security/integrity</text>
+                <text x="264" y="324">Map-Notify(nonce,</text>
+                <text x="356" y="324">...)</text>
+                <text x="456" y="324">Increment</text>
+                <text x="60" y="340">protection</text>
+                <text x="132" y="340">check.</text>
+                <text x="464" y="340">trans_count</text>
+                <text x="528" y="340">and</text>
+                <text x="40" y="356">Check</text>
+                <text x="84" y="356">that</text>
+                <text x="120" y="356">rcv</text>
+                <text x="440" y="356">reset</text>
+                <text x="512" y="356">trans_timer</text>
+                <text x="40" y="372">nonce</text>
+                <text x="76" y="372">&gt;=</text>
+                <text x="112" y="372">local</text>
+                <text x="40" y="388">nonce</text>
+                <text x="72" y="388">+</text>
+                <text x="88" y="388">1</text>
+                <text x="52" y="420">Confirms</text>
+                <text x="104" y="420">the</text>
+                <text x="144" y="420">notif</text>
+                <text x="292" y="420">Map-Notify-Ack(nonce,...</text>
+                <text x="492" y="420">Security/integrity</text>
+                <text x="32" y="436">and</text>
+                <text x="76" y="436">update</text>
+                <text x="120" y="436">the</text>
+                <text x="460" y="436">protection</text>
+                <text x="536" y="436">checks.</text>
+                <text x="40" y="452">entry</text>
+                <text x="436" y="452">This</text>
+                <text x="508" y="452">notification</text>
+                <text x="428" y="468">is</text>
+                <text x="456" y="468">now</text>
+                <text x="496" y="468">ACKed</text>
+              </g>
+            </svg><a href="#section-5-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-an-example-of-successful-not" class="selfRef">An Example of Successful Notification with Retransmission</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="failed-notification-with-retransmission">
+<section id="section-6">
+      <h2 id="name-failed-notification-with-re">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-failed-notification-with-re" class="section-name selfRef">Failed Notification with Retransmission</a>
+      </h2>
+<p id="section-6-1"><a href="#fretrans" class="auto internal xref">Figure 4</a> assumes that, due to network conditions, all Map-Notifies are lost.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-failed-notifi"></span><div id="fretrans">
+<figure id="figure-4">
+        <div id="section-6-2.1">
+          <div class="alignCenter art-svg artwork" id="section-6-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="472" viewBox="0 0 472 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
+              <path d="M 24,64 L 24,368" fill="none" stroke="black"></path>
+              <path d="M 40,32 L 40,64" fill="none" stroke="black"></path>
+              <path d="M 256,32 L 256,64" fill="none" stroke="black"></path>
+              <path d="M 280,64 L 280,368" fill="none" stroke="black"></path>
+              <path d="M 296,32 L 296,64" fill="none" stroke="black"></path>
+              <path d="M 296,96 L 296,176" fill="none" stroke="black"></path>
+              <path d="M 296,208 L 296,272" fill="none" stroke="black"></path>
+              <path d="M 296,304 L 296,368" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,176" fill="none" stroke="black"></path>
+              <path d="M 464,208 L 464,272" fill="none" stroke="black"></path>
+              <path d="M 464,304 L 464,368" fill="none" stroke="black"></path>
+              <path d="M 8,32 L 40,32" fill="none" stroke="black"></path>
+              <path d="M 256,32 L 296,32" fill="none" stroke="black"></path>
+              <path d="M 8,64 L 40,64" fill="none" stroke="black"></path>
+              <path d="M 256,64 L 296,64" fill="none" stroke="black"></path>
+              <path d="M 296,96 L 464,96" fill="none" stroke="black"></path>
+              <path d="M 128,126 L 280,126" fill="none" stroke="black"></path>
+              <path d="M 128,130 L 280,130" fill="none" stroke="black"></path>
+              <path d="M 288,128 L 296,128" fill="none" stroke="black"></path>
+              <path d="M 296,176 L 464,176" fill="none" stroke="black"></path>
+              <path d="M 296,208 L 464,208" fill="none" stroke="black"></path>
+              <path d="M 128,238 L 280,238" fill="none" stroke="black"></path>
+              <path d="M 128,242 L 280,242" fill="none" stroke="black"></path>
+              <path d="M 288,240 L 296,240" fill="none" stroke="black"></path>
+              <path d="M 296,272 L 464,272" fill="none" stroke="black"></path>
+              <path d="M 296,304 L 464,304" fill="none" stroke="black"></path>
+              <path d="M 128,334 L 280,334" fill="none" stroke="black"></path>
+              <path d="M 128,338 L 280,338" fill="none" stroke="black"></path>
+              <path d="M 288,336 L 296,336" fill="none" stroke="black"></path>
+              <path d="M 296,368 L 464,368" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="136,336 124,330.4 124,341.6" fill="black" transform="rotate(180,128,336)"></polygon>
+              <polygon class="arrowhead" points="136,240 124,234.4 124,245.6" fill="black" transform="rotate(180,128,240)"></polygon>
+              <polygon class="arrowhead" points="136,128 124,122.4 124,133.6" fill="black" transform="rotate(180,128,128)"></polygon>
+              <g class="text">
+                <text x="24" y="52">xTR</text>
+                <text x="276" y="52">MS</text>
+                <text x="160" y="116">Map-Notify(nonce,</text>
+                <text x="252" y="116">...)</text>
+                <text x="332" y="116">Update</text>
+                <text x="372" y="116">is</text>
+                <text x="424" y="116">triggered</text>
+                <text x="344" y="132">Increment</text>
+                <text x="400" y="132">the</text>
+                <text x="440" y="132">nonce</text>
+                <text x="320" y="148">Set</text>
+                <text x="384" y="148">trans_count</text>
+                <text x="448" y="148">and</text>
+                <text x="352" y="164">trans_timer</text>
+                <text x="160" y="228">Map-Notify(nonce,</text>
+                <text x="252" y="228">...)</text>
+                <text x="344" y="228">Increment</text>
+                <text x="352" y="244">trans_count</text>
+                <text x="416" y="244">and</text>
+                <text x="328" y="260">reset</text>
+                <text x="400" y="260">trans_timer</text>
+                <text x="160" y="324">Map-Notify(nonce,</text>
+                <text x="252" y="324">...)</text>
+                <text x="344" y="324">Increment</text>
+                <text x="352" y="340">trans_count</text>
+                <text x="416" y="340">and</text>
+                <text x="328" y="356">reset</text>
+                <text x="400" y="356">trans_timer</text>
+              </g>
+            </svg><a href="#section-6-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<a href="#name-an-example-of-failed-notifi" class="selfRef">An Example of Failed Notification Delivery</a>
+        </figcaption></figure>
+</div>
+<p id="section-6-3">Note that no specific action is currently specified in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span> when such a failure occurs. That is, the entry is kept active and future updates will trigger new Map-Notify cycles. Also, the current specification does not recommend a behavior (e.g., regular refreshes) so that an xTR avoids maintaining stale mappings. Such details are implementation specific (see, for example, <a href="#sec-sub-update" class="auto internal xref">Section 7</a>). In order to accommodate Map-Notify messages lost, the nonce checks on the xTR should not be on the exact match vs "nonce + 1"; messages with "received nonce &gt;= local nonce + 1" should be accepted.<a href="#section-6-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-sub-update">
+<section id="section-7">
+      <h2 id="name-successful-subscription-upd">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-successful-subscription-upd" class="section-name selfRef">Successful Subscription Update</a>
+      </h2>
+<p id="section-7-1"><a href="#ssu" class="auto internal xref">Figure 5</a> illustrates the example of uccessful update of an existing subscription. The triggers for such a refresh are implementation specific.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-successful-su"></span><div id="ssu">
+<figure id="figure-5">
+        <div id="section-7-2.1">
+          <div class="alignCenter art-svg artwork" id="section-7-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="352" width="600" viewBox="0 0 600 352" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,144" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 8,288" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,144" fill="none" stroke="black"></path>
+              <path d="M 176,176 L 176,288" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,336" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 384,32 L 384,64" fill="none" stroke="black"></path>
+              <path d="M 408,64 L 408,240" fill="none" stroke="black"></path>
+              <path d="M 408,272 L 408,336" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 424,96 L 424,224" fill="none" stroke="black"></path>
+              <path d="M 424,272 L 424,336" fill="none" stroke="black"></path>
+              <path d="M 592,96 L 592,224" fill="none" stroke="black"></path>
+              <path d="M 592,272 L 592,336" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 384,32 L 424,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 384,64 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 424,96 L 592,96" fill="none" stroke="black"></path>
+              <path d="M 176,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 200,126 L 400,126" fill="none" stroke="black"></path>
+              <path d="M 200,130 L 400,130" fill="none" stroke="black"></path>
+              <path d="M 408,128 L 424,128" fill="none" stroke="black"></path>
+              <path d="M 8,144 L 176,144" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 176,176" fill="none" stroke="black"></path>
+              <path d="M 176,192 L 192,192" fill="none" stroke="black"></path>
+              <path d="M 200,190 L 408,190" fill="none" stroke="black"></path>
+              <path d="M 200,194 L 408,194" fill="none" stroke="black"></path>
+              <path d="M 416,192 L 424,192" fill="none" stroke="black"></path>
+              <path d="M 424,224 L 592,224" fill="none" stroke="black"></path>
+              <path d="M 424,256 L 576,256" fill="none" stroke="black"></path>
+              <path d="M 176,272 L 192,272" fill="none" stroke="black"></path>
+              <path d="M 200,270 L 400,270" fill="none" stroke="black"></path>
+              <path d="M 200,274 L 400,274" fill="none" stroke="black"></path>
+              <path d="M 416,272 L 424,272" fill="none" stroke="black"></path>
+              <path d="M 8,288 L 176,288" fill="none" stroke="black"></path>
+              <path d="M 424,336 L 592,336" fill="none" stroke="black"></path>
+              <path d="M 424,256 C 415.16936,256 408,263.16936 408,272" fill="none" stroke="black"></path>
+              <path d="M 576,256 C 584.83064,256 592,263.16936 592,272" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="408,272 396,266.4 396,277.6" fill="black" transform="rotate(0,400,272)"></polygon>
+              <polygon class="arrowhead" points="408,128 396,122.4 396,133.6" fill="black" transform="rotate(0,400,128)"></polygon>
+              <polygon class="arrowhead" points="208,192 196,186.4 196,197.6" fill="black" transform="rotate(180,200,192)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="404" y="52">MS</text>
+                <text x="56" y="116">Increment</text>
+                <text x="112" y="116">the</text>
+                <text x="148" y="116">last</text>
+                <text x="276" y="116">Map-Request(nonce,</text>
+                <text x="372" y="116">...)</text>
+                <text x="508" y="116">Security/integrity</text>
+                <text x="36" y="132">seen</text>
+                <text x="80" y="132">nonce</text>
+                <text x="476" y="132">protection</text>
+                <text x="548" y="132">check.</text>
+                <text x="456" y="148">Found</text>
+                <text x="492" y="148">an</text>
+                <text x="528" y="148">entry</text>
+                <text x="568" y="148">for</text>
+                <text x="452" y="164">this</text>
+                <text x="500" y="164">xTR-ID</text>
+                <text x="288" y="180">Map-Notify(nonce,...)</text>
+                <text x="456" y="180">Check</text>
+                <text x="500" y="180">that</text>
+                <text x="536" y="180">rcv</text>
+                <text x="92" y="196">Security/integrity</text>
+                <text x="456" y="196">nonce</text>
+                <text x="492" y="196">&gt;=</text>
+                <text x="528" y="196">local</text>
+                <text x="60" y="212">protection</text>
+                <text x="132" y="212">check.</text>
+                <text x="456" y="212">nonce</text>
+                <text x="488" y="212">+</text>
+                <text x="504" y="212">1</text>
+                <text x="40" y="228">Check</text>
+                <text x="84" y="228">that</text>
+                <text x="120" y="228">rcv</text>
+                <text x="40" y="244">nonce</text>
+                <text x="76" y="244">==</text>
+                <text x="104" y="244">snd</text>
+                <text x="144" y="244">nonce</text>
+                <text x="48" y="260">Confirm</text>
+                <text x="96" y="260">the</text>
+                <text x="128" y="260">sub</text>
+                <text x="160" y="260">and</text>
+                <text x="304" y="260">Map-Notify-Ack(nonce,...)</text>
+                <text x="36" y="276">wait</text>
+                <text x="72" y="276">for</text>
+                <text x="116" y="276">notifs</text>
+                <text x="508" y="276">Security/integrity</text>
+                <text x="476" y="292">protection</text>
+                <text x="548" y="292">check.</text>
+                <text x="452" y="308">This</text>
+                <text x="524" y="308">subscription</text>
+                <text x="460" y="324">update</text>
+                <text x="500" y="324">is</text>
+                <text x="536" y="324">ACKed</text>
+              </g>
+            </svg><a href="#section-7-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<a href="#name-an-example-of-successful-su" class="selfRef">An Example of Successful Subscription Update</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="failed-subscription-with-lost-map-notify-ack">
+<section id="section-8">
+      <h2 id="name-failed-subscription-with-lo">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-failed-subscription-with-lo" class="section-name selfRef">Failed Subscription with Lost Map-Notify-Ack</a>
+      </h2>
+<p id="section-8-1">This example is similar to <a href="#sec-iss" class="auto internal xref">Section 3</a>, except that the Map-Notify-Ack is not delivered to the Map-Server. The Map-Server retransmits the Map-Notify 3 times and then removes the subscription. A Map-Notify to explicitly indicate the reason for such a removal is also generated by the Map-Server. If the xTR receives this Map-Notify, the xTR may decide to send the Map-Request to reinstall back the removed state. The procedure to reinstall the state is similar to <a href="#iss" class="auto internal xref">Figure 1</a>.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-failed-initia"></span><div id="fiss">
+<figure id="figure-6">
+        <div id="section-8-2.1">
+          <div class="alignCenter art-svg artwork" id="section-8-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="624" width="640" viewBox="0 0 640 624" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,192" fill="none" stroke="black"></path>
+              <path d="M 8,224 L 8,336" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,192" fill="none" stroke="black"></path>
+              <path d="M 176,224 L 176,336" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,600" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 448,64 L 448,608" fill="none" stroke="black"></path>
+              <path d="M 464,32 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 464,112 L 464,272" fill="none" stroke="black"></path>
+              <path d="M 464,352 L 464,416" fill="none" stroke="black"></path>
+              <path d="M 464,448 L 464,512" fill="none" stroke="black"></path>
+              <path d="M 464,544 L 464,592" fill="none" stroke="black"></path>
+              <path d="M 632,112 L 632,272" fill="none" stroke="black"></path>
+              <path d="M 632,352 L 632,416" fill="none" stroke="black"></path>
+              <path d="M 632,448 L 632,512" fill="none" stroke="black"></path>
+              <path d="M 632,544 L 632,592" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 464,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,64 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 464,112 L 632,112" fill="none" stroke="black"></path>
+              <path d="M 176,144 L 192,144" fill="none" stroke="black"></path>
+              <path d="M 200,142 L 440,142" fill="none" stroke="black"></path>
+              <path d="M 200,146 L 440,146" fill="none" stroke="black"></path>
+              <path d="M 448,144 L 464,144" fill="none" stroke="black"></path>
+              <path d="M 8,192 L 176,192" fill="none" stroke="black"></path>
+              <path d="M 8,224 L 176,224" fill="none" stroke="black"></path>
+              <path d="M 176,240 L 192,240" fill="none" stroke="black"></path>
+              <path d="M 200,238 L 448,238" fill="none" stroke="black"></path>
+              <path d="M 200,242 L 448,242" fill="none" stroke="black"></path>
+              <path d="M 456,240 L 464,240" fill="none" stroke="black"></path>
+              <path d="M 464,272 L 632,272" fill="none" stroke="black"></path>
+              <path d="M 176,304 L 192,304" fill="none" stroke="black"></path>
+              <path d="M 200,302 L 288,302" fill="none" stroke="black"></path>
+              <path d="M 200,306 L 288,306" fill="none" stroke="black"></path>
+              <path d="M 8,336 L 176,336" fill="none" stroke="black"></path>
+              <path d="M 464,352 L 632,352" fill="none" stroke="black"></path>
+              <path d="M 296,382 L 448,382" fill="none" stroke="black"></path>
+              <path d="M 296,386 L 448,386" fill="none" stroke="black"></path>
+              <path d="M 456,384 L 464,384" fill="none" stroke="black"></path>
+              <path d="M 464,416 L 632,416" fill="none" stroke="black"></path>
+              <path d="M 464,448 L 632,448" fill="none" stroke="black"></path>
+              <path d="M 296,478 L 448,478" fill="none" stroke="black"></path>
+              <path d="M 296,482 L 448,482" fill="none" stroke="black"></path>
+              <path d="M 456,480 L 464,480" fill="none" stroke="black"></path>
+              <path d="M 464,512 L 632,512" fill="none" stroke="black"></path>
+              <path d="M 464,544 L 632,544" fill="none" stroke="black"></path>
+              <path d="M 240,574 L 448,574" fill="none" stroke="black"></path>
+              <path d="M 240,578 L 448,578" fill="none" stroke="black"></path>
+              <path d="M 456,576 L 464,576" fill="none" stroke="black"></path>
+              <path d="M 464,592 L 632,592" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="448,144 436,138.4 436,149.6" fill="black" transform="rotate(0,440,144)"></polygon>
+              <polygon class="arrowhead" points="304,480 292,474.4 292,485.6" fill="black" transform="rotate(180,296,480)"></polygon>
+              <polygon class="arrowhead" points="304,384 292,378.4 292,389.6" fill="black" transform="rotate(180,296,384)"></polygon>
+              <polygon class="arrowhead" points="296,304 284,298.4 284,309.6" fill="black" transform="rotate(0,288,304)"></polygon>
+              <polygon class="arrowhead" points="248,576 236,570.4 236,581.6" fill="black" transform="rotate(180,240,576)"></polygon>
+              <polygon class="arrowhead" points="208,240 196,234.4 196,245.6" fill="black" transform="rotate(180,200,240)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="444" y="52">MS</text>
+                <text x="52" y="116">Generate</text>
+                <text x="96" y="116">a</text>
+                <text x="120" y="116">new</text>
+                <text x="152" y="116">key</text>
+                <text x="296" y="116">Map-Request(init_nonce,</text>
+                <text x="32" y="132">and</text>
+                <text x="60" y="132">an</text>
+                <text x="104" y="132">initial</text>
+                <text x="352" y="132">init_key_id,..)</text>
+                <text x="548" y="132">Security/integrity</text>
+                <text x="44" y="148">nonce.</text>
+                <text x="96" y="148">Store</text>
+                <text x="140" y="148">them</text>
+                <text x="516" y="148">protection</text>
+                <text x="588" y="148">check.</text>
+                <text x="48" y="164">locally</text>
+                <text x="96" y="164">for</text>
+                <text x="132" y="164">this</text>
+                <text x="484" y="164">No</text>
+                <text x="520" y="164">State</text>
+                <text x="560" y="164">for</text>
+                <text x="596" y="164">this</text>
+                <text x="68" y="180">subscription</text>
+                <text x="516" y="180">xTR-ID/EID</text>
+                <text x="572" y="180">is</text>
+                <text x="608" y="180">found</text>
+                <text x="500" y="196">Create</text>
+                <text x="544" y="196">the</text>
+                <text x="576" y="196">sub</text>
+                <text x="608" y="196">and</text>
+                <text x="496" y="212">store</text>
+                <text x="568" y="212">init_nonce,</text>
+                <text x="308" y="228">Map-Notify(init_nonce,...)</text>
+                <text x="524" y="228">init_key_id,</text>
+                <text x="592" y="228">...</text>
+                <text x="92" y="244">Security/integrity</text>
+                <text x="488" y="244">Set</text>
+                <text x="552" y="244">trans_count</text>
+                <text x="616" y="244">and</text>
+                <text x="60" y="260">protection</text>
+                <text x="132" y="260">check.</text>
+                <text x="520" y="260">trans_timer</text>
+                <text x="40" y="276">Check</text>
+                <text x="84" y="276">that</text>
+                <text x="120" y="276">rcv</text>
+                <text x="40" y="292">nonce</text>
+                <text x="76" y="292">==</text>
+                <text x="132" y="292">init_nonce</text>
+                <text x="324" y="292">Map-Notify-Ack(init_nonce,...)</text>
+                <text x="48" y="308">Confirm</text>
+                <text x="96" y="308">the</text>
+                <text x="128" y="308">sub</text>
+                <text x="160" y="308">and</text>
+                <text x="36" y="324">wait</text>
+                <text x="72" y="324">for</text>
+                <text x="116" y="324">notifs</text>
+                <text x="328" y="372">Map-Notify(nonce,</text>
+                <text x="420" y="372">...)</text>
+                <text x="512" y="372">Increment</text>
+                <text x="520" y="388">trans_count</text>
+                <text x="584" y="388">and</text>
+                <text x="496" y="404">reset</text>
+                <text x="568" y="404">trans_timer</text>
+                <text x="328" y="468">Map-Notify(nonce,</text>
+                <text x="420" y="468">...)</text>
+                <text x="512" y="468">Increment</text>
+                <text x="520" y="484">trans_count</text>
+                <text x="584" y="484">and</text>
+                <text x="496" y="500">reset</text>
+                <text x="568" y="500">trans_timer</text>
+                <text x="264" y="564">Map-Notify(nonce,</text>
+                <text x="356" y="564">AFI,</text>
+                <text x="412" y="564">ACT,...)</text>
+                <text x="500" y="564">Remove</text>
+                <text x="544" y="564">the</text>
+                <text x="596" y="564">subscri-</text>
+                <text x="496" y="580">ption</text>
+                <text x="192" y="612">...</text>
+              </g>
+            </svg><a href="#section-8-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<a href="#name-an-example-of-failed-initia" class="selfRef">An Example of Failed Initial Subscription</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="stale-subscriptions">
+<section id="section-9">
+      <h2 id="name-stale-subscriptions">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-stale-subscriptions" class="section-name selfRef">Stale Subscriptions</a>
+      </h2>
+<p id="section-9-1">For various reasons, an xTR may lose its subscriptions (or at least the nonce of a subscription). Note that losing the nonce is not compliant with the following from the PubSub specification:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-9-2.1">
+          <p id="section-9-2.1.1">The xTR MUST keep track of the last nonce seen in a Map-Notify received as a publication from the Map-Server for the EID-Record.<a href="#section-9-2.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-9-3">If the same key is used, the Map-Request is likely to be rejected by the Map-Server and, thus, stale subscriptions will be maintained by the Map-Server. The request is silently discarded by the Map-Server. This behavior is similar to this behavior in <span>[<a href="#RFC9301" class="cite xref">RFC9301</a>]</span>:<a href="#section-9-3" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-9-4.1">
+          <p id="section-9-4.1.1">If a Map-Register is received with a nonce value that is not greater than the saved nonce, it MUST drop the Map-Register message and SHOULD log the fact that a replay attack could have occurred.<a href="#section-9-4.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<span id="name-an-example-of-stale-subscri"></span><div id="stale">
+<figure id="figure-7">
+        <div id="section-9-5.1">
+          <div class="alignCenter art-svg artwork" id="section-9-5.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="472" viewBox="0 0 472 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
+              <path d="M 24,64 L 24,240" fill="none" stroke="black"></path>
+              <path d="M 40,32 L 40,64" fill="none" stroke="black"></path>
+              <path d="M 256,32 L 256,64" fill="none" stroke="black"></path>
+              <path d="M 280,64 L 280,240" fill="none" stroke="black"></path>
+              <path d="M 296,32 L 296,64" fill="none" stroke="black"></path>
+              <path d="M 296,96 L 296,240" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,240" fill="none" stroke="black"></path>
+              <path d="M 8,32 L 40,32" fill="none" stroke="black"></path>
+              <path d="M 256,32 L 296,32" fill="none" stroke="black"></path>
+              <path d="M 8,64 L 40,64" fill="none" stroke="black"></path>
+              <path d="M 256,64 L 296,64" fill="none" stroke="black"></path>
+              <path d="M 296,96 L 464,96" fill="none" stroke="black"></path>
+              <path d="M 24,126 L 272,126" fill="none" stroke="black"></path>
+              <path d="M 24,130 L 272,130" fill="none" stroke="black"></path>
+              <path d="M 280,128 L 296,128" fill="none" stroke="black"></path>
+              <path d="M 296,240 L 464,240" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="280,128 268,122.4 268,133.6" fill="black" transform="rotate(0,272,128)"></polygon>
+              <g class="text">
+                <text x="24" y="52">xTR</text>
+                <text x="276" y="52">MS</text>
+                <text x="108" y="100">Map-Request(nonce,</text>
+                <text x="184" y="116">init_key_id,..)</text>
+                <text x="380" y="116">Security/integrity</text>
+                <text x="348" y="132">protection</text>
+                <text x="420" y="132">check.</text>
+                <text x="312" y="148">A</text>
+                <text x="344" y="148">state</text>
+                <text x="384" y="148">for</text>
+                <text x="348" y="164">xTR-ID/EID</text>
+                <text x="404" y="164">is</text>
+                <text x="440" y="164">found</text>
+                <text x="320" y="180">but</text>
+                <text x="352" y="180">the</text>
+                <text x="392" y="180">nonce</text>
+                <text x="440" y="180">check</text>
+                <text x="332" y="196">fails:</text>
+                <text x="376" y="196">rcv</text>
+                <text x="416" y="196">nonce</text>
+                <text x="448" y="196">&lt;</text>
+                <text x="328" y="212">local</text>
+                <text x="376" y="212">nonce</text>
+                <text x="408" y="212">+</text>
+                <text x="428" y="212">1.</text>
+                <text x="336" y="228">Discard</text>
+                <text x="384" y="228">the</text>
+                <text x="428" y="228">packet</text>
+              </g>
+            </svg><a href="#section-9-5.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<a href="#name-an-example-of-stale-subscri" class="selfRef">An Example of Stale Subscriptions</a>
+        </figcaption></figure>
+</div>
+<p id="section-9-6">If the Map-Server stores all the key-ids that were used by an xTR for its subscriptions, the Map-Server may accept overriding an existing state without enforcing the nonce check but if and only if a new key is used (see <a href="#stale-new-key" class="auto internal xref">Figure 8</a>) and that the new security association succeeds.<a href="#section-9-6" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-stale-subscrip"></span><div id="stale-new-key">
+<figure id="figure-8">
+        <div id="section-9-7.1">
+          <div class="alignCenter art-svg artwork" id="section-9-7.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="336" width="600" viewBox="0 0 600 336" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,160 L 8,272" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,160 L 176,272" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,320" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 384,32 L 384,64" fill="none" stroke="black"></path>
+              <path d="M 408,64 L 408,224" fill="none" stroke="black"></path>
+              <path d="M 408,256 L 408,320" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 424,96 L 424,224" fill="none" stroke="black"></path>
+              <path d="M 424,256 L 424,320" fill="none" stroke="black"></path>
+              <path d="M 592,96 L 592,224" fill="none" stroke="black"></path>
+              <path d="M 592,256 L 592,320" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 384,32 L 424,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 384,64 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 424,96 L 592,96" fill="none" stroke="black"></path>
+              <path d="M 192,126 L 400,126" fill="none" stroke="black"></path>
+              <path d="M 192,130 L 400,130" fill="none" stroke="black"></path>
+              <path d="M 408,128 L 424,128" fill="none" stroke="black"></path>
+              <path d="M 8,160 L 176,160" fill="none" stroke="black"></path>
+              <path d="M 176,176 L 192,176" fill="none" stroke="black"></path>
+              <path d="M 200,174 L 408,174" fill="none" stroke="black"></path>
+              <path d="M 200,178 L 408,178" fill="none" stroke="black"></path>
+              <path d="M 416,176 L 424,176" fill="none" stroke="black"></path>
+              <path d="M 424,224 L 592,224" fill="none" stroke="black"></path>
+              <path d="M 424,240 L 576,240" fill="none" stroke="black"></path>
+              <path d="M 176,256 L 192,256" fill="none" stroke="black"></path>
+              <path d="M 200,254 L 400,254" fill="none" stroke="black"></path>
+              <path d="M 200,258 L 400,258" fill="none" stroke="black"></path>
+              <path d="M 416,256 L 424,256" fill="none" stroke="black"></path>
+              <path d="M 8,272 L 176,272" fill="none" stroke="black"></path>
+              <path d="M 424,320 L 592,320" fill="none" stroke="black"></path>
+              <path d="M 424,240 C 415.16936,240 408,247.16936 408,256" fill="none" stroke="black"></path>
+              <path d="M 576,240 C 584.83064,240 592,247.16936 592,256" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="408,256 396,250.4 396,261.6" fill="black" transform="rotate(0,400,256)"></polygon>
+              <polygon class="arrowhead" points="408,128 396,122.4 396,133.6" fill="black" transform="rotate(0,400,128)"></polygon>
+              <polygon class="arrowhead" points="208,176 196,170.4 196,181.6" fill="black" transform="rotate(180,200,176)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="404" y="52">MS</text>
+                <text x="276" y="100">Map-Request(nonce,</text>
+                <text x="280" y="116">new</text>
+                <text x="328" y="116">key_id,</text>
+                <text x="380" y="116">...)</text>
+                <text x="508" y="116">Security/integrity</text>
+                <text x="476" y="132">protection</text>
+                <text x="548" y="132">check.</text>
+                <text x="440" y="148">A</text>
+                <text x="472" y="148">state</text>
+                <text x="512" y="148">for</text>
+                <text x="244" y="164">Map-Notify</text>
+                <text x="320" y="164">(nonce,</text>
+                <text x="372" y="164">...)</text>
+                <text x="476" y="164">xTR-ID/EID</text>
+                <text x="532" y="164">is</text>
+                <text x="568" y="164">found</text>
+                <text x="92" y="180">Security/integrity</text>
+                <text x="448" y="180">but</text>
+                <text x="480" y="180">the</text>
+                <text x="512" y="180">new</text>
+                <text x="548" y="180">auth</text>
+                <text x="60" y="196">protection</text>
+                <text x="132" y="196">check.</text>
+                <text x="448" y="196">key</text>
+                <text x="476" y="196">is</text>
+                <text x="512" y="196">used,</text>
+                <text x="552" y="196">the</text>
+                <text x="40" y="212">Check</text>
+                <text x="84" y="212">that</text>
+                <text x="120" y="212">rcv</text>
+                <text x="456" y="212">state</text>
+                <text x="492" y="212">is</text>
+                <text x="536" y="212">updated</text>
+                <text x="40" y="228">nonce</text>
+                <text x="76" y="228">==</text>
+                <text x="104" y="228">snd</text>
+                <text x="144" y="228">nonce</text>
+                <text x="48" y="244">Confirm</text>
+                <text x="96" y="244">the</text>
+                <text x="128" y="244">sub</text>
+                <text x="160" y="244">and</text>
+                <text x="304" y="244">Map-Notify-Ack(nonce,...)</text>
+                <text x="36" y="260">wait</text>
+                <text x="72" y="260">for</text>
+                <text x="116" y="260">notifs</text>
+                <text x="508" y="260">Security/integrity</text>
+                <text x="476" y="276">protection</text>
+                <text x="548" y="276">check.</text>
+                <text x="452" y="292">This</text>
+                <text x="524" y="292">subscription</text>
+                <text x="460" y="308">update</text>
+                <text x="500" y="308">is</text>
+                <text x="536" y="308">ACKed</text>
+              </g>
+            </svg><a href="#section-9-7.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<a href="#name-an-example-of-stale-subscrip" class="selfRef">An Example of Stale Subscriptions Avoidance with New KEys</a>
+        </figcaption></figure>
+</div>
+<p id="section-9-8">However, the approach in <a href="#stale-new-key" class="auto internal xref">Figure 8</a> may have scalability issues as the Map-Server must store all the key identifiers that were ever used. Otherwise, an attacker can replay a message for which the key-id is not stored anymore by the Map-Server. This issue is not encountered if LISP-SEC messages are timestamped.<a href="#section-9-8" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-9-9.1">
+          <p id="section-9-9.1.1">Note that currently none of LISP specifications use timestamps.<a href="#section-9-9.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="xtr-triggered-subscription-withdrawal">
+<section id="section-10">
+      <h2 id="name-xtr-triggered-subscription-">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-xtr-triggered-subscription-" class="section-name selfRef">xTR-triggered Subscription Withdrawal</a>
+      </h2>
+<p id="section-10-1"><a href="#xmd" class="auto internal xref">Figure 9</a> illustrates the observed exchange to successfully delete a subscription.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-successful-sub"></span><div id="xmd">
+<figure id="figure-9">
+        <div id="section-10-2.1">
+          <div class="alignCenter art-svg artwork" id="section-10-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="352" width="640" viewBox="0 0 640 352" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,144" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 8,288" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,144" fill="none" stroke="black"></path>
+              <path d="M 176,176 L 176,288" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,336" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 448,64 L 448,336" fill="none" stroke="black"></path>
+              <path d="M 464,32 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,224" fill="none" stroke="black"></path>
+              <path d="M 464,256 L 464,336" fill="none" stroke="black"></path>
+              <path d="M 632,96 L 632,224" fill="none" stroke="black"></path>
+              <path d="M 632,256 L 632,336" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 464,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,64 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 632,96" fill="none" stroke="black"></path>
+              <path d="M 176,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 200,126 L 440,126" fill="none" stroke="black"></path>
+              <path d="M 200,130 L 440,130" fill="none" stroke="black"></path>
+              <path d="M 448,128 L 464,128" fill="none" stroke="black"></path>
+              <path d="M 8,144 L 176,144" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 176,176" fill="none" stroke="black"></path>
+              <path d="M 176,192 L 192,192" fill="none" stroke="black"></path>
+              <path d="M 200,190 L 448,190" fill="none" stroke="black"></path>
+              <path d="M 200,194 L 448,194" fill="none" stroke="black"></path>
+              <path d="M 456,192 L 464,192" fill="none" stroke="black"></path>
+              <path d="M 464,224 L 632,224" fill="none" stroke="black"></path>
+              <path d="M 464,256 L 632,256" fill="none" stroke="black"></path>
+              <path d="M 176,272 L 192,272" fill="none" stroke="black"></path>
+              <path d="M 200,270 L 440,270" fill="none" stroke="black"></path>
+              <path d="M 200,274 L 440,274" fill="none" stroke="black"></path>
+              <path d="M 448,272 L 464,272" fill="none" stroke="black"></path>
+              <path d="M 8,288 L 176,288" fill="none" stroke="black"></path>
+              <path d="M 464,336 L 632,336" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="448,272 436,266.4 436,277.6" fill="black" transform="rotate(0,440,272)"></polygon>
+              <polygon class="arrowhead" points="448,128 436,122.4 436,133.6" fill="black" transform="rotate(0,440,128)"></polygon>
+              <polygon class="arrowhead" points="208,192 196,186.4 196,197.6" fill="black" transform="rotate(180,200,192)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="444" y="52">MS</text>
+                <text x="56" y="116">Increment</text>
+                <text x="112" y="116">the</text>
+                <text x="148" y="116">last</text>
+                <text x="276" y="116">Map-Request(nonce,</text>
+                <text x="392" y="116">AFI=0...)</text>
+                <text x="548" y="116">Security/integrity</text>
+                <text x="36" y="132">seen</text>
+                <text x="80" y="132">nonce</text>
+                <text x="516" y="132">protection</text>
+                <text x="588" y="132">check.</text>
+                <text x="496" y="148">Found</text>
+                <text x="532" y="148">an</text>
+                <text x="568" y="148">entry</text>
+                <text x="608" y="148">for</text>
+                <text x="492" y="164">this</text>
+                <text x="540" y="164">xTR-ID</text>
+                <text x="288" y="180">Map-Notify(nonce,...)</text>
+                <text x="496" y="180">Check</text>
+                <text x="540" y="180">that</text>
+                <text x="576" y="180">rcv</text>
+                <text x="92" y="196">Security/integrity</text>
+                <text x="496" y="196">nonce</text>
+                <text x="532" y="196">&gt;=</text>
+                <text x="568" y="196">local</text>
+                <text x="60" y="212">protection</text>
+                <text x="132" y="212">check.</text>
+                <text x="496" y="212">nonce</text>
+                <text x="528" y="212">+</text>
+                <text x="544" y="212">1</text>
+                <text x="40" y="228">Check</text>
+                <text x="84" y="228">that</text>
+                <text x="120" y="228">rcv</text>
+                <text x="40" y="244">nonce</text>
+                <text x="76" y="244">==</text>
+                <text x="104" y="244">snd</text>
+                <text x="144" y="244">nonce</text>
+                <text x="36" y="260">Send</text>
+                <text x="116" y="260">Map-Notfiy-ACK</text>
+                <text x="304" y="260">Map-Notify-Ack(nonce,...)</text>
+                <text x="548" y="276">Security/integrity</text>
+                <text x="516" y="292">protection</text>
+                <text x="588" y="292">check.</text>
+                <text x="492" y="308">This</text>
+                <text x="556" y="308">withdrawal</text>
+                <text x="612" y="308">is</text>
+                <text x="512" y="324">confirmed</text>
+              </g>
+            </svg><a href="#section-10-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<a href="#name-an-example-of-successful-sub" class="selfRef">An Example of Successful Subscription Withdrawal</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="map-server-triggered-subscription-withdrawal">
+<section id="section-11">
+      <h2 id="name-map-server-triggered-subscr">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-map-server-triggered-subscr" class="section-name selfRef">'Map-Server'-triggered Subscription Withdrawal</a>
+      </h2>
+<p id="section-11-1"><a href="#msw" class="auto internal xref">Figure 10</a> illustrates the observed exchange to notify the withdrawal of a subscription at the initiative of the Map-Server.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-successful-noti"></span><div id="msw">
+<figure id="figure-10">
+        <div id="section-11-2.1">
+          <div class="alignCenter art-svg artwork" id="section-11-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="304" width="640" viewBox="0 0 640 304" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,272" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,272" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,288" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 448,64 L 448,288" fill="none" stroke="black"></path>
+              <path d="M 464,32 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,176" fill="none" stroke="black"></path>
+              <path d="M 464,208 L 464,288" fill="none" stroke="black"></path>
+              <path d="M 632,96 L 632,176" fill="none" stroke="black"></path>
+              <path d="M 632,208 L 632,288" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 464,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,64 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 632,96" fill="none" stroke="black"></path>
+              <path d="M 176,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 200,126 L 448,126" fill="none" stroke="black"></path>
+              <path d="M 200,130 L 448,130" fill="none" stroke="black"></path>
+              <path d="M 456,128 L 464,128" fill="none" stroke="black"></path>
+              <path d="M 464,176 L 632,176" fill="none" stroke="black"></path>
+              <path d="M 464,208 L 632,208" fill="none" stroke="black"></path>
+              <path d="M 176,240 L 192,240" fill="none" stroke="black"></path>
+              <path d="M 200,238 L 440,238" fill="none" stroke="black"></path>
+              <path d="M 200,242 L 440,242" fill="none" stroke="black"></path>
+              <path d="M 448,240 L 464,240" fill="none" stroke="black"></path>
+              <path d="M 8,272 L 176,272" fill="none" stroke="black"></path>
+              <path d="M 464,288 L 632,288" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="448,240 436,234.4 436,245.6" fill="black" transform="rotate(0,440,240)"></polygon>
+              <polygon class="arrowhead" points="208,128 196,122.4 196,133.6" fill="black" transform="rotate(180,200,128)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="444" y="52">MS</text>
+                <text x="92" y="116">Security/integrity</text>
+                <text x="272" y="116">Map-Notify(nonce,</text>
+                <text x="372" y="116">TTL=0,</text>
+                <text x="420" y="116">...)</text>
+                <text x="500" y="116">Update</text>
+                <text x="540" y="116">is</text>
+                <text x="592" y="116">triggered</text>
+                <text x="60" y="132">protection</text>
+                <text x="132" y="132">check.</text>
+                <text x="512" y="132">Increment</text>
+                <text x="568" y="132">the</text>
+                <text x="608" y="132">nonce</text>
+                <text x="40" y="148">Check</text>
+                <text x="84" y="148">that</text>
+                <text x="120" y="148">rcv</text>
+                <text x="488" y="148">Set</text>
+                <text x="552" y="148">trans_count</text>
+                <text x="616" y="148">and</text>
+                <text x="40" y="164">nonce</text>
+                <text x="76" y="164">&gt;=</text>
+                <text x="112" y="164">local</text>
+                <text x="520" y="164">trans_timer</text>
+                <text x="40" y="180">nonce</text>
+                <text x="72" y="180">+</text>
+                <text x="88" y="180">1</text>
+                <text x="52" y="212">Confirms</text>
+                <text x="104" y="212">the</text>
+                <text x="144" y="212">notif</text>
+                <text x="32" y="228">and</text>
+                <text x="76" y="228">remove</text>
+                <text x="120" y="228">the</text>
+                <text x="288" y="228">Map-Notify-Ack(nonce,</text>
+                <text x="396" y="228">...)</text>
+                <text x="548" y="228">Security/integrity</text>
+                <text x="40" y="244">entry</text>
+                <text x="516" y="244">protection</text>
+                <text x="592" y="244">checks.</text>
+                <text x="492" y="260">This</text>
+                <text x="564" y="260">notification</text>
+                <text x="484" y="276">is</text>
+                <text x="512" y="276">now</text>
+                <text x="552" y="276">ACKed</text>
+              </g>
+            </svg><a href="#section-11-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<a href="#name-an-example-of-successful-noti" class="selfRef">An Example of Successful Notification of Subscription withdrawal</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="bootstrapping-an-xtr">
+<section id="section-12">
+      <h2 id="name-bootstrapping-an-xtr">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-bootstrapping-an-xtr" class="section-name selfRef">Bootstrapping an xTR</a>
+      </h2>
+<p id="section-12-1">When first bootrsapped, an xTR may delete any (stale) state that might be associated with its provisioned xTR-ID and security association. To that aim, the xTR sends a Map-Request that has only one ITR-RLOC with AFI = 0.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-12-2">A Map-Notify will be sent back by the Map-Server even if no subscription is found as illustrated in <a href="#boot" class="auto internal xref">Figure 11</a>.<a href="#section-12-2" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-clearing-stat"></span><div id="boot">
+<figure id="figure-11">
+        <div id="section-12-3.1">
+          <div class="alignCenter art-svg artwork" id="section-12-3.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="320" width="640" viewBox="0 0 640 320" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+              <path d="M 8,96 L 8,144" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 8,288" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+              <path d="M 176,96 L 176,144" fill="none" stroke="black"></path>
+              <path d="M 176,176 L 176,288" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 192,304" fill="none" stroke="black"></path>
+              <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+              <path d="M 448,64 L 448,304" fill="none" stroke="black"></path>
+              <path d="M 464,32 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 464,224" fill="none" stroke="black"></path>
+              <path d="M 632,96 L 632,224" fill="none" stroke="black"></path>
+              <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+              <path d="M 424,32 L 464,32" fill="none" stroke="black"></path>
+              <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+              <path d="M 424,64 L 464,64" fill="none" stroke="black"></path>
+              <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+              <path d="M 464,96 L 632,96" fill="none" stroke="black"></path>
+              <path d="M 176,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 200,126 L 440,126" fill="none" stroke="black"></path>
+              <path d="M 200,130 L 440,130" fill="none" stroke="black"></path>
+              <path d="M 448,128 L 464,128" fill="none" stroke="black"></path>
+              <path d="M 8,144 L 176,144" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 176,176" fill="none" stroke="black"></path>
+              <path d="M 176,192 L 192,192" fill="none" stroke="black"></path>
+              <path d="M 200,190 L 448,190" fill="none" stroke="black"></path>
+              <path d="M 200,194 L 448,194" fill="none" stroke="black"></path>
+              <path d="M 456,192 L 464,192" fill="none" stroke="black"></path>
+              <path d="M 464,224 L 632,224" fill="none" stroke="black"></path>
+              <path d="M 176,272 L 192,272" fill="none" stroke="black"></path>
+              <path d="M 200,270 L 440,270" fill="none" stroke="black"></path>
+              <path d="M 200,274 L 440,274" fill="none" stroke="black"></path>
+              <path d="M 8,288 L 176,288" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="448,272 436,266.4 436,277.6" fill="black" transform="rotate(0,440,272)"></polygon>
+              <polygon class="arrowhead" points="448,128 436,122.4 436,133.6" fill="black" transform="rotate(0,440,128)"></polygon>
+              <polygon class="arrowhead" points="208,192 196,186.4 196,197.6" fill="black" transform="rotate(180,200,192)"></polygon>
+              <g class="text">
+                <text x="192" y="52">xTR</text>
+                <text x="444" y="52">MS</text>
+                <text x="52" y="116">Generate</text>
+                <text x="96" y="116">a</text>
+                <text x="132" y="116">random</text>
+                <text x="276" y="116">Map-Request(nonce,</text>
+                <text x="392" y="116">AFI=0...)</text>
+                <text x="548" y="116">Security/integrity</text>
+                <text x="40" y="132">nonce</text>
+                <text x="80" y="132">and</text>
+                <text x="112" y="132">new</text>
+                <text x="144" y="132">key</text>
+                <text x="516" y="132">protection</text>
+                <text x="588" y="132">check.</text>
+                <text x="484" y="148">No</text>
+                <text x="520" y="148">entry</text>
+                <text x="556" y="148">is</text>
+                <text x="592" y="148">found</text>
+                <text x="488" y="164">for</text>
+                <text x="524" y="164">this</text>
+                <text x="572" y="164">xTR-ID</text>
+                <text x="272" y="180">Map-Notify(nonce,</text>
+                <text x="364" y="180">...)</text>
+                <text x="92" y="196">Security/integrity</text>
+                <text x="60" y="212">protection</text>
+                <text x="132" y="212">check.</text>
+                <text x="40" y="228">Check</text>
+                <text x="84" y="228">that</text>
+                <text x="120" y="228">rcv</text>
+                <text x="40" y="244">nonce</text>
+                <text x="76" y="244">==</text>
+                <text x="104" y="244">snd</text>
+                <text x="144" y="244">nonce</text>
+                <text x="36" y="260">Send</text>
+                <text x="116" y="260">Map-Notfiy-ACK</text>
+                <text x="304" y="260">Map-Notify-Ack(nonce,...)</text>
+              </g>
+            </svg><a href="#section-12-3.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<a href="#name-an-example-of-clearing-stat" class="selfRef">An Example of Clearing State when Bootstrapping</a>
+        </figcaption></figure>
+</div>
+<div id="replay-attacks">
+<section id="section-12.1">
+        <h3 id="name-replay-attacks">
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-replay-attacks" class="section-name selfRef">Replay Attacks</a>
+        </h3>
+<div id="replayed-subscription-update">
+<section id="section-12.1.1">
+          <h4 id="name-replayed-subscription-updat">
+<a href="#section-12.1.1" class="section-number selfRef">12.1.1. </a><a href="#name-replayed-subscription-updat" class="section-name selfRef">Replayed Subscription (Update)</a>
+          </h4>
+<p id="section-12.1.1-1"><a href="#riss" class="auto internal xref">Figure 12</a> shows the example of a replayed subscription request. The request will be silently dropped the Map-Server because of nonce check failure. This example assumes that a state is maintained by the Map-Server for this xTR.<a href="#section-12.1.1-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-r"></span><div id="riss">
+<figure id="figure-12">
+            <div id="section-12.1.1-2.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="624" viewBox="0 0 624 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
+                  <path d="M 24,192 L 24,256" fill="none" stroke="black"></path>
+                  <path d="M 40,160 L 40,192" fill="none" stroke="black"></path>
+                  <path d="M 160,32 L 160,64" fill="none" stroke="black"></path>
+                  <path d="M 176,64 L 176,144" fill="none" stroke="black"></path>
+                  <path d="M 192,32 L 192,64" fill="none" stroke="black"></path>
+                  <path d="M 408,32 L 408,64" fill="none" stroke="black"></path>
+                  <path d="M 432,64 L 432,256" fill="none" stroke="black"></path>
+                  <path d="M 448,32 L 448,64" fill="none" stroke="black"></path>
+                  <path d="M 448,96 L 448,240" fill="none" stroke="black"></path>
+                  <path d="M 616,96 L 616,240" fill="none" stroke="black"></path>
+                  <path d="M 160,32 L 192,32" fill="none" stroke="black"></path>
+                  <path d="M 408,32 L 448,32" fill="none" stroke="black"></path>
+                  <path d="M 160,64 L 192,64" fill="none" stroke="black"></path>
+                  <path d="M 408,64 L 448,64" fill="none" stroke="black"></path>
+                  <path d="M 448,96 L 616,96" fill="none" stroke="black"></path>
+                  <path d="M 176,126 L 424,126" fill="none" stroke="black"></path>
+                  <path d="M 176,130 L 424,130" fill="none" stroke="black"></path>
+                  <path d="M 432,128 L 448,128" fill="none" stroke="black"></path>
+                  <path d="M 8,160 L 40,160" fill="none" stroke="black"></path>
+                  <path d="M 8,192 L 40,192" fill="none" stroke="black"></path>
+                  <path d="M 448,240 L 616,240" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="432,128 420,122.4 420,133.6" fill="black" transform="rotate(0,424,128)"></polygon>
+                  <g class="text">
+                    <text x="180" y="52">AT</text>
+                    <text x="428" y="52">MS</text>
+                    <text x="280" y="100">Map-Request(init_nonce,</text>
+                    <text x="336" y="116">init_key_id,..)</text>
+                    <text x="532" y="116">Security/integrity</text>
+                    <text x="500" y="132">protection</text>
+                    <text x="572" y="132">check.</text>
+                    <text x="464" y="148">A</text>
+                    <text x="496" y="148">state</text>
+                    <text x="532" y="148">is</text>
+                    <text x="560" y="148">for</text>
+                    <text x="500" y="164">xTR-ID/EID</text>
+                    <text x="556" y="164">is</text>
+                    <text x="592" y="164">found</text>
+                    <text x="24" y="180">xTR</text>
+                    <text x="472" y="180">but</text>
+                    <text x="504" y="180">the</text>
+                    <text x="544" y="180">nonce</text>
+                    <text x="592" y="180">check</text>
+                    <text x="484" y="196">fails:</text>
+                    <text x="528" y="196">rcv</text>
+                    <text x="568" y="196">nonce</text>
+                    <text x="600" y="196">&lt;</text>
+                    <text x="480" y="212">local</text>
+                    <text x="528" y="212">nonce</text>
+                    <text x="560" y="212">+</text>
+                    <text x="580" y="212">1.</text>
+                    <text x="488" y="228">Discard</text>
+                    <text x="536" y="228">the</text>
+                    <text x="580" y="228">packet</text>
+                  </g>
+                </svg><a href="#section-12.1.1-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<a href="#name-an-example-of-handling-of-r" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
+            </figcaption></figure>
+</div>
+<p id="section-12.1.1-3">Note that legitimate Map-Requests issued from the authentic xTR may be blocked as a side effect of enforcing a rate-lmit of the replayed messages. An example is shown in <a href="#riss-rate" class="auto internal xref">Figure 13</a>.<a href="#section-12.1.1-3" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-re"></span><div id="riss-rate">
+<figure id="figure-13">
+            <div id="section-12.1.1-4.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-4.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="568" viewBox="0 0 568 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,304 L 8,336" fill="none" stroke="black"></path>
+                  <path d="M 24,336 L 24,352" fill="none" stroke="black"></path>
+                  <path d="M 48,304 L 48,336" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 136,64" fill="none" stroke="black"></path>
+                  <path d="M 152,64 L 152,288" fill="none" stroke="black"></path>
+                  <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
+                  <path d="M 376,64 L 376,368" fill="none" stroke="black"></path>
+                  <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 392,224" fill="none" stroke="black"></path>
+                  <path d="M 392,256 L 392,304" fill="none" stroke="black"></path>
+                  <path d="M 392,336 L 392,368" fill="none" stroke="black"></path>
+                  <path d="M 560,96 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 560,256 L 560,304" fill="none" stroke="black"></path>
+                  <path d="M 560,336 L 560,368" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 168,32" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
+                  <path d="M 136,64 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,64 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 560,96" fill="none" stroke="black"></path>
+                  <path d="M 152,126 L 368,126" fill="none" stroke="black"></path>
+                  <path d="M 152,130 L 368,130" fill="none" stroke="black"></path>
+                  <path d="M 376,128 L 392,128" fill="none" stroke="black"></path>
+                  <path d="M 152,158 L 368,158" fill="none" stroke="black"></path>
+                  <path d="M 152,162 L 368,162" fill="none" stroke="black"></path>
+                  <path d="M 376,160 L 392,160" fill="none" stroke="black"></path>
+                  <path d="M 392,224 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 392,256 L 560,256" fill="none" stroke="black"></path>
+                  <path d="M 376,272 L 392,272" fill="none" stroke="black"></path>
+                  <path d="M 8,304 L 48,304" fill="none" stroke="black"></path>
+                  <path d="M 392,304 L 560,304" fill="none" stroke="black"></path>
+                  <path d="M 8,336 L 48,336" fill="none" stroke="black"></path>
+                  <path d="M 392,336 L 560,336" fill="none" stroke="black"></path>
+                  <path d="M 32,350 L 368,350" fill="none" stroke="black"></path>
+                  <path d="M 32,354 L 368,354" fill="none" stroke="black"></path>
+                  <path d="M 376,352 L 392,352" fill="none" stroke="black"></path>
+                  <path d="M 392,368 L 560,368" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="376,352 364,346.4 364,357.6" fill="black" transform="rotate(0,368,352)"></polygon>
+                  <polygon class="arrowhead" points="376,160 364,154.4 364,165.6" fill="black" transform="rotate(0,368,160)"></polygon>
+                  <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
+                  <g class="text">
+                    <text x="156" y="52">AT</text>
+                    <text x="372" y="52">MS</text>
+                    <text x="256" y="100">Map-Request(init_nonce,</text>
+                    <text x="296" y="116">init_key_id,..)</text>
+                    <text x="476" y="116">Security/integrity</text>
+                    <text x="444" y="132">protection</text>
+                    <text x="516" y="132">check.</text>
+                    <text x="264" y="148">...</text>
+                    <text x="408" y="148">A</text>
+                    <text x="440" y="148">state</text>
+                    <text x="476" y="148">is</text>
+                    <text x="512" y="148">found</text>
+                    <text x="444" y="164">xTR-ID/EID</text>
+                    <text x="500" y="164">is</text>
+                    <text x="536" y="164">found</text>
+                    <text x="416" y="180">but</text>
+                    <text x="448" y="180">the</text>
+                    <text x="488" y="180">nonce</text>
+                    <text x="536" y="180">check</text>
+                    <text x="428" y="196">fails:</text>
+                    <text x="472" y="196">rcv</text>
+                    <text x="512" y="196">nonce</text>
+                    <text x="544" y="196">&lt;</text>
+                    <text x="424" y="212">local</text>
+                    <text x="472" y="212">nonce</text>
+                    <text x="504" y="212">+</text>
+                    <text x="520" y="212">1</text>
+                    <text x="208" y="260">(more</text>
+                    <text x="272" y="260">requests)</text>
+                    <text x="444" y="276">Rate-limit</text>
+                    <text x="516" y="276">xTR-ID</text>
+                    <text x="436" y="292">requests</text>
+                    <text x="484" y="292">is</text>
+                    <text x="528" y="292">reached</text>
+                    <text x="24" y="324">xTR</text>
+                    <text x="188" y="340">Map-Request(...)</text>
+                    <text x="432" y="356">Discard</text>
+                  </g>
+                </svg><a href="#section-12.1.1-4.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<a href="#name-an-example-of-handling-of-re" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
+            </figcaption></figure>
+</div>
+<p id="section-12.1.1-5">If replayed attacks are not counted as part of the rate-limit policy, legitimate Map-Requests will be procecced as illustrated in <a href="#riss-rate2" class="auto internal xref">Figure 14</a>.<a href="#section-12.1.1-5" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-rep"></span><div id="riss-rate2">
+<figure id="figure-14">
+            <div id="section-12.1.1-6.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-6.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="336" width="568" viewBox="0 0 568 336" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,240 L 8,272" fill="none" stroke="black"></path>
+                  <path d="M 24,272 L 24,288" fill="none" stroke="black"></path>
+                  <path d="M 48,240 L 48,272" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 136,64" fill="none" stroke="black"></path>
+                  <path d="M 152,64 L 152,224" fill="none" stroke="black"></path>
+                  <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
+                  <path d="M 376,64 L 376,304" fill="none" stroke="black"></path>
+                  <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 392,224" fill="none" stroke="black"></path>
+                  <path d="M 392,272 L 392,304" fill="none" stroke="black"></path>
+                  <path d="M 560,96 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 560,272 L 560,304" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 168,32" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
+                  <path d="M 136,64 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,64 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 560,96" fill="none" stroke="black"></path>
+                  <path d="M 152,126 L 368,126" fill="none" stroke="black"></path>
+                  <path d="M 152,130 L 368,130" fill="none" stroke="black"></path>
+                  <path d="M 376,128 L 392,128" fill="none" stroke="black"></path>
+                  <path d="M 152,158 L 368,158" fill="none" stroke="black"></path>
+                  <path d="M 152,162 L 368,162" fill="none" stroke="black"></path>
+                  <path d="M 376,160 L 392,160" fill="none" stroke="black"></path>
+                  <path d="M 392,224 L 560,224" fill="none" stroke="black"></path>
+                  <path d="M 8,240 L 48,240" fill="none" stroke="black"></path>
+                  <path d="M 8,272 L 48,272" fill="none" stroke="black"></path>
+                  <path d="M 392,272 L 560,272" fill="none" stroke="black"></path>
+                  <path d="M 32,286 L 368,286" fill="none" stroke="black"></path>
+                  <path d="M 32,290 L 368,290" fill="none" stroke="black"></path>
+                  <path d="M 376,288 L 392,288" fill="none" stroke="black"></path>
+                  <path d="M 392,304 L 560,304" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="376,288 364,282.4 364,293.6" fill="black" transform="rotate(0,368,288)"></polygon>
+                  <polygon class="arrowhead" points="376,160 364,154.4 364,165.6" fill="black" transform="rotate(0,368,160)"></polygon>
+                  <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
+                  <g class="text">
+                    <text x="156" y="52">AT</text>
+                    <text x="372" y="52">MS</text>
+                    <text x="256" y="100">Map-Request(init_nonce,</text>
+                    <text x="296" y="116">init_key_id,..)</text>
+                    <text x="476" y="116">Security/integrity</text>
+                    <text x="444" y="132">protection</text>
+                    <text x="516" y="132">check.</text>
+                    <text x="264" y="148">...</text>
+                    <text x="408" y="148">A</text>
+                    <text x="440" y="148">state</text>
+                    <text x="476" y="148">is</text>
+                    <text x="512" y="148">found</text>
+                    <text x="444" y="164">xTR-ID/EID</text>
+                    <text x="500" y="164">is</text>
+                    <text x="536" y="164">found</text>
+                    <text x="416" y="180">but</text>
+                    <text x="448" y="180">the</text>
+                    <text x="488" y="180">nonce</text>
+                    <text x="536" y="180">check</text>
+                    <text x="428" y="196">fails:</text>
+                    <text x="472" y="196">rcv</text>
+                    <text x="512" y="196">nonce</text>
+                    <text x="544" y="196">&lt;</text>
+                    <text x="424" y="212">local</text>
+                    <text x="472" y="212">nonce</text>
+                    <text x="504" y="212">+</text>
+                    <text x="520" y="212">1</text>
+                    <text x="24" y="260">xTR</text>
+                    <text x="188" y="276">Map-Request(...)</text>
+                    <text x="432" y="292">Process</text>
+                  </g>
+                </svg><a href="#section-12.1.1-6.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<a href="#name-an-example-of-handling-of-rep" class="selfRef">An Example of Handling of Replayed Initial Subscription</a>
+            </figcaption></figure>
+</div>
+<p id="section-12.1.1-7">Suppose now that the xTR deletes it subscription. An attacker may replay valid Map-Request messages that were used for subscription or updates. These messages can't be detected by the Map-Server as being replay messages. The attacker may vary the source IP address of the Map-Request to trigger as many Map-Notifies sent to other xTRs. These Map-Notify messages will be ignored by the xTR as they don't have any matching state.<a href="#section-12.1.1-7" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-repl"></span><div id="replay-no-state">
+<figure id="figure-15">
+            <div id="section-12.1.1-8.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="400" width="632" viewBox="0 0 632 400" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
+                  <path d="M 24,72 L 24,176" fill="none" stroke="black"></path>
+                  <path d="M 24,288 L 24,320" fill="none" stroke="black"></path>
+                  <path d="M 40,32 L 40,64" fill="none" stroke="black"></path>
+                  <path d="M 40,320 L 40,384" fill="none" stroke="black"></path>
+                  <path d="M 56,288 L 56,320" fill="none" stroke="black"></path>
+                  <path d="M 168,176 L 168,208" fill="none" stroke="black"></path>
+                  <path d="M 184,208 L 184,272" fill="none" stroke="black"></path>
+                  <path d="M 200,176 L 200,208" fill="none" stroke="black"></path>
+                  <path d="M 416,32 L 416,64" fill="none" stroke="black"></path>
+                  <path d="M 440,64 L 440,384" fill="none" stroke="black"></path>
+                  <path d="M 456,32 L 456,64" fill="none" stroke="black"></path>
+                  <path d="M 456,224 L 456,368" fill="none" stroke="black"></path>
+                  <path d="M 624,224 L 624,368" fill="none" stroke="black"></path>
+                  <path d="M 8,32 L 40,32" fill="none" stroke="black"></path>
+                  <path d="M 416,32 L 456,32" fill="none" stroke="black"></path>
+                  <path d="M 8,64 L 40,64" fill="none" stroke="black"></path>
+                  <path d="M 416,64 L 456,64" fill="none" stroke="black"></path>
+                  <path d="M 24,94 L 432,94" fill="none" stroke="black"></path>
+                  <path d="M 24,98 L 432,98" fill="none" stroke="black"></path>
+                  <path d="M 32,126 L 440,126" fill="none" stroke="black"></path>
+                  <path d="M 32,130 L 440,130" fill="none" stroke="black"></path>
+                  <path d="M 24,158 L 432,158" fill="none" stroke="black"></path>
+                  <path d="M 24,162 L 432,162" fill="none" stroke="black"></path>
+                  <path d="M 168,176 L 200,176" fill="none" stroke="black"></path>
+                  <path d="M 168,208 L 200,208" fill="none" stroke="black"></path>
+                  <path d="M 456,224 L 624,224" fill="none" stroke="black"></path>
+                  <path d="M 184,254 L 432,254" fill="none" stroke="black"></path>
+                  <path d="M 184,258 L 432,258" fill="none" stroke="black"></path>
+                  <path d="M 440,256 L 456,256" fill="none" stroke="black"></path>
+                  <path d="M 24,288 L 56,288" fill="none" stroke="black"></path>
+                  <path d="M 24,320 L 56,320" fill="none" stroke="black"></path>
+                  <path d="M 48,334 L 440,334" fill="none" stroke="black"></path>
+                  <path d="M 48,338 L 440,338" fill="none" stroke="black"></path>
+                  <path d="M 448,336 L 456,336" fill="none" stroke="black"></path>
+                  <path d="M 456,368 L 624,368" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="440,256 428,250.4 428,261.6" fill="black" transform="rotate(0,432,256)"></polygon>
+                  <polygon class="arrowhead" points="440,160 428,154.4 428,165.6" fill="black" transform="rotate(0,432,160)"></polygon>
+                  <polygon class="arrowhead" points="440,96 428,90.4 428,101.6" fill="black" transform="rotate(0,432,96)"></polygon>
+                  <polygon class="arrowhead" points="56,336 44,330.4 44,341.6" fill="black" transform="rotate(180,48,336)"></polygon>
+                  <polygon class="arrowhead" points="40,128 28,122.4 28,133.6" fill="black" transform="rotate(180,32,128)"></polygon>
+                  <g class="text">
+                    <text x="24" y="52">xTR</text>
+                    <text x="436" y="52">MS</text>
+                    <text x="132" y="84">Map-Request(nonce,</text>
+                    <text x="248" y="84">AFI=0...)</text>
+                    <text x="152" y="116">Map-Notify(nonce,</text>
+                    <text x="264" y="116">AFI=0...)</text>
+                    <text x="116" y="148">Map-Notify-Ack</text>
+                    <text x="188" y="196">AT</text>
+                    <text x="268" y="228">Map-Request(nonce,</text>
+                    <text x="328" y="244">key_id,</text>
+                    <text x="376" y="244">..)</text>
+                    <text x="540" y="244">Security/integrity</text>
+                    <text x="508" y="260">protection</text>
+                    <text x="580" y="260">check.</text>
+                    <text x="476" y="276">No</text>
+                    <text x="512" y="276">state</text>
+                    <text x="548" y="276">is</text>
+                    <text x="584" y="276">found</text>
+                    <text x="480" y="292">for</text>
+                    <text x="544" y="292">xTR-ID/EID.</text>
+                    <text x="40" y="308">xTR</text>
+                    <text x="480" y="308">Add</text>
+                    <text x="504" y="308">a</text>
+                    <text x="564" y="308">subscription</text>
+                    <text x="192" y="324">Map-Notify(nonce,</text>
+                    <text x="284" y="324">...)</text>
+                    <text x="488" y="324">entry</text>
+                    <text x="528" y="324">for</text>
+                    <text x="564" y="324">this</text>
+                    <text x="600" y="324">xTR</text>
+                    <text x="192" y="356">...</text>
+                  </g>
+                </svg><a href="#section-12.1.1-8.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-15" class="selfRef">Figure 15</a>:
+<a href="#name-an-example-of-handling-of-repl" class="selfRef">An Example of Handling of Replayed Map-Requests when no State</a>
+            </figcaption></figure>
+</div>
+<p id="section-12.1.1-9">Note that if LISP-SEC messages are timestamped, the replayed packets
+   would be detected and, thus, be silently ignored by the Map-Server.
+   Such invalid messages won't then interfere with legitimate Map-
+   Requests if the Map-Server has sufficient resources to process the
+   timestamp of all received requests.  An example of processing
+   timestamped Map-Requests (rate-limit not reached) is depicted in
+   <a href="#replay-no-state-ts" class="auto internal xref">Figure 16</a>.<a href="#section-12.1.1-9" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-repla"></span><div id="replay-no-state-ts">
+<figure id="figure-16">
+            <div id="section-12.1.1-10.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.1-10.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="304" width="568" viewBox="0 0 568 304" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,176 L 8,208" fill="none" stroke="black"></path>
+                  <path d="M 24,208 L 24,256" fill="none" stroke="black"></path>
+                  <path d="M 40,176 L 40,208" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 136,64" fill="none" stroke="black"></path>
+                  <path d="M 152,64 L 152,144" fill="none" stroke="black"></path>
+                  <path d="M 168,32 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 352,64" fill="none" stroke="black"></path>
+                  <path d="M 376,64 L 376,272" fill="none" stroke="black"></path>
+                  <path d="M 392,32 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 392,208" fill="none" stroke="black"></path>
+                  <path d="M 392,240 L 392,272" fill="none" stroke="black"></path>
+                  <path d="M 560,96 L 560,208" fill="none" stroke="black"></path>
+                  <path d="M 560,240 L 560,272" fill="none" stroke="black"></path>
+                  <path d="M 136,32 L 168,32" fill="none" stroke="black"></path>
+                  <path d="M 352,32 L 392,32" fill="none" stroke="black"></path>
+                  <path d="M 136,64 L 168,64" fill="none" stroke="black"></path>
+                  <path d="M 352,64 L 392,64" fill="none" stroke="black"></path>
+                  <path d="M 392,96 L 560,96" fill="none" stroke="black"></path>
+                  <path d="M 152,126 L 368,126" fill="none" stroke="black"></path>
+                  <path d="M 152,130 L 368,130" fill="none" stroke="black"></path>
+                  <path d="M 376,128 L 392,128" fill="none" stroke="black"></path>
+                  <path d="M 8,176 L 40,176" fill="none" stroke="black"></path>
+                  <path d="M 8,208 L 40,208" fill="none" stroke="black"></path>
+                  <path d="M 392,208 L 560,208" fill="none" stroke="black"></path>
+                  <path d="M 392,240 L 560,240" fill="none" stroke="black"></path>
+                  <path d="M 32,254 L 368,254" fill="none" stroke="black"></path>
+                  <path d="M 32,258 L 368,258" fill="none" stroke="black"></path>
+                  <path d="M 376,256 L 392,256" fill="none" stroke="black"></path>
+                  <path d="M 392,272 L 560,272" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="376,256 364,250.4 364,261.6" fill="black" transform="rotate(0,368,256)"></polygon>
+                  <polygon class="arrowhead" points="376,128 364,122.4 364,133.6" fill="black" transform="rotate(0,368,128)"></polygon>
+                  <g class="text">
+                    <text x="156" y="52">AT</text>
+                    <text x="372" y="52">MS</text>
+                    <text x="256" y="100">Map-Request(init_nonce,</text>
+                    <text x="296" y="116">init_key_id,..)</text>
+                    <text x="476" y="116">Security/integrity</text>
+                    <text x="444" y="132">protection</text>
+                    <text x="516" y="132">check.</text>
+                    <text x="416" y="148">The</text>
+                    <text x="464" y="148">message</text>
+                    <text x="508" y="148">is</text>
+                    <text x="440" y="164">discarded</text>
+                    <text x="512" y="164">because</text>
+                    <text x="440" y="180">timestamp</text>
+                    <text x="508" y="180">checks</text>
+                    <text x="24" y="196">xTR</text>
+                    <text x="420" y="196">fail</text>
+                    <text x="148" y="244">Map-Request(...)</text>
+                    <text x="448" y="260">Processed</text>
+                  </g>
+                </svg><a href="#section-12.1.1-10.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-16" class="selfRef">Figure 16</a>:
+<a href="#name-an-example-of-handling-of-repla" class="selfRef">An Example of Handling of Replayed Subscription with Timestamp</a>
+            </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="replayed-withdrawal">
+<section id="section-12.1.2">
+          <h4 id="name-replayed-withdrawal">
+<a href="#section-12.1.2" class="section-number selfRef">12.1.2. </a><a href="#name-replayed-withdrawal" class="section-name selfRef">Replayed Withdrawal</a>
+          </h4>
+<p id="section-12.1.2-1"><a href="#rew" class="auto internal xref">Figure 17</a> depicts the example of the exchange that occurs when an attacker sends a replayed withdrawal request. The request will be silently discared by the Map-Server if state is already present.<a href="#section-12.1.2-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-handling-of-replay"></span><div id="rew">
+<figure id="figure-17">
+            <div id="section-12.1.2-2.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.2-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="624" viewBox="0 0 624 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,160 L 8,192" fill="none" stroke="black"></path>
+                  <path d="M 24,192 L 24,256" fill="none" stroke="black"></path>
+                  <path d="M 40,160 L 40,192" fill="none" stroke="black"></path>
+                  <path d="M 160,32 L 160,64" fill="none" stroke="black"></path>
+                  <path d="M 176,64 L 176,144" fill="none" stroke="black"></path>
+                  <path d="M 192,32 L 192,64" fill="none" stroke="black"></path>
+                  <path d="M 408,32 L 408,64" fill="none" stroke="black"></path>
+                  <path d="M 432,64 L 432,256" fill="none" stroke="black"></path>
+                  <path d="M 448,32 L 448,64" fill="none" stroke="black"></path>
+                  <path d="M 448,96 L 448,240" fill="none" stroke="black"></path>
+                  <path d="M 616,96 L 616,240" fill="none" stroke="black"></path>
+                  <path d="M 160,32 L 192,32" fill="none" stroke="black"></path>
+                  <path d="M 408,32 L 448,32" fill="none" stroke="black"></path>
+                  <path d="M 160,64 L 192,64" fill="none" stroke="black"></path>
+                  <path d="M 408,64 L 448,64" fill="none" stroke="black"></path>
+                  <path d="M 448,96 L 616,96" fill="none" stroke="black"></path>
+                  <path d="M 176,126 L 424,126" fill="none" stroke="black"></path>
+                  <path d="M 176,130 L 424,130" fill="none" stroke="black"></path>
+                  <path d="M 432,128 L 448,128" fill="none" stroke="black"></path>
+                  <path d="M 8,160 L 40,160" fill="none" stroke="black"></path>
+                  <path d="M 8,192 L 40,192" fill="none" stroke="black"></path>
+                  <path d="M 448,240 L 616,240" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="432,128 420,122.4 420,133.6" fill="black" transform="rotate(0,424,128)"></polygon>
+                  <g class="text">
+                    <text x="180" y="52">AT</text>
+                    <text x="428" y="52">MS</text>
+                    <text x="260" y="116">Map-Request(nonce,</text>
+                    <text x="380" y="116">AFI=0,...)</text>
+                    <text x="532" y="116">Security/integrity</text>
+                    <text x="500" y="132">protection</text>
+                    <text x="572" y="132">check.</text>
+                    <text x="464" y="148">A</text>
+                    <text x="496" y="148">state</text>
+                    <text x="532" y="148">is</text>
+                    <text x="568" y="148">found</text>
+                    <text x="500" y="164">xTR-ID/EID</text>
+                    <text x="556" y="164">is</text>
+                    <text x="592" y="164">found</text>
+                    <text x="24" y="180">xTR</text>
+                    <text x="472" y="180">but</text>
+                    <text x="504" y="180">the</text>
+                    <text x="544" y="180">nonce</text>
+                    <text x="592" y="180">check</text>
+                    <text x="484" y="196">fails:</text>
+                    <text x="528" y="196">rcv</text>
+                    <text x="568" y="196">nonce</text>
+                    <text x="600" y="196">&lt;</text>
+                    <text x="480" y="212">local</text>
+                    <text x="528" y="212">nonce</text>
+                    <text x="560" y="212">+</text>
+                    <text x="576" y="212">1</text>
+                    <text x="488" y="228">Discard</text>
+                    <text x="536" y="228">the</text>
+                    <text x="580" y="228">packet</text>
+                  </g>
+                </svg><a href="#section-12.1.2-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-17" class="selfRef">Figure 17</a>:
+<a href="#name-an-example-of-handling-of-replay" class="selfRef">An Example of Handling of Replayed Removal of a Subscription</a>
+            </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="replayed-notification-updates">
+<section id="section-12.1.3">
+          <h4 id="name-replayed-notification-updat">
+<a href="#section-12.1.3" class="section-number selfRef">12.1.3. </a><a href="#name-replayed-notification-updat" class="section-name selfRef">Replayed Notification Updates</a>
+          </h4>
+<p id="section-12.1.3-1"><a href="#rmsw" class="auto internal xref">Figure 18</a> illustrates the observed exchange when a replayed notification update is sent by a misbehaving node (AT) to an xTR. This example assumes that the replayed message is a replay of Map-Server triggered withdrawal and that a state matching this notification is maintained by the xTR.<a href="#section-12.1.3-1" class="pilcrow">¶</a></p>
+<span id="name-an-example-of-replayed-noti"></span><div id="rmsw">
+<figure id="figure-18">
+            <div id="section-12.1.3-2.1">
+              <div class="alignCenter art-svg artwork" id="section-12.1.3-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="288" width="472" viewBox="0 0 472 288" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                  <path d="M 8,96 L 8,256" fill="none" stroke="black"></path>
+                  <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+                  <path d="M 176,96 L 176,256" fill="none" stroke="black"></path>
+                  <path d="M 192,64 L 192,272" fill="none" stroke="black"></path>
+                  <path d="M 208,32 L 208,64" fill="none" stroke="black"></path>
+                  <path d="M 424,32 L 424,64" fill="none" stroke="black"></path>
+                  <path d="M 448,64 L 448,272" fill="none" stroke="black"></path>
+                  <path d="M 464,32 L 464,64" fill="none" stroke="black"></path>
+                  <path d="M 176,32 L 208,32" fill="none" stroke="black"></path>
+                  <path d="M 424,32 L 464,32" fill="none" stroke="black"></path>
+                  <path d="M 176,64 L 208,64" fill="none" stroke="black"></path>
+                  <path d="M 424,64 L 464,64" fill="none" stroke="black"></path>
+                  <path d="M 8,96 L 176,96" fill="none" stroke="black"></path>
+                  <path d="M 176,128 L 192,128" fill="none" stroke="black"></path>
+                  <path d="M 200,126 L 448,126" fill="none" stroke="black"></path>
+                  <path d="M 200,130 L 448,130" fill="none" stroke="black"></path>
+                  <path d="M 8,256 L 176,256" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="208,128 196,122.4 196,133.6" fill="black" transform="rotate(180,200,128)"></polygon>
+                  <g class="text">
+                    <text x="192" y="52">xTR</text>
+                    <text x="444" y="52">AT</text>
+                    <text x="92" y="116">Security/integrity</text>
+                    <text x="272" y="116">Map-Notify(nonce,</text>
+                    <text x="372" y="116">TTL=0,</text>
+                    <text x="420" y="116">...)</text>
+                    <text x="60" y="132">protection</text>
+                    <text x="132" y="132">check.</text>
+                    <text x="40" y="148">Check</text>
+                    <text x="84" y="148">that</text>
+                    <text x="120" y="148">rcv</text>
+                    <text x="40" y="164">nonce</text>
+                    <text x="76" y="164">&gt;=</text>
+                    <text x="112" y="164">local</text>
+                    <text x="40" y="180">nonce</text>
+                    <text x="72" y="180">+</text>
+                    <text x="88" y="180">1</text>
+                    <text x="48" y="212">Discard</text>
+                    <text x="96" y="212">the</text>
+                    <text x="144" y="212">message</text>
+                    <text x="48" y="228">because</text>
+                    <text x="96" y="228">the</text>
+                    <text x="136" y="228">nonce</text>
+                    <text x="44" y="244">checks</text>
+                    <text x="96" y="244">fails</text>
+                  </g>
+                </svg><a href="#section-12.1.3-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-18" class="selfRef">Figure 18</a>:
+<a href="#name-an-example-of-replayed-noti" class="selfRef">An Example of Replayed Notification of Subscription Withdrawal</a>
+            </figcaption></figure>
+</div>
+<p id="section-12.1.3-3">Note that if no state is maintained by the xTR, the Map-Notify will be silently discarded.<a href="#section-12.1.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="explicit-subscriptions">
+<section id="section-13">
+      <h2 id="name-explicit-subscriptions">
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-explicit-subscriptions" class="section-name selfRef">Explicit Subscriptions</a>
+      </h2>
+<p id="section-13-1">TBC.<a href="#section-13-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-14">
+      <h2 id="name-security-considerations">
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-14-1">This document does not introduce any security considerations beyond those already discussed in <span>[<a href="#I-D.ietf-lisp-pubsub" class="cite xref">I-D.ietf-lisp-pubsub</a>]</span>.<a href="#section-14-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="IANA">
+<section id="section-15">
+      <h2 id="name-iana-considerations">
+<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-15-1">This document does not make any request to IANA.<a href="#section-15-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-16">
+      <h2 id="name-normative-references">
+<a href="#section-16" class="section-number selfRef">16. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+      </h2>
+<dl class="references">
+<dt id="I-D.ietf-lisp-pubsub">[I-D.ietf-lisp-pubsub]</dt>
+      <dd>
+<span class="refAuthor">Rodriguez-Natal, A.</span>, <span class="refAuthor">Ermagan, V.</span>, <span class="refAuthor">Cabellos-Aparicio, A.</span>, <span class="refAuthor">Barkai, S.</span>, and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"Publish/Subscribe Functionality for the Locator/ID Separation Protocol (LISP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lisp-pubsub-11</span>, <time datetime="2023-02-10" class="refDate">10 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-11">https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-11</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9301">[RFC9301]</dt>
+    <dd>
+<span class="refAuthor">Farinacci, D.</span>, <span class="refAuthor">Maino, F.</span>, <span class="refAuthor">Fuller, V.</span>, and <span class="refAuthor">A. Cabellos, Ed.</span>, <span class="refTitle">"Locator/ID Separation Protocol (LISP) Control Plane"</span>, <span class="seriesInfo">RFC 9301</span>, <span class="seriesInfo">DOI 10.17487/RFC9301</span>, <time datetime="2022-10" class="refDate">October 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9301">https://www.rfc-editor.org/rfc/rfc9301</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">Thanks to TBC.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Mohamed Boucadair</span></div>
+<div dir="auto" class="left"><span class="org">Orange</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">35000</span> <span class="locality">Rennes</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mohamed.boucadair@orange.com" class="email">mohamed.boucadair@orange.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
