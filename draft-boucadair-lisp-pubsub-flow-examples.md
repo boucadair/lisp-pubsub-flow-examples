@@ -606,8 +606,3 @@ This document does not make any request to IANA.
 {:numbered="false"}
 
 Thanks to TBC.
-
-[comment]: <> (This is a comment, it will not be included)
-
-[comment]: <> (# Section xxxxx
-This is a comment, it will not be included)
