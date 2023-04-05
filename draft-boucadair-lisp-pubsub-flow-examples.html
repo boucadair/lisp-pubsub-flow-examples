@@ -9,12 +9,12 @@
 <meta content="
        This document provides a set of flow examples to illustrate the use of LISP PubSub specification. 
     " name="description">
-<meta content="xml2rfc 3.16.0" name="generator">
+<meta content="xml2rfc 3.17.0" name="generator">
 <meta content="LISP" name="keyword">
 <meta content="draft-boucadair-lisp-pubsub-flow-examples-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.16.0
-    Python 3.10.9
+  xml2rfc 3.17.0
+    Python 3.10.10
     appdirs 1.4.4
     ConfigArgParse 1.5.3
     google-i18n-address 2.5.2
@@ -359,7 +359,7 @@ ul.empty li, .ulEmpty li {
   margin-top: 0.5em;
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 100%;
+  line-height: 1;
   margin: 0 0 0 2em;
 }
 
@@ -369,9 +369,12 @@ dl {
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
 }
+dl.olPercent {
+  --indent: 5ch;
+}
 dl > dt {
   float: left;
-  margin-right: 1em;
+  margin-right: 2ch;
   min-width: 8ch;
 }
 dl.dlNewline > dt {
@@ -381,6 +384,9 @@ dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
+}
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -581,10 +587,14 @@ hr {
 .bcp14 {
   font-variant: small-caps;
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: var(--small-font-size);
 }
 .role {
   font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
 }
 
 /* info block */
@@ -1037,11 +1047,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">LISP PubSub Examples</td>
-<td class="right">February 2023</td>
+<td class="right">April 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Boucadair</td>
-<td class="center">Expires 14 August 2023</td>
+<td class="center">Expires 7 October 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1054,12 +1064,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-boucadair-lisp-pubsub-flow-examples-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-02-10" class="published">10 February 2023</time>
+<time datetime="2023-04-05" class="published">5 April 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-08-14">14 August 2023</time></dd>
+<dd class="expires"><time datetime="2023-10-07">7 October 2023</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1114,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 August 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 October 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -3063,7 +3073,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dl class="references">
 <dt id="I-D.ietf-lisp-pubsub">[I-D.ietf-lisp-pubsub]</dt>
       <dd>
-<span class="refAuthor">Rodriguez-Natal, A.</span>, <span class="refAuthor">Ermagan, V.</span>, <span class="refAuthor">Cabellos-Aparicio, A.</span>, <span class="refAuthor">Barkai, S.</span>, and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"Publish/Subscribe Functionality for the Locator/ID Separation Protocol (LISP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lisp-pubsub-11</span>, <time datetime="2023-02-10" class="refDate">10 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-11">https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Rodriguez-Natal, A.</span>, <span class="refAuthor">Ermagan, V.</span>, <span class="refAuthor">Cabellos-Aparicio, A.</span>, <span class="refAuthor">Barkai, S.</span>, and <span class="refAuthor">M. Boucadair</span>, <span class="refTitle">"Publish/Subscribe Functionality for the Locator/ID Separation Protocol (LISP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lisp-pubsub-15</span>, <time datetime="2023-02-28" class="refDate">28 February 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-15">https://datatracker.ietf.org/doc/html/draft-ietf-lisp-pubsub-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9301">[RFC9301]</dt>
     <dd>
@@ -3077,6 +3087,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="appendix-A-1">Thanks to TBC.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">This is a comment, it will not be included)<a href="#appendix-A-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">

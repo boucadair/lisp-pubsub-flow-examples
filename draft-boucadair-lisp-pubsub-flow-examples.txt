@@ -4,8 +4,8 @@
 
 Locator/ID Separation Protocol                              M. Boucadair
 Internet-Draft                                                    Orange
-Intended status: Informational                          10 February 2023
-Expires: 14 August 2023
+Intended status: Informational                              5 April 2023
+Expires: 7 October 2023
 
 
                        LISP PubSub Flow Examples
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 August 2023.
+   This Internet-Draft will expire on 7 October 2023.
 
 Copyright Notice
 
@@ -715,9 +715,9 @@ Table of Contents
               Barkai, S., and M. Boucadair, "Publish/Subscribe
               Functionality for the Locator/ID Separation Protocol
               (LISP)", Work in Progress, Internet-Draft, draft-ietf-
-              lisp-pubsub-11, 10 February 2023,
+              lisp-pubsub-15, 28 February 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lisp-
-              pubsub-11>.
+              pubsub-15>.
 
    [RFC9301]  Farinacci, D., Maino, F., Fuller, V., and A. Cabellos,
               Ed., "Locator/ID Separation Protocol (LISP) Control
@@ -727,6 +727,8 @@ Table of Contents
 Acknowledgments
 
    Thanks to TBC.
+
+   This is a comment, it will not be included)
 
 Author's Address
 
