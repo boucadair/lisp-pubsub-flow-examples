@@ -728,8 +728,6 @@ Acknowledgments
 
    Thanks to TBC.
 
-   This is a comment, it will not be included)
-
 Author's Address
 
    Mohamed Boucadair
