@@ -607,7 +607,7 @@ This document does not make any request to IANA.
 
 Thanks to TBC.
 
-{: counter="bar" style="format R(letter)"}
+{: counter="bar" style="format R(%letter)"}
 * test1
 * test2
 * test3
