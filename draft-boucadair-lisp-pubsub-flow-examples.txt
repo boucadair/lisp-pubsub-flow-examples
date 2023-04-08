@@ -728,6 +728,36 @@ Acknowledgments
 
    Thanks to TBC.
 
+   R(a)  test1
+
+   R(b)  test2
+
+   R(c)  test3
+
+   R(iv)   test1
+
+   R(v)    test2
+
+   R(vi)   test3
+
+   R(7)  test1
+
+   R(10) test2
+
+   R(11) test3
+
+   R(a)  test1
+
+   R(b)  test2
+
+   R(c)  test3
+
+   R(13) test1
+
+   R(14) test2
+
+   R(15) test3
+
 Author's Address
 
    Mohamed Boucadair
