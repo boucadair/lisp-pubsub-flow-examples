@@ -728,12 +728,6 @@ Acknowledgments
 
    Thanks to TBC.
 
-   A list is provided below:
-
-   (a) dfdfdf. (b) bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-   bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb (c) ccccccccccccccccccccccccccc
-   ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
 Author's Address
 
    Mohamed Boucadair
