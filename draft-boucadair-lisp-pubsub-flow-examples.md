@@ -606,9 +606,3 @@ This document does not make any request to IANA.
 {:numbered="false"}
 
 Thanks to TBC.
-
-A list is provided below:
-
-(a) dfdfdf.
-(b) bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-(c) cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
