@@ -606,3 +606,13 @@ This document does not make any request to IANA.
 {:numbered="false"}
 
 Thanks to TBC.
+
+{: counter="bar" style="format R(letter)"}
+* test1
+* test2
+* test3
+
+{: counter="bar" style="format R(%d)"}
+* test1
+* test2
+* test3
