@@ -631,3 +631,8 @@ Thanks to TBC.
 * test1
 * test2
 * test3
+
+{::comment}
+This is a comment which is
+completely ignored.
+{:/comment}
