@@ -4,8 +4,8 @@
 
 Locator/ID Separation Protocol                              M. Boucadair
 Internet-Draft                                                    Orange
-Intended status: Informational                             14 April 2023
-Expires: 16 October 2023
+Intended status: Informational                           4 February 2025
+Expires: 8 August 2025
 
 
                        LISP PubSub Flow Examples
@@ -42,11 +42,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 October 2023.
+   This Internet-Draft will expire on 8 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
